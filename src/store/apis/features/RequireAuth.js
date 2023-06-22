@@ -1,4 +1,4 @@
-import { useLocation, Navigate, Outlet } from "react-router-dom";
+import { useLocation, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectCurrentRoles, selectCurrentToken } from "./authSlice";
 
