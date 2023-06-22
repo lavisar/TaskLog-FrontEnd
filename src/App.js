@@ -4,7 +4,7 @@ import UserSignUp from "./pages/user/UserSignUp";
 import ErrorPage from "./pages/shared/ErrorPage";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminMain from "./pages/admin/AdminMain";
-import RequireAuth from "./store/apis/features/RequireAuth";
+import RequireAdminAuth from "./store/apis/features/RequireAdminAuth";
 
 const router = createBrowserRouter([
   {
@@ -28,9 +28,9 @@ const router = createBrowserRouter([
   {
     path: "/admin/main",
     element: (
-      <RequireAuth>
+      <RequireAdminAuth>
         <AdminMain />
-      </RequireAuth>
+      </RequireAdminAuth>
     ),
     errorElement: <ErrorPage />,
   },
