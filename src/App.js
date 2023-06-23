@@ -4,7 +4,7 @@ import UserSignUp from "./pages/user/UserSignUp";
 import ErrorPage from "./pages/shared/ErrorPage";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminMain from "./pages/admin/AdminMain";
-import RequireAdminAuth from "./store/apis/features/RequireAdminAuth";
+import RequireAdminAuth from "./pages/shared/RequireAdminAuth";
 
 const router = createBrowserRouter([
   {
