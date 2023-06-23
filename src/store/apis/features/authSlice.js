@@ -29,6 +29,7 @@ const authSlice = createSlice({
       state.refreshToken = refreshToken;
     },
     logOut: (state, action) => {
+      localStorage.removeItem(localStorageKey);
       state.user = null;
       state.roles = null;
       state.token = null;
@@ -43,4 +44,4 @@ export const authReducer = authSlice.reducer;
 export const selectCurrentUser = (state) => state.auth.user;
 export const selectCurrentRoles = (state) => state.auth.roles;
 export const selectCurrentToken = (state) => state.auth.token;
-export const selectRefreshToken = (state) => state.auth.refreshToken;
+export const selectCurrentRefreshToken = (state) => state.auth.refreshToken;

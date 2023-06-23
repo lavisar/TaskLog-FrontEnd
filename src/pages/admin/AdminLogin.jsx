@@ -35,7 +35,7 @@ function AdminLogin() {
       dispatch(setCredentials({ ...userData, user: user }));
       setUser('');
       setPwd('');
-      navigate("/admin/main");
+      navigate("/admin");
     } catch (err) {
       if (!err?.response) {
         setErrMsg('No server Response');

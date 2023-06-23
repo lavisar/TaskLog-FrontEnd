@@ -5,6 +5,7 @@ import ErrorPage from "./pages/shared/ErrorPage";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminMain from "./pages/admin/AdminMain";
 import RequireAdminAuth from "./pages/shared/RequireAdminAuth";
+import AdminLayout from "./components/AdminLayout";
 
 const router = createBrowserRouter([
   {
@@ -20,18 +21,27 @@ const router = createBrowserRouter([
 
   // Links for ADMIN
   {
-    path: "/admin",
+    path: "/admin/login",
     element: <AdminLogin />,
-    children: [{}],
     errorElement: <ErrorPage />,
   },
   {
-    path: "/admin/main",
+    path: "/admin",
     element: (
       <RequireAdminAuth>
-        <AdminMain />
+        <AdminLayout />
       </RequireAdminAuth>
     ),
+    children: [
+      {
+        path: "/admin",
+        element: <AdminMain />,
+      },
+      {
+        path: "/admin/account",
+        element: <AdminMain />,
+      },
+    ],
     errorElement: <ErrorPage />,
   },
 ]);

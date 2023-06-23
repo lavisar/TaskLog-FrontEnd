@@ -9,13 +9,12 @@ import { UserRole } from "../../store/constants/Role";
 function RequireAdminAuth({ children }) {
   const dispatch = useDispatch();
   const roles = useSelector(selectCurrentRoles);
-  // console.log(roles);
   const location = useLocation();
   if (roles?.includes(UserRole.ADMIN) || roles?.includes(UserRole.MAIN)) {
     return children;
   }
   dispatch(logOut());
-  return <Navigate to="/admin" state={{ from: location }} replace />;
+  return <Navigate to="/admin/login" state={{ from: location }} replace />;
 }
 
 export default RequireAdminAuth;
