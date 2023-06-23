@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../../store/apis/features/authSlice";
-import { useLoginMutation } from "../../store/apis/features/authApiSlice";
+import { useLoginMutation } from "../../store/apis/features/authLoginApi";
 
 function AdminLogin() {
   const userRef = useRef();

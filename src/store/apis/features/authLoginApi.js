@@ -1,6 +1,6 @@
-import { apiSlice } from "./apiSlice";
+import { authApi } from "./authApi";
 
-export const authApiSlice = apiSlice.injectEndpoints({
+export const authLoginApi = authApi.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation({
       query: (credentails) => ({
@@ -12,4 +12,4 @@ export const authApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useLoginMutation } = authApiSlice;
+export const { useLoginMutation } = authLoginApi;
