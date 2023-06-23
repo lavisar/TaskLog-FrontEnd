@@ -9,9 +9,9 @@ import { UserRole } from "../../store/constants/Role";
 function RequireAdminAuth({ children }) {
   const dispatch = useDispatch();
   const roles = useSelector(selectCurrentRoles);
+  // console.log(roles);
   const location = useLocation();
-  if (roles.includes(UserRole.ADMIN) || roles.includes(UserRole.MAIN)) {
-    // console.log(roles);
+  if (roles?.includes(UserRole.ADMIN) || roles?.includes(UserRole.MAIN)) {
     return children;
   }
   dispatch(logOut());

@@ -7,7 +7,7 @@ function AdminMain() {
   const token = useSelector(selectCurrentToken);
 
   const welcome = user ? `Welcome ${user}!` : 'Welcome!';
-  const tokenAbbr = `${token.slice(0, 9)}...`;
+  const tokenAbbr = `${token?.slice(0, 9)}...`;
 
   const content = (
     <section className="welcome">

@@ -15,7 +15,7 @@ const usersApi = createApi({
   }),
   endpoints(builder) {
     return {
-      loginUser: (result, error, user) => {},
+      
     };
   },
 });
