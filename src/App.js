@@ -6,6 +6,7 @@ import AdminLogin from "./pages/admin/AdminLogin";
 import AdminMain from "./pages/admin/AdminMain";
 import RequireAdminAuth from "./pages/shared/RequireAdminAuth";
 import AdminLayout from "./components/AdminLayout";
+import UsersList from "./pages/admin/UsersList";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: "/admin/account",
         element: <AdminMain />,
+      },
+      {
+        path: "/admin/all-users",
+        element: <UsersList />,
       },
     ],
     errorElement: <ErrorPage />,

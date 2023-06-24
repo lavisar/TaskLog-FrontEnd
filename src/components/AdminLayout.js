@@ -12,7 +12,7 @@ import { Outlet } from "react-router-dom";
 import AdminSideBar from "./AdminSideBar";
 import { AiOutlineMenu } from "react-icons/ai";
 
-const drawerWidth = 240;
+const drawerWidth = 250;
 function AdminLayout() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
@@ -41,7 +41,7 @@ function AdminLayout() {
               <AiOutlineMenu />
             </IconButton>
 
-            <Typography variant="h6" noWrap component="div">
+            <Typography variant="h5" noWrap component="div">
               TaskLog
             </Typography>
           </Toolbar>

@@ -7,8 +7,8 @@ import { useLoginMutation } from "../../store/apis/features/authLoginApi";
 function AdminLogin() {
   const userRef = useRef();
   const errRef = useRef();
-  const [user, setUser] = useState('');
-  const [pwd, setPwd] = useState('');
+  const [user, setUser] = useState('main@email.com');
+  const [pwd, setPwd] = useState('password');
   const [errMsg, setErrMsg] = useState('');
   const navigate = useNavigate();
 
