@@ -46,6 +46,7 @@ function Layout() {
       setOpen(false);
     }
   }
+
   // return focus to the button when we transitioned from !open -> open
   const prevOpen = useRef(open);
   useEffect(() => {
@@ -71,8 +72,12 @@ function Layout() {
           ml: { sm: `${drawerWidth}px` },
         }}
       >
-        <Toolbar className="justify-between">
-          <div>
+        <Toolbar
+          className="justify-between"
+          sx={{ minHeight: 50 }}
+          variant="dense"
+        >
+          <div className="flex items-center">
             <IconButton
               color="inherit"
               aria-label="open drawer"
@@ -171,6 +176,7 @@ function Layout() {
           <SideBar />
         </Drawer>
       </Box>
+
       <Box
         component="main"
         sx={{

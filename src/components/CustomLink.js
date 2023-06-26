@@ -16,8 +16,8 @@ function CustomLink({ to, children, className, activeClassName }) {
     navigate(to);
   };
   return (
-    <a href={to} onClick={handleClick} className={classes}>
-      {children}
+    <a href={to} onClick={handleClick}>
+      <div className={classes}>{children}</div>
     </a>
   );
 }
