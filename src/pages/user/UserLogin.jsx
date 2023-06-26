@@ -19,11 +19,7 @@ function UserLogin() {
   useEffect(() => {
     emailRef.current.focus();
   }, [])
-
-  useEffect(() => {
-    setErrMsg('');
-  }, [user, pwd])
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (user.trim() === '' || pwd.trim() === '') {
@@ -38,16 +34,8 @@ function UserLogin() {
       setPwd('');
       navigate('/teams');
     } catch (err) {
-      if (!err?.response) {
-        setErrMsg('No server Response');
-      } else if (err.response?.status === 400) {
-        setErrMsg('Missing Email or Password');
-      } else if (err.response?.status === 401) {
-        setErrMsg('Unauthorized');
-      } else {
-        setErrMsg('Login Failed');
-      }
-      errRef.current.focus();
+      setPwd('');
+      setErrMsg(err.data);
     }
   }
   const handleUserInput = e => setUser(e.target.value);
