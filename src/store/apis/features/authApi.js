@@ -34,7 +34,6 @@ const refreshToken = createAsyncThunk(
   "auth/refreshtoken",
   async (_, { getState }) => {
     const refreshToken = selectCurrentRefreshToken(getState());
-    console.log(refreshToken);
     const response = await axios.post(
       `${API_INSTANCE.BASE_URL}/auth/refreshtoken`,
       { refreshToken }

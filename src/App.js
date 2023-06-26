@@ -7,16 +7,28 @@ import AdminMain from "./pages/admin/AdminMain";
 import RequireAdminAuth from "./pages/shared/RequireAdminAuth";
 import AdminLayout from "./components/AdminLayout";
 import UsersList from "./pages/admin/UsersList";
+import SplashPage from "./pages/user/SplashPage";
+import UserTeams from "./pages/user/UserTeams";
 
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <SplashPage />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/login",
     element: <UserLogin />,
     errorElement: <ErrorPage />,
   },
   {
     path: "/sign-up",
     element: <UserSignUp />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/teams",
+    element: <UserTeams />,
     errorElement: <ErrorPage />,
   },
 

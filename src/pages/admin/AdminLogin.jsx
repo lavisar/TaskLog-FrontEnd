@@ -1,8 +1,8 @@
 import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setCredentials } from "../../store/apis/features/authSlice";
-import { useLoginMutation } from "../../store/apis/features/authLoginApi";
+import { LoadingButton } from "@mui/lab";
+import { setCredentials, useLoginMutation } from "../../store";
 
 function AdminLogin() {
   const userRef = useRef();
@@ -32,7 +32,7 @@ function AdminLogin() {
     try {
       const userData = await login({ username: user, password: pwd }).unwrap();
 
-      dispatch(setCredentials({ ...userData, user: user }));
+      dispatch(setCredentials({ ...userData, user }));
       setUser('');
       setPwd('');
       navigate("/admin");
@@ -40,7 +40,7 @@ function AdminLogin() {
       if (!err?.response) {
         setErrMsg('No server Response');
       } else if (err.response?.status === 400) {
-        setErrMsg('Missing Username or Password');
+        setErrMsg('Missing Email or Password');
       } else if (err.response?.status === 401) {
         setErrMsg('Unauthorized');
       } else {
@@ -53,7 +53,7 @@ function AdminLogin() {
   const handleUserInput = e => setUser(e.target.value);
   const handlePwdInput = e => setPwd(e.target.value);
   const content = isLoading ? <h1>Loading...</h1> : (
-    <section className="login">
+    <section className="">
       <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
 
       <h1>Admin Login</h1>
@@ -77,7 +77,17 @@ function AdminLogin() {
           value={pwd}
           required
         />
-        <button>Sign In</button>
+
+        <LoadingButton
+          type='submit'
+          size='small'
+          loading={isLoading}
+          loadingIndicator="Loading..."
+          // loadingPosition='end'
+          variant='contained'
+        >
+          <span className='px-3'>Login</span>
+        </LoadingButton>
       </form>
     </section>
   );

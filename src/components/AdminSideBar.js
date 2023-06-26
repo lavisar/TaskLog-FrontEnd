@@ -8,7 +8,6 @@ import {
   ListItem,
   Toolbar,
   Typography,
-  createTheme,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { CiCircleAlert, CiCircleList } from "react-icons/ci";

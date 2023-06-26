@@ -10,7 +10,6 @@ function CustomLink({ to, children, className, activeClassName }) {
     currentLocation.pathname === to && activeClassName
   );
 
-  console.log(classes);
   const handleClick = (e) => {
     if (e.metaKey || e.CtrlKey) return;
     e.preventDefault();
