@@ -32,12 +32,12 @@ const listItems = [
       {
         icon: <FaUsers />,
         link: "User List",
-        path: WEBLINKS.ADMIN_ALL_USER,
+        path: WEBLINKS.ADMIN_ALL_USERS,
       },
       {
         icon: null,
         link: "Create Admin",
-        path: "/admin/create-admin",
+        path: WEBLINKS.ADMIN_CREATE,
       },
     ],
   },
@@ -48,7 +48,7 @@ const listItems = [
       {
         icon: null,
         link: "Team List",
-        path: "/admin/all-team",
+        path: WEBLINKS.ADMIN_ALL_TEAMS,
       },
       {
         icon: null,

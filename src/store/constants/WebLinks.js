@@ -10,5 +10,8 @@ export const WEBLINKS = {
   ADMIN_MAIN: "/admin",
   ADMIN_LOGIN: "/admin/login",
   ADMIN_ACCOUNT: "/admin/account",
-  ADMIN_ALL_USER: "/admin/all-users",
+  ADMIN_ALL_USERS: "/admin/all-users",
+  ADMIN_CREATE: "/admin/create-admin",
+
+  ADMIN_ALL_TEAMS: "/admin/all-teams",
 };
