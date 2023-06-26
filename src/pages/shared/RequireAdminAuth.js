@@ -5,6 +5,7 @@ import {
   selectCurrentRoles,
 } from "../../store/apis/features/authSlice";
 import { UserRole } from "../../store/constants/Role";
+import { WEBLINKS } from "../../store/constants/WebLinks";
 
 function RequireAdminAuth({ children }) {
   const dispatch = useDispatch();
@@ -14,7 +15,9 @@ function RequireAdminAuth({ children }) {
     return children;
   }
   dispatch(logOut());
-  return <Navigate to="/admin/login" state={{ from: location }} replace />;
+  return (
+    <Navigate to={WEBLINKS.ADMIN_LOGIN} state={{ from: location }} replace />
+  );
 }
 
 export default RequireAdminAuth;

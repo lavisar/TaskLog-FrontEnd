@@ -8,58 +8,17 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import { useState } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { CiCircleAlert, CiCircleList } from "react-icons/ci";
-import { MdOutlineAdminPanelSettings, MdManageAccounts } from "react-icons/md";
-import { RiTeamLine } from "react-icons/ri";
-import { FaUsers } from "react-icons/fa";
-import { useState } from "react";
 import CustomLink from "./CustomLink";
-import { WEBLINKS } from "../store/constants/WebLinks";
-
 const expandIcon = <ExpandMoreIcon />;
 
 const listItems = [
-  {
-    icon: <MdOutlineAdminPanelSettings />,
-    summary: "Admin Management",
-    children: [
-      {
-        icon: <MdManageAccounts />,
-        link: "Account Details",
-        path: WEBLINKS.ADMIN_ACCOUNT,
-      },
-      {
-        icon: <FaUsers />,
-        link: "User List",
-        path: WEBLINKS.ADMIN_ALL_USER,
-      },
-      {
-        icon: null,
-        link: "Create Admin",
-        path: "/admin/create-admin",
-      },
-    ],
-  },
-  {
-    icon: <RiTeamLine />,
-    summary: "Team Management",
-    children: [
-      {
-        icon: null,
-        link: "Team List",
-        path: "/admin/all-team",
-      },
-      {
-        icon: null,
-        link: "Team Details",
-        path: "/admin/team",
-      },
-    ],
-  },
+
 ];
 
-function AdminSideBar() {
+export default function SideBar() {
   const [expanded, setExpanded] = useState(false);
   const handleChange = (panel) => (e, isEpanded) => {
     setExpanded(isEpanded ? panel : false);
@@ -111,5 +70,3 @@ function AdminSideBar() {
     </div>
   );
 }
-
-export default AdminSideBar;

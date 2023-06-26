@@ -9,37 +9,50 @@ import AdminLayout from "./components/AdminLayout";
 import UsersList from "./pages/admin/UsersList";
 import SplashPage from "./pages/user/SplashPage";
 import UserTeams from "./pages/user/UserTeams";
+import RequireAuth from "./pages/shared/RequireAuth";
+import Layout from "./components/Layout";
+import { WEBLINKS } from "./store/constants/WebLinks";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: WEBLINKS.HOME,
     element: <SplashPage />,
     errorElement: <ErrorPage />,
   },
   {
-    path: "/login",
+    path: WEBLINKS.LOGIN,
     element: <UserLogin />,
     errorElement: <ErrorPage />,
   },
   {
-    path: "/sign-up",
+    path: WEBLINKS.SIGNUP,
     element: <UserSignUp />,
     errorElement: <ErrorPage />,
   },
   {
-    path: "/teams",
-    element: <UserTeams />,
+    path: WEBLINKS.MAIN,
+    element: (
+      <RequireAuth>
+        <Layout />
+      </RequireAuth>
+    ),
+    children: [
+      {
+        path: WEBLINKS.MAIN,
+        element: <UserTeams />,
+      },
+    ],
     errorElement: <ErrorPage />,
   },
 
   // Links for ADMIN
   {
-    path: "/admin/login",
+    path: WEBLINKS.ADMIN_LOGIN,
     element: <AdminLogin />,
     errorElement: <ErrorPage />,
   },
   {
-    path: "/admin",
+    path: WEBLINKS.ADMIN_MAIN,
     element: (
       <RequireAdminAuth>
         <AdminLayout />
@@ -47,15 +60,15 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        path: "/admin",
+        path: WEBLINKS.ADMIN_MAIN,
         element: <AdminMain />,
       },
       {
-        path: "/admin/account",
+        path: WEBLINKS.ADMIN_ACCOUNT,
         element: <AdminMain />,
       },
       {
-        path: "/admin/all-users",
+        path: WEBLINKS.ADMIN_ALL_USER,
         element: <UsersList />,
       },
     ],

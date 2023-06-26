@@ -14,11 +14,11 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import { AiOutlineMenu } from "react-icons/ai";
 import { useEffect, useRef, useState } from "react";
 import { Outlet } from "react-router-dom";
-import AdminSideBar from "./AdminSideBar";
-import { AiOutlineMenu } from "react-icons/ai";
 import { useDispatch } from "react-redux";
+import AdminSideBar from "./AdminSideBar";
 import { logOut } from "../store";
 
 const drawerWidth = 250;
@@ -180,7 +180,10 @@ function AdminLayout() {
         }}
       >
         <Toolbar />
+
+        {/* // MAIN CONTENT */}
         <Outlet />
+
       </Box>
     </Box>
   );

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { LoadingButton } from '@mui/lab';
 import { setCredentials, useLoginMutation } from '../../store';
+import { WEBLINKS } from '../../store/constants/WebLinks';
 
 function UserLogin() {
   const emailRef = useRef();
@@ -19,7 +20,7 @@ function UserLogin() {
   useEffect(() => {
     emailRef.current.focus();
   }, [])
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (user.trim() === '' || pwd.trim() === '') {
@@ -32,7 +33,7 @@ function UserLogin() {
       dispatch(setCredentials({ ...userData, user }));
       setUser('');
       setPwd('');
-      navigate('/teams');
+      navigate(WEBLINKS.MAIN);
     } catch (err) {
       setPwd('');
       setErrMsg(err.data);
@@ -41,7 +42,7 @@ function UserLogin() {
   const handleUserInput = e => setUser(e.target.value);
   const handlePwdInput = e => setPwd(e.target.value);
   const handleSignUp = () => {
-    navigate("/sign-up");
+    navigate(WEBLINKS.SIGNUP);
   }
 
   const toolbarHeight = 45;
@@ -101,7 +102,7 @@ function UserLogin() {
                 loadingIndicator="Loading..."
                 // loadingPosition='end'
                 variant='contained'
-                className='bg-green-400 hover:bg-green-600'
+                className='!bg-green-400 !hover:bg-green-600 !rounded-full'
               >
                 <span className='px-3'>Login</span>
               </LoadingButton>

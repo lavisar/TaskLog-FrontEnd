@@ -7,6 +7,7 @@ import CustomLink from "../../components/CustomLink";
 import { createSelector } from "reselect";
 import { changeBio, changeEmail, changePassword, changeUsername, useSignUpMutation } from "../../store";
 import { CustomTextArea } from "../../components/CustomTextArea";
+import { WEBLINKS } from "../../store/constants/WebLinks";
 
 function UserSignUp() {
   const dispatch = useDispatch();
@@ -73,6 +74,7 @@ function UserSignUp() {
     setImage(file);
   }
 
+  // styling
   const toolbarHeight = 45;
   const content = (
     <Box sx={{
@@ -81,7 +83,7 @@ function UserSignUp() {
     }}>
 
       <Toolbar sx={{ minHeight: toolbarHeight }} variant='dense'>
-        <CustomLink to="/login">
+        <CustomLink to={WEBLINKS.LOGIN}>
           Login
         </CustomLink>
       </Toolbar>
@@ -184,7 +186,7 @@ function UserSignUp() {
                 loadingIndicator="Creating account..."
                 // loadingPosition='end'
                 variant='contained'
-                className='bg-green-400 hover:bg-green-600'
+                className="!bg-green-400 !hover:bg-green-600 !rounded-full"
               >
                 <span className='px-5'>Sign Up</span>
               </LoadingButton>

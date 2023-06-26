@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { LoadingButton } from "@mui/lab";
 import { setCredentials, useLoginMutation } from "../../store";
+import { WEBLINKS } from "../../store/constants/WebLinks";
 
 function AdminLogin() {
   const userRef = useRef();
@@ -32,7 +33,7 @@ function AdminLogin() {
       dispatch(setCredentials({ ...userData, user }));
       setUser('');
       setPwd('');
-      navigate("/admin");
+      navigate(WEBLINKS.ADMIN_MAIN);
     } catch (err) {
       setPwd('');
       setErrMsg(err.data);
