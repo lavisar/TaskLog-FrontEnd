@@ -12,8 +12,7 @@ import UserTeams from "./pages/user/UserTeams";
 import RequireAuth from "./pages/shared/RequireAuth";
 import Layout from "./components/Layout";
 import { WEBLINKS } from "./store/constants/WebLinks";
-import { LinearProgress } from "@mui/material";
-import UserProjects from "./pages/user/UserProjects";
+import UserCurrentTeam from "./pages/user/UserCurrentTeam";
 
 const router = createBrowserRouter([
   {
@@ -44,8 +43,8 @@ const router = createBrowserRouter([
         element: <UserTeams />,
       },
       {
-        path: `${WEBLINKS.TEAMS}/:id`,
-        element: <UserProjects />,
+        path: `${WEBLINKS.TEAMS}/:teamId`,
+        element: <UserCurrentTeam />,
       },
     ],
     errorElement: <ErrorPage />,

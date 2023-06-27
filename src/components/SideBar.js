@@ -5,31 +5,39 @@ import { BiSolidDashboard } from "react-icons/bi";
 import { FaTasks } from "react-icons/fa";
 import { HiDocumentDuplicate } from "react-icons/hi";
 import { RiTeamFill } from "react-icons/ri";
-
-const listItems = [
-  {
-    icon: <BiSolidDashboard />,
-    link: "TASK BOARD",
-    path: "/",
-  },
-  {
-    icon: <FaTasks />,
-    link: "MY TASK",
-    path: "/",
-  },
-  {
-    icon: <HiDocumentDuplicate />,
-    link: "DOCUMENTS",
-    path: null,
-  },
-  {
-    icon: <RiTeamFill />,
-    link: "TEAM",
-    path: null,
-  },
-];
+import { WEBLINKS } from "../store/constants/WebLinks";
+import { createSelector } from "reselect";
+import { useSelector } from "react-redux";
 
 export default function SideBar() {
+  const currentTeam = createSelector(
+    (state) => state.team.id,
+    (id) => ({ id })
+  );
+  const { id } = useSelector(currentTeam);
+  const listItems = [
+    {
+      icon: <RiTeamFill />,
+      link: "TEAM",
+      path: `${WEBLINKS.TEAMS}/${id}`,
+    },
+    {
+      icon: <BiSolidDashboard />,
+      link: "TASK BOARD",
+      path: "/",
+    },
+    {
+      icon: <FaTasks />,
+      link: "MY TASK",
+      path: "/",
+    },
+    {
+      icon: <HiDocumentDuplicate />,
+      link: "DOCUMENTS",
+      path: null,
+    },
+  ];
+
   return (
     <Box sx={{ minHeight: "100vh" }} className="bg-slate-950">
       <Toolbar></Toolbar>

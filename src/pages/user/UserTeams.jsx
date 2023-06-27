@@ -147,7 +147,11 @@ export default function UserTeams() {
         }
       </div>
     }
+  } else if (isError) {
+    console.log(error);
+    content = <p className="text-red-500">Error connect to server</p>
   }
+
   return <Modal
     open={true}
   >
