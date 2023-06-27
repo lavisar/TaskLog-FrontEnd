@@ -3,6 +3,7 @@ import { API_INSTANCE, pause } from "./apisConst";
 import { setCredentials, logOut, selectCurrentRefreshToken } from "./authSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { store } from "../..";
 
 /**
  * Add headers to the request
@@ -45,22 +46,25 @@ const refreshToken = createAsyncThunk(
 const baseQueryWithReauth = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
   if (result?.error?.status === 401) {
-    console.log("sending refresh token");
-    try {
-      // fetch new token
-      const refreshResult = await api.dispatch(refreshToken());
-      if (refreshResult?.payload) {
-        const user = api.getState().auth.user;
-        // store new token
-        api.dispatch(setCredentials({ ...refreshResult.payload, user }));
-        // retry the orginal query with new access token
-        result = await baseQuery(args, api, extraOptions);
-      } else {
+    const hasRefreshToken = store.getState().auth.refreshToken;
+    if (hasRefreshToken) {
+      console.log("sending refresh token");
+      try {
+        // fetch new token
+        const refreshResult = await api.dispatch(refreshToken());
+        if (refreshResult?.payload) {
+          const user = api.getState().auth.user;
+          // store new token
+          api.dispatch(setCredentials({ ...refreshResult.payload, user }));
+          // retry the orginal query with new access token
+          result = await baseQuery(args, api, extraOptions);
+        } else {
+          api.dispatch(logOut());
+        }
+      } catch (error) {
+        console.log(error);
         api.dispatch(logOut());
       }
-    } catch (error) {
-      console.log(error);
-      api.dispatch(logOut());
     }
   }
 

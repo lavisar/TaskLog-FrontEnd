@@ -35,18 +35,19 @@ export default function SideBar() {
       <Toolbar></Toolbar>
       <Divider />
       {listItems.map((item, index) => (
-        <Box key={index}>
+        <div key={index} className="p-2">
           <CustomLink
             to={item.path}
             className="text-xl text-white rounded-2xl ease-in-out hover:bg-green-400 hover:mx-3 duration-300"
-            activeClassName="m-3 font-bold bg-green-400 rounded-2xl text-black "
+            activeClassName="mx-4 font-bold bg-green-400 rounded-2xl text-black"
+            // linkClass="items-center"
           >
             <div className="flex flex-row items-center p-2">
               <span className="px-2">{item.icon || <CiCircleAlert />}</span>
               <span>{item.link}</span>
             </div>
           </CustomLink>
-        </Box>
+        </div>
       ))}
     </Box>
   );

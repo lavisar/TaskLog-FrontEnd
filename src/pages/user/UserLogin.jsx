@@ -13,9 +13,10 @@ function UserLogin() {
   const [pwd, setPwd] = useState('');
   const [errMsg, setErrMsg] = useState('');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [login, { isLoading }] = useLoginMutation();
-  const dispatch = useDispatch();
+  console.log(useLoginMutation());
 
   useEffect(() => {
     emailRef.current.focus();
@@ -66,11 +67,12 @@ function UserLogin() {
           width: 270, position: 'relative', top: toolbarHeight / -2
         }}>
           <h1 className='text-center font-extrabold text-2xl'>Welcome back!</h1>
-          <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+          <div className='p-4 text-center text-red-400'>
+            <span ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</span>
+          </div>
           <form onSubmit={handleSubmit}>
             <div className='p-4'>
               <TextField
-                required
                 id='email'
                 type='email'
                 label="Email"
@@ -89,7 +91,6 @@ function UserLogin() {
                 type="password"
                 onChange={handlePwdInput}
                 value={pwd}
-                required
                 className='w-full'
               />
             </div>

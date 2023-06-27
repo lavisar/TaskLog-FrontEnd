@@ -53,8 +53,7 @@ function UserSignUp() {
     newUser.append("user", userBlob);
 
     try {
-      const result = await signup(newUser).unwrap();
-      console.log(result);
+      await signup(newUser).unwrap();
       dispatch(changeEmail(''));
       dispatch(changeUsername(''));
       dispatch(changePassword(''));

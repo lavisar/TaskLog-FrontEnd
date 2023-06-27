@@ -12,6 +12,8 @@ import UserTeams from "./pages/user/UserTeams";
 import RequireAuth from "./pages/shared/RequireAuth";
 import Layout from "./components/Layout";
 import { WEBLINKS } from "./store/constants/WebLinks";
+import { LinearProgress } from "@mui/material";
+import UserProjects from "./pages/user/UserProjects";
 
 const router = createBrowserRouter([
   {
@@ -41,11 +43,15 @@ const router = createBrowserRouter([
         path: WEBLINKS.MAIN,
         element: <UserTeams />,
       },
+      {
+        path: `${WEBLINKS.TEAMS}/:id`,
+        element: <UserProjects />,
+      },
     ],
     errorElement: <ErrorPage />,
   },
 
-  // Links for ADMIN
+  // Links for ADMIN ----------------------------------------
   {
     path: WEBLINKS.ADMIN_LOGIN,
     element: <AdminLogin />,

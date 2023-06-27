@@ -4,7 +4,6 @@ import { API_INSTANCE } from "../../store/apis/features/apisConst";
 
 function UsersList() {
   const { data, isLoading, isSuccess, isError, error } = useGetUsersQuery();
-  console.log(data);
 
   let content;
   if (isLoading) {

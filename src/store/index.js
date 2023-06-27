@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { authApi } from "./apis/features/authApi";
 import { authReducer } from "./apis/features/authSlice";
+import { setCredentials, logOut } from "./apis/features/authSlice";
 import {
   changeEmail,
   changeUsername,
@@ -9,9 +10,11 @@ import {
   changePic,
   signupFormReducer,
 } from "./slices/signupFormSlice";
-import { setCredentials, logOut } from "./apis/features/authSlice";
+import { setTeam, teamReducer } from "./slices/teamSlice";
+
 import { usersApi } from "./apis/usersApi";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
+import { teamsApi } from "./apis/teamsApi";
 
 const store = configureStore({
   reducer: {
@@ -22,6 +25,10 @@ const store = configureStore({
     // users
     [usersApi.reducerPath]: usersApi.reducer,
     signupForm: signupFormReducer,
+
+    // teams
+    [teamsApi.reducerPath]: teamsApi.reducer,
+    team: teamReducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware()
@@ -43,7 +50,14 @@ export {
   changePassword,
   changeBio,
   changePic,
+  //team
+  setTeam,
 };
 
 export { useLoginMutation } from "./apis/features/authLoginApi";
 export { useGetUsersQuery, useSignUpMutation } from "./apis/usersApi";
+export {
+  useGetAllUserTeamsQuery,
+  useCreateTeamMutation,
+  useGetTeamQuery,
+} from "./apis/teamsApi";

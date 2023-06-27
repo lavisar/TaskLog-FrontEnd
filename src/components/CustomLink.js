@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { useLocation, useNavigate } from "react-router-dom";
 
-function CustomLink({ to, children, className, activeClassName }) {
+function CustomLink({ to, children, className, activeClassName, linkClass }) {
   const navigate = useNavigate();
   const currentLocation = useLocation();
   const classes = classNames(
@@ -16,7 +16,7 @@ function CustomLink({ to, children, className, activeClassName }) {
     navigate(to);
   };
   return (
-    <a href={to} onClick={handleClick}>
+    <a href={to} onClick={handleClick} className={linkClass}>
       <div className={classes}>{children}</div>
     </a>
   );
