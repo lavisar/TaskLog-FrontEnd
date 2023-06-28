@@ -9,6 +9,8 @@ export const WEBLINKS = {
 
   TASK: "/task",
 
+  TASK: "/task",
+
   //
   // admins links
   ADMIN_MAIN: "/admin",
