@@ -25,6 +25,22 @@ export const teamsApi = authApi.injectEndpoints({
         };
       },
     }),
+    getAllMembersDetails: builder.query({
+      query: (teamId) => {
+        return {
+          url: `/team/${teamId}/all-members-details`,
+        };
+      },
+    }),
+    changeMemberRole: builder.query({
+      query: (body) => {
+        return {
+          url: "/team/change-member-role",
+          method: "POST",
+          body,
+        };
+      },
+    }),
   }),
 });
 
@@ -32,4 +48,5 @@ export const {
   useGetAllUserTeamsQuery,
   useCreateTeamMutation,
   useGetTeamQuery,
+  useGetAllMembersDetailsQuery,
 } = teamsApi;

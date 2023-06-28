@@ -16,7 +16,6 @@ function UserLogin() {
   const dispatch = useDispatch();
 
   const [login, { isLoading }] = useLoginMutation();
-  console.log(useLoginMutation());
 
   useEffect(() => {
     emailRef.current.focus();

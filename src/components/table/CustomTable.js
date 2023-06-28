@@ -8,13 +8,13 @@ import {
   TablePagination,
   TableRow,
 } from "@mui/material";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 
 const keyFunc = (col) => col.label.replace(/\s/g, "_").toLowerCase();
 
 export default function CustomTable({ data, config }) {
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleChangePage = (e, newPage) => {
     setPage(newPage);
@@ -26,6 +26,9 @@ export default function CustomTable({ data, config }) {
   };
 
   const renderedHeader = config.map((col) => {
+    if (col.header) {
+      return <Fragment key={col.label}>{col.header()}</Fragment>;
+    }
     return (
       <TableCell key={keyFunc(col)} align={col.align}>
         {col.label}
@@ -33,13 +36,13 @@ export default function CustomTable({ data, config }) {
     );
   });
 
-  const renderedRow = data.map((rowData) => {
+  const renderedRow = data.map((rowData, index) => {
     return (
-      <TableRow hover tabIndex={-1} key={rowData.id}>
+      <TableRow hover tabIndex={-1} key={index}>
         {config.map((col) => {
           return (
             <TableCell key={rowData.id + keyFunc(col)} align={col.align}>
-              {col.render(rowData)}
+              {col.renderCell(rowData)}
             </TableCell>
           );
         })}

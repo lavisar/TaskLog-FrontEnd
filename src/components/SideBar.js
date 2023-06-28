@@ -1,10 +1,11 @@
-import { Box, Divider, Toolbar } from "@mui/material";
+import { Box, Toolbar } from "@mui/material";
 import { CiCircleAlert } from "react-icons/ci";
 import CustomLink from "./CustomLink";
 import { BiSolidDashboard } from "react-icons/bi";
 import { FaTasks } from "react-icons/fa";
 import { HiDocumentDuplicate } from "react-icons/hi";
 import { RiTeamFill } from "react-icons/ri";
+
 import { WEBLINKS } from "../store/constants/WebLinks";
 import { createSelector } from "reselect";
 import { useSelector } from "react-redux";
@@ -12,14 +13,14 @@ import { useSelector } from "react-redux";
 export default function SideBar() {
   const currentTeam = createSelector(
     (state) => state.team.id,
-    (id) => ({ id })
+    (teamId) => ({ teamId })
   );
-  const { id } = useSelector(currentTeam);
+  const { teamId } = useSelector(currentTeam);
   const listItems = [
     {
       icon: <RiTeamFill />,
       link: "TEAM",
-      path: `${WEBLINKS.TEAMS}/${id}`,
+      path: `${WEBLINKS.TEAMS}/${teamId}`,
     },
     {
       icon: <BiSolidDashboard />,
@@ -41,7 +42,6 @@ export default function SideBar() {
   return (
     <Box sx={{ minHeight: "100vh" }} className="bg-slate-950">
       <Toolbar></Toolbar>
-      <Divider />
       {listItems.map((item, index) => (
         <div key={index} className="p-2">
           <CustomLink

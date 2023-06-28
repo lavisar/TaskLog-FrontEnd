@@ -60,4 +60,5 @@ export {
   useGetAllUserTeamsQuery,
   useCreateTeamMutation,
   useGetTeamQuery,
+  useGetAllMembersDetailsQuery,
 } from "./apis/teamsApi";

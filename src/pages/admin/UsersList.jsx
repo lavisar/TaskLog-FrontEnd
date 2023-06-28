@@ -4,7 +4,7 @@ import { API_INSTANCE } from "../../store/apis/features/apisConst";
 
 function UsersList() {
   const { data, isLoading, isSuccess, isError, error } = useGetUsersQuery();
-
+  console.log(data);
   let content;
   if (isLoading) {
     content = <p>Loading</p>;
@@ -13,41 +13,35 @@ function UsersList() {
       {
         id: 'id',
         label: "Id",
-        render: (user) => user.id,
       },
       {
         id: 'username',
         label: "Username",
-        render: (user) => user.username,
       },
       {
         id: 'email',
         label: "Email",
-        render: (user) => user.email,
       },
       {
         id: 'role',
         label: "Role",
         flex: 0.5,
         align: "right",
-        render: (user) => user.role,
       },
       {
         id: 'bio',
         label: "Bio",
         flex: 1,
-        render: (user) => user.bio,
       },
       {
         id: 'pic',
         label: "Profile Pic",
         description: "Profile picture of the user",
         flex: 1,
-        render: (user) => user.pic,
         renderCell: (params) => {
           if (params.value)
             return (
-              <img src={`${API_INSTANCE.BASE_URL}/auth/image/${params.value}`} className="w-10" alt="User profile pic" />
+              <img src={`${API_INSTANCE.BASE_URL}/auth/image/${params.value}`} className="rounded-full w-10 aspect-square object-cover" alt="User profile pic" />
             )
         }
       },
