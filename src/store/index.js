@@ -39,8 +39,8 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware()
       .concat(authApi.middleware)
-      .concat(usersApi.middleware);
-      // .concat(taskApi.middleware);
+      .concat(usersApi.middleware)
+      .concat(taskApi.middleware);
   },
   devTools: true,
 });
