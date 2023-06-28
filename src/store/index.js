@@ -15,6 +15,8 @@ import { setTeam, teamReducer } from "./slices/teamSlice";
 import { usersApi } from "./apis/usersApi";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import { teamsApi } from "./apis/teamsApi";
+import { taskApi } from "./apis/taskApi";
+import { setTasks, taskReducer } from "./slices/taskSlice";
 
 const store = configureStore({
   reducer: {
@@ -29,11 +31,16 @@ const store = configureStore({
     // teams
     [teamsApi.reducerPath]: teamsApi.reducer,
     team: teamReducer,
+
+    // tasks
+    [taskApi.reducerPath]: taskApi.reducer,
+    tasks: taskReducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware()
       .concat(authApi.middleware)
       .concat(usersApi.middleware);
+      // .concat(taskApi.middleware);
   },
   devTools: true,
 });
@@ -52,6 +59,8 @@ export {
   changePic,
   //team
   setTeam,
+  //task
+  setTasks,
 };
 
 export { useLoginMutation } from "./apis/features/authLoginApi";
@@ -61,3 +70,4 @@ export {
   useCreateTeamMutation,
   useGetTeamQuery,
 } from "./apis/teamsApi";
+export { useGetTasksQuery } from "./apis/taskApi"
