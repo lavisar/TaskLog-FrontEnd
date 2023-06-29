@@ -15,6 +15,10 @@ import { setTeam, teamReducer } from "./slices/teamSlice";
 import { usersApi } from "./apis/usersApi";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import { teamsApi } from "./apis/teamsApi";
+import {
+  currentMemberReducer,
+  setCurrentMember,
+} from "./slices/currentMemberSlice";
 
 const store = configureStore({
   reducer: {
@@ -29,6 +33,7 @@ const store = configureStore({
     // teams
     [teamsApi.reducerPath]: teamsApi.reducer,
     team: teamReducer,
+    currentMember: currentMemberReducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware()
@@ -44,14 +49,18 @@ export {
   store,
   setCredentials,
   logOut,
-  // signup form
+
+  // signupForm
   changeEmail,
   changeUsername,
   changePassword,
   changeBio,
   changePic,
-  //team
+
+  // team
   setTeam,
+  //currentMember
+  setCurrentMember,
 };
 
 export { useLoginMutation } from "./apis/features/authLoginApi";
@@ -60,9 +69,11 @@ export {
   useGetAllUserTeamsQuery,
   useCreateTeamMutation,
   useGetTeamQuery,
+  useGetCurrentMemberQuery,
   useGetAllMembersDetailsQuery,
   useChangeMemberRoleMutation,
   useRemoveMemberMutation,
   useAddMemberMutation,
   useDeleteTeamMutation,
+  useUpdateTeamMutation,
 } from "./apis/teamsApi";

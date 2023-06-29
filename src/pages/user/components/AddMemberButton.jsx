@@ -73,23 +73,31 @@ export default function AddMemberButton() {
             onChange={e => setRole(e.target.value)}
           >
             <option value="" aria-label="None"></option>
-            <option value={TeamRole.ADMINISTRATOR} className="text-center">Administrator</option>
-            <option value={TeamRole.MEMBER} className="text-center">Member</option>
-            <option value={TeamRole.GUEST} className="text-center">Guest</option>
+            <option value={TeamRole.ADMINISTRATOR} className="text-center" title="Member with this role has most authorities besides editing the team">Administrator</option>
+            <option value={TeamRole.MEMBER} className="text-center" title="Member with this role can submit to task and edit their own comments">Member</option>
+            <option value={TeamRole.GUEST} className="text-center" title="Member with this role can only view informations">Guest</option>
           </NativeSelect>
 
           <div className="p-2">
             <LoadingButton
               loading={isLoading}
+              // loadingIndicator="Adding..."
+              variant="contained"
               onClick={handleSumit}
-              className="!bg-green-500 hover:!bg-green-300 !rounded-full"
+              sx={{
+                backgroundColor: "rgb(34 197 94)",
+                borderRadius: "9999px",
+                "&:hover": {
+                  backgroundColor: "rgb(134 239 172)",
+                }
+              }}
             >
               <span className="text-white">Add member</span>
             </LoadingButton>
           </div>
         </FormControl>
-      </div>
-    </form>
+      </div >
+    </form >
   )
 
   return (

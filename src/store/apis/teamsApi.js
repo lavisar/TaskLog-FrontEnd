@@ -25,10 +25,16 @@ export const teamsApi = authApi.injectEndpoints({
         };
       },
     }),
+    getCurrentMember: builder.query({
+      query: (teamId) => {
+        return {
+          url: `/team/${teamId}/current-member`,
+        };
+      },
+    }),
     getAllMembersDetails: builder.query({
       providesTags: (result, error, teamId) => {
         const tags = result.map((member) => {
-          console.log(result, member);
           return { type: "Member", id: member.teamMemberId };
         });
         tags.push({ type: "MemberAdd", id: teamId });
@@ -80,6 +86,15 @@ export const teamsApi = authApi.injectEndpoints({
         };
       },
     }),
+    updateTeam: builder.mutation({
+      query: (body) => {
+        return {
+          url: "/team/update",
+          method: "PUT",
+          body,
+        };
+      },
+    }),
   }),
 });
 
@@ -87,9 +102,11 @@ export const {
   useGetAllUserTeamsQuery,
   useCreateTeamMutation,
   useGetTeamQuery,
+  useGetCurrentMemberQuery,
   useGetAllMembersDetailsQuery,
   useChangeMemberRoleMutation,
   useRemoveMemberMutation,
   useAddMemberMutation,
   useDeleteTeamMutation,
+  useUpdateTeamMutation,
 } = teamsApi;

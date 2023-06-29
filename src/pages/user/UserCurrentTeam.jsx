@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useGetAllMembersDetailsQuery, useGetTeamQuery, useRemoveMemberMutation } from "../../store";
+import { setCurrentMember, setTeam, useGetAllMembersDetailsQuery, useGetCurrentMemberQuery, useGetTeamQuery, useRemoveMemberMutation } from "../../store";
 import { WEBLINKS } from "../../store/constants/WebLinks";
 import { API_INSTANCE } from "../../store/apis/features/apisConst";
 import CustomTableSortable from "../../components/table/CustomTableSortable";
@@ -7,13 +7,16 @@ import UserCurrentTeamRole from "./UserCurrentTeamRole";
 import { IoPersonRemove } from 'react-icons/io5';
 import { Box, Button, Modal, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TeamRole } from "../../store/constants/Role";
 import AddMemberButton from "./components/AddMemberButton";
+import UserTeamUpdate from "./components/UserTeamUpdate";
+import { useDispatch } from "react-redux";
 
 export default function UserCurrentTeam() {
   const { teamId } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   // for remove modal
   const [open, setOpen] = useState(false);
@@ -29,11 +32,11 @@ export default function UserCurrentTeam() {
     isError: teamIsError,
     // error: teamError
   } = useGetTeamQuery(teamId);
-  if (teamIsError) {
-    navigate(WEBLINKS.MAIN);
-  } else if (teamIsSuccess) {
-    console.log(teamData);
-  }
+
+  const {
+    data: currentMemberData,
+    isSuccess: currentMemberIsSuccess,
+  } = useGetCurrentMemberQuery(teamId);
 
   const {
     data: membersData,
@@ -42,9 +45,22 @@ export default function UserCurrentTeam() {
     isError: membersIsError,
     error: membersError
   } = useGetAllMembersDetailsQuery(teamId);
-  console.log(membersData);
+  // console.log(membersData);
 
   const [remove, { isLoading }] = useRemoveMemberMutation();
+
+
+  useEffect(() => {
+    if (teamIsError) {
+      navigate(WEBLINKS.MAIN);
+    } else if (teamIsSuccess) {
+      dispatch(setTeam(teamData));
+    }
+
+    if (currentMemberIsSuccess) {
+      dispatch(setCurrentMember(currentMemberData));
+    }
+  }, [dispatch, navigate, teamData, teamIsError, teamIsSuccess, currentMemberData, currentMemberIsSuccess]);
 
   const handleOpen = (id, username, email) => {
     setOpen(true);
@@ -134,8 +150,11 @@ export default function UserCurrentTeam() {
   } else if (membersIsSuccess) {
     content = <CustomTableSortable data={membersData} config={config} />
   }
+
   return (
     <div>
+      <UserTeamUpdate />
+
       <AddMemberButton />
 
       {/* TABLE ------------------------------------------- */}
