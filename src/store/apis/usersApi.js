@@ -11,11 +11,14 @@ export const usersApi = authApi.injectEndpoints({
         };
       },
     }),
-    getUsers: builder.query({
+    getAllUsers: builder.query({
       query: () => "/auth/all-users",
       // keepUnusedDataFor: 10,
+    }),
+    getPersonalAccount: builder.query({
+      query: () => "/auth/account",
     }),
   }),
 });
 
-export const { useSignUpMutation, useGetUsersQuery } = usersApi;
+export const { useSignUpMutation, useGetAllUsersQuery } = usersApi;

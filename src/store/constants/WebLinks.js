@@ -5,6 +5,7 @@ export const WEBLINKS = {
 
   MAIN: "/",
   TEAMS: "/teams",
+  ACCOUNT: "/account",
 
   //
   // admins links

@@ -15,6 +15,7 @@ function RequireAuth({ children }) {
     return children;
   }
   dispatch(logOut());
+  // reload so that all states are renewed and user can login with other accounts
   nav(0);
   return <Navigate to={WEBLINKS.LOGIN} state={{ from: location }} replace />;
 }

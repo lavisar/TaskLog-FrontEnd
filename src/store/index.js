@@ -64,7 +64,7 @@ export {
 };
 
 export { useLoginMutation } from "./apis/features/authLoginApi";
-export { useGetUsersQuery, useSignUpMutation } from "./apis/usersApi";
+export { useGetAllUsersQuery, useSignUpMutation } from "./apis/usersApi";
 export {
   useGetAllUserTeamsQuery,
   useCreateTeamMutation,
@@ -76,4 +76,5 @@ export {
   useAddMemberMutation,
   useDeleteTeamMutation,
   useUpdateTeamMutation,
+  useGetAllTeamsQuery,
 } from "./apis/teamsApi";

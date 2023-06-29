@@ -3,11 +3,7 @@ import { authApi } from "./features/authApi";
 export const teamsApi = authApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllUserTeams: builder.query({
-      query: () => {
-        return {
-          url: "/team/user",
-        };
-      },
+      query: () => "/team/user",
     }),
     createTeam: builder.mutation({
       query: (body) => {
@@ -19,18 +15,10 @@ export const teamsApi = authApi.injectEndpoints({
       },
     }),
     getTeam: builder.query({
-      query: (id) => {
-        return {
-          url: `/team/${id}`,
-        };
-      },
+      query: (id) => `/team/${id}`,
     }),
     getCurrentMember: builder.query({
-      query: (teamId) => {
-        return {
-          url: `/team/${teamId}/current-member`,
-        };
-      },
+      query: (teamId) => `/team/${teamId}/current-member`,
     }),
     getAllMembersDetails: builder.query({
       providesTags: (result, error, teamId) => {
@@ -40,11 +28,7 @@ export const teamsApi = authApi.injectEndpoints({
         tags.push({ type: "MemberAdd", id: teamId });
         return tags;
       },
-      query: (teamId) => {
-        return {
-          url: `/team/${teamId}/all-members-details`,
-        };
-      },
+      query: (teamId) => `/team/${teamId}/all-members-details`,
     }),
     changeMemberRole: builder.mutation({
       query: (body) => {
@@ -95,6 +79,9 @@ export const teamsApi = authApi.injectEndpoints({
         };
       },
     }),
+    getAllTeams: builder.query({
+      query: () => "/team/all",
+    }),
   }),
 });
 
@@ -109,4 +96,5 @@ export const {
   useAddMemberMutation,
   useDeleteTeamMutation,
   useUpdateTeamMutation,
+  useGetAllTeamsQuery,
 } = teamsApi;

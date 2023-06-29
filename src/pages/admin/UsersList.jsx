@@ -1,9 +1,9 @@
 import CustomGrid from "../../components/table/CustomGrid";
-import { useGetUsersQuery } from "../../store";
+import { useGetAllUsersQuery } from "../../store";
 import { API_INSTANCE } from "../../store/apis/features/apisConst";
 
 function UsersList() {
-  const { data, isLoading, isSuccess, isError, error } = useGetUsersQuery();
+  const { data, isLoading, isSuccess, isError, error } = useGetAllUsersQuery();
   console.log(data);
   let content;
   if (isLoading) {
