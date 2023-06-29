@@ -22,7 +22,7 @@ function RequireAdminAuth({ children }) {
   if (allow) {
     return children;
   } else {
-    window.location.href = WEBLINKS.LOGIN;
+    window.location.href = WEBLINKS.ADMIN_LOGIN;
     return;
   }
 }
