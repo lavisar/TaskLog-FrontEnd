@@ -1,22 +1,33 @@
-import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { useGetAllMembersDetailsQuery, useGetTeamQuery } from "../../store";
+import { useGetAllMembersDetailsQuery, useGetTeamQuery, useRemoveMemberMutation } from "../../store";
 import { WEBLINKS } from "../../store/constants/WebLinks";
-import CustomTable from "../../components/table/CustomTable";
 import { API_INSTANCE } from "../../store/apis/features/apisConst";
 import CustomTableSortable from "../../components/table/CustomTableSortable";
 import UserCurrentTeamRole from "./UserCurrentTeamRole";
+import { IoPersonRemove } from 'react-icons/io5';
+import { Box, Button, Modal, Typography } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
+import { useState } from "react";
+import { TeamRole } from "../../store/constants/Role";
+import AddMemberButton from "./components/AddMemberButton";
 
 export default function UserCurrentTeam() {
   const { teamId } = useParams();
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  // for remove modal
+  const [open, setOpen] = useState(false);
+  const [memberId, setMemberId] = useState('');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+
+  // get data ---------------------------------------
   const {
     data: teamData,
-    isLoading: teamIsLoading,
+    // isLoading: teamIsLoading,
     isSuccess: teamIsSuccess,
     isError: teamIsError,
-    error: teamError
+    // error: teamError
   } = useGetTeamQuery(teamId);
   if (teamIsError) {
     navigate(WEBLINKS.MAIN);
@@ -32,6 +43,28 @@ export default function UserCurrentTeam() {
     error: membersError
   } = useGetAllMembersDetailsQuery(teamId);
   console.log(membersData);
+
+  const [remove, { isLoading }] = useRemoveMemberMutation();
+
+  const handleOpen = (id, username, email) => {
+    setOpen(true);
+    setMemberId(id);
+    setName(username);
+    setEmail(email);
+  }
+  const handleRemove = async (memberId) => {
+    try {
+      const result = await remove(memberId);
+      console.log(result);
+      if (result?.error?.data) {
+        console.log("Member cannot be removed");
+        return;
+      }
+      setOpen(false);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const config = [
     {
@@ -63,6 +96,7 @@ export default function UserCurrentTeam() {
         <UserCurrentTeamRole
           currentRole={member.teamMemberRole}
           memberId={member.teamMemberId}
+          teamId={member.teamId}
         />
       ),
       sortValue: (member) => member.teamMemberRole,
@@ -72,6 +106,23 @@ export default function UserCurrentTeam() {
       label: 'Joined Date',
       renderCell: (member) => member.addedAt,
       sortValue: (member) => member.addedAt,
+    },
+    {
+      id: 'remove',
+      label: 'Remove',
+      renderCell: (member) =>
+        member.teamMemberRole === TeamRole.CREATOR ? '' : (
+          <div>
+            <LoadingButton
+              loading={isLoading}
+              onClick={() => handleOpen(member.teamMemberId, member.username, member.email)}
+              className="!rounded-full aspect-square !min-w-min !hover:bg-red-300"
+            >
+              <IoPersonRemove className="text-lg text-red-400" />
+            </LoadingButton>
+          </div>
+        )
+      ,
     },
   ]
 
@@ -85,8 +136,52 @@ export default function UserCurrentTeam() {
   }
   return (
     <div>
-      <h2>Member List</h2>
+      <AddMemberButton />
+
+      {/* TABLE ------------------------------------------- */}
       {content}
+
+
+      <Modal
+        open={open}
+        onClose={() => setOpen(false)}
+        aria-labelledby="remove-member-modal"
+        aria-describedby="modal-description"
+      >
+        <Box sx={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: 500,
+          bgcolor: 'background.paper',
+          borderRadius: '20px',
+          boxShadow: 24,
+          p: 4,
+        }}>
+          <Typography id="remove-member-modal" variant="h6" className="text-center">
+            Do you want to remove this member?
+          </Typography>
+          <Typography id="modal-description" sx={{ mt: 2 }} className="text-center">
+            <p>Username: {name}</p>
+            <p>Email: {email}</p>
+          </Typography>
+          <Box className="flex mt-5 items-center justify-between">
+            <LoadingButton
+              loading={isLoading}
+              onClick={() => handleRemove(memberId)}
+              variant="contained"
+              color="error"
+              className=""
+            >
+              Remove
+            </LoadingButton>
+            <Button onClick={() => setOpen(false)}>
+              Cancel
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
     </div>
   );
 }

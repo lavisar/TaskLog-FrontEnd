@@ -1,11 +1,11 @@
 import { useState } from "react";
 
-export default function useSort(data,config){
+export default function useSort(data, config) {
   const [sortBy, setSortBy] = useState(null);
   const [sortOrder, setSortOrder] = useState(null);
 
-  const setSortColumn = (label)=>{
-    if(sortBy && label !== sortBy){
+  const setSortColumn = (label) => {
+    if (sortBy && label !== sortBy) {
       setSortOrder("asc");
       setSortBy(label);
       return;
@@ -23,7 +23,6 @@ export default function useSort(data,config){
     }
   };
 
-  
   // sort table
   let sortedData = data;
   if (sortOrder && sortBy) {

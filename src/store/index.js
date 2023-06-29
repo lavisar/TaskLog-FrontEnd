@@ -61,4 +61,8 @@ export {
   useCreateTeamMutation,
   useGetTeamQuery,
   useGetAllMembersDetailsQuery,
+  useChangeMemberRoleMutation,
+  useRemoveMemberMutation,
+  useAddMemberMutation,
+  useDeleteTeamMutation,
 } from "./apis/teamsApi";
