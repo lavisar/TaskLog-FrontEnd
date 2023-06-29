@@ -1,4 +1,3 @@
-import { useLocation, Navigate, useNavigation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   logOut,
@@ -6,20 +5,26 @@ import {
 } from "../../store/apis/features/authSlice";
 import { UserRole } from "../../store/constants/Role";
 import { WEBLINKS } from "../../store/constants/WebLinks";
+import { useEffect } from "react";
 
 function RequireAdminAuth({ children }) {
   const dispatch = useDispatch();
   const roles = useSelector(selectCurrentRoles);
-  const location = useLocation();
-  const nav = useNavigation();
-  if (roles?.includes(UserRole.ADMIN) || roles?.includes(UserRole.MAIN)) {
+
+  const allow =
+    roles?.includes(UserRole.ADMIN) || roles?.includes(UserRole.MAIN);
+  useEffect(() => {
+    if (!allow) {
+      dispatch(logOut());
+    }
+  }, [dispatch, allow]);
+
+  if (allow) {
     return children;
+  } else {
+    window.location.href = WEBLINKS.LOGIN;
+    return;
   }
-  dispatch(logOut());
-  nav(0);
-  return (
-    <Navigate to={WEBLINKS.ADMIN_LOGIN} state={{ from: location }} replace />
-  );
 }
 
 export default RequireAdminAuth;
