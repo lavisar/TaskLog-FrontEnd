@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { LOCAL_STORAGE_KEYS } from "../constants/LocalStorageKeys";
 
-const localStorageTeamKey = "currentMember";
+const currentMemberKey = LOCAL_STORAGE_KEYS.CURRENT_MEMBER;
 function decodeValue(key) {
-  if (localStorage.getItem(localStorageTeamKey)) {
-    return JSON.parse(localStorage.getItem(localStorageTeamKey))[key];
+  if (localStorage.getItem(currentMemberKey)) {
+    return JSON.parse(localStorage.getItem(currentMemberKey))[key];
   }
   return null;
 }
@@ -34,7 +35,7 @@ const currentMemberSlice = createSlice({
         pic,
       } = action.payload;
       localStorage.setItem(
-        localStorageTeamKey,
+        currentMemberKey,
         JSON.stringify({
           teamMemberId,
           teamId,

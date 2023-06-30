@@ -39,10 +39,11 @@ function UsersList() {
         description: "Profile picture of the user",
         flex: 1,
         renderCell: (params) => {
-          if (params.value)
+          if (params.value) {
             return (
               <img src={`${API_INSTANCE.BASE_URL}/auth/image/${params.value}`} className="rounded-full w-10 aspect-square object-cover" alt="User profile pic" />
             )
+          }
         }
       },
       {

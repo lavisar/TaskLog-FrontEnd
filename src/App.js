@@ -13,6 +13,7 @@ import RequireAuth from "./pages/shared/RequireAuth";
 import Layout from "./components/Layout";
 import { WEBLINKS } from "./store/constants/WebLinks";
 import UserCurrentTeam from "./pages/user/UserCurrentTeam";
+import UserProfile from "./pages/user/UserProfile";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
       {
         path: WEBLINKS.MAIN,
         element: <UserTeams />,
+      },
+      {
+        path: WEBLINKS.PROFILE,
+        element: <UserProfile />,
       },
       {
         path: `${WEBLINKS.TEAMS}/:teamId`,

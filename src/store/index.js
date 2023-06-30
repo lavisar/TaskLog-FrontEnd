@@ -11,6 +11,7 @@ import {
   signupFormReducer,
 } from "./slices/signupFormSlice";
 import { setTeam, teamReducer } from "./slices/teamSlice";
+import { setUser, userReducer } from "./slices/userSlice";
 
 import { usersApi } from "./apis/usersApi";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
@@ -29,6 +30,7 @@ const store = configureStore({
     // users
     [usersApi.reducerPath]: usersApi.reducer,
     signupForm: signupFormReducer,
+    user: userReducer,
 
     // teams
     [teamsApi.reducerPath]: teamsApi.reducer,
@@ -57,6 +59,8 @@ export {
   changeBio,
   changePic,
 
+  // user
+  setUser,
   // team
   setTeam,
   //currentMember
@@ -64,7 +68,11 @@ export {
 };
 
 export { useLoginMutation } from "./apis/features/authLoginApi";
-export { useGetAllUsersQuery, useSignUpMutation } from "./apis/usersApi";
+export {
+  useGetAllUsersQuery,
+  useSignUpMutation,
+  useGetPersonalAccountQuery,
+} from "./apis/usersApi";
 export {
   useGetAllUserTeamsQuery,
   useCreateTeamMutation,

@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { WEBLINKS } from "../../../store/constants/WebLinks";
 import { TeamRole } from "../../../store/constants/Role";
 
-export default function UserTeamUpdate() {
+export default function UserTeamUpdate({ currentMemberIsLoading }) {
   const selectDetails = createSelector(
     (state) => state.team.id,
     (state) => state.team.teamName,
@@ -82,15 +82,17 @@ export default function UserTeamUpdate() {
     <div className="mb-10">
       <div className="flex items-center mb-2 justify-between">
         <Typography variant="h4">{teamName}</Typography>
-        {currentRole === TeamRole.CREATOR && (
-          <Button
-            onClick={() => setOpen(true)}
-            className="!text-white !bg-green-500 hover:!bg-green-300 !rounded-full !px-3"
-          >
-            <AiFillSetting />
-            <span className="pl-1">Team Settings</span>
-          </Button>
-        )}
+        {!currentMemberIsLoading
+          && currentRole === TeamRole.CREATOR
+          && (
+            <Button
+              onClick={() => setOpen(true)}
+              className="!text-white !bg-green-500 hover:!bg-green-300 !rounded-full !px-3"
+            >
+              <AiFillSetting />
+              <span className="pl-1">Team Settings</span>
+            </Button>
+          )}
       </div>
       <p>{description}</p>
     </div>

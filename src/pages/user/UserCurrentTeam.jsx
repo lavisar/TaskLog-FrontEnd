@@ -5,7 +5,7 @@ import { API_INSTANCE } from "../../store/apis/features/apisConst";
 import CustomTableSortable from "../../components/table/CustomTableSortable";
 import UserCurrentTeamRole from "./UserCurrentTeamRole";
 import { IoPersonRemove } from 'react-icons/io5';
-import { Box, Button, Modal, Typography } from "@mui/material";
+import { Avatar, Box, Button, Modal, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { useEffect, useState } from "react";
 import { TeamRole } from "../../store/constants/Role";
@@ -36,6 +36,7 @@ export default function UserCurrentTeam() {
   const {
     data: currentMemberData,
     isSuccess: currentMemberIsSuccess,
+    isLoading: currentMemberIsLoading,
   } = useGetCurrentMemberQuery(teamId);
 
   const {
@@ -87,9 +88,15 @@ export default function UserCurrentTeam() {
       id: 'pic',
       label: '',
       renderCell: (member) => (
-        <span>
-          <img src={`${API_INSTANCE.BASE_URL}/auth/image/${member.pic}`} className="rounded-full max-h-12 aspect-square object-cover m-0" alt="Profile pic of member" />
-        </span>
+        member.pic ? (
+          <span>
+            <img src={`${API_INSTANCE.BASE_URL}/auth/image/${member.pic}`} className="rounded-full max-h-12 aspect-square object-cover m-0" alt="Profile pic of member" />
+          </span>
+        ) : (
+          <Avatar className="rounded-full max-h-12 aspect-square object-cover m-0">
+            {member.username.charAt(0)}
+          </Avatar>
+        )
       ),
       align: 'right',
     },
@@ -153,7 +160,7 @@ export default function UserCurrentTeam() {
 
   return (
     <div>
-      <UserTeamUpdate />
+      <UserTeamUpdate currentMemberIsLoading={currentMemberIsLoading} />
 
       <AddMemberButton />
 

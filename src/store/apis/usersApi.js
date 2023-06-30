@@ -21,4 +21,8 @@ export const usersApi = authApi.injectEndpoints({
   }),
 });
 
-export const { useSignUpMutation, useGetAllUsersQuery } = usersApi;
+export const {
+  useSignUpMutation,
+  useGetAllUsersQuery,
+  useGetPersonalAccountQuery,
+} = usersApi;
