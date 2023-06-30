@@ -45,9 +45,7 @@ function UserSignUp() {
       return;
     }
     const newUser = new FormData();
-
     newUser.append("image", image);
-
     const userJson = JSON.stringify({ email, username, password, bio });
     const userBlob = new Blob([userJson], { type: "application/json" });
     newUser.append("user", userBlob);

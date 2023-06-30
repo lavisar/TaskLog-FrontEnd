@@ -75,6 +75,7 @@ export {
   useGetAllUsersQuery,
   useSignUpMutation,
   useGetPersonalAccountQuery,
+  useUpdateUserMutation,
 } from "./apis/usersApi";
 export {
   useGetAllUserTeamsQuery,

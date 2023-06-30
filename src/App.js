@@ -74,7 +74,7 @@ const router = createBrowserRouter([
         element: <AdminMain />,
       },
       {
-        path: WEBLINKS.ADMIN_ACCOUNT,
+        path: WEBLINKS.ADMIN_PROFILE,
         element: <AdminMain />,
       },
       {

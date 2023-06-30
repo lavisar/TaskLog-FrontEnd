@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { WEBLINKS } from "../../../store/constants/WebLinks";
 import { TeamRole } from "../../../store/constants/Role";
 import CustomLink from "../../../components/CustomLink";
+import { RiLogoutCircleRLine } from "react-icons/ri";
 
 export default function UserTeamUpdate({ currentMemberIsLoading }) {
   const selectDetails = createSelector(
@@ -85,9 +86,12 @@ export default function UserTeamUpdate({ currentMemberIsLoading }) {
         <Typography variant="h4">{teamName}</Typography>
         <div>
           <CustomLink to={WEBLINKS.MAIN}
-            className="text-white bg-yellow-500 rounded-full p-2 hover:bg-yellow-400"
+            className="text-white bg-yellow-500 rounded-full p-2 hover:bg-yellow-400 text-center mb-2"
           >
-            Other teams
+            <div className="w-full flex items-center justify-center">
+              <RiLogoutCircleRLine className="pr-2 !text-xl !font-extrabold" />
+              <span className="font-medium">Other teams</span>
+            </div>
           </CustomLink>
           {!currentMemberIsLoading
             && currentRole === TeamRole.CREATOR

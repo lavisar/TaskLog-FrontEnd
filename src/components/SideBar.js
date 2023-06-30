@@ -18,7 +18,6 @@ export default function SideBar() {
     (teamId, teamName, teamMemberRole) => ({ teamId, teamName, teamMemberRole })
   );
   const { teamId, teamName, teamMemberRole } = useSelector(currentTeam);
-  console.log(teamMemberRole);
   const listItems = [
     {
       icon: <RiTeamFill />,

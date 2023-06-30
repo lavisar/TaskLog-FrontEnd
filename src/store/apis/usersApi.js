@@ -18,6 +18,15 @@ export const usersApi = authApi.injectEndpoints({
     getPersonalAccount: builder.query({
       query: () => "/auth/account",
     }),
+    updateUser: builder.mutation({
+      query: (body) => {
+        return {
+          method: "PUT",
+          url: "/auth/user/update",
+          body,
+        };
+      },
+    }),
   }),
 });
 
@@ -25,4 +34,5 @@ export const {
   useSignUpMutation,
   useGetAllUsersQuery,
   useGetPersonalAccountQuery,
+  useUpdateUserMutation,
 } = usersApi;

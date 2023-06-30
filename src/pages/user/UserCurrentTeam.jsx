@@ -5,7 +5,7 @@ import { API_INSTANCE } from "../../store/apis/features/apisConst";
 import CustomTableSortable from "../../components/table/CustomTableSortable";
 import UserCurrentTeamRole from "./UserCurrentTeamRole";
 import { IoPersonRemove } from 'react-icons/io5';
-import { Avatar, Box, Button, Modal, Typography } from "@mui/material";
+import { Avatar, Box, Button, Card, Modal, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { useEffect, useState } from "react";
 import { TeamRole } from "../../store/constants/Role";
@@ -160,9 +160,11 @@ export default function UserCurrentTeam() {
 
   return (
     <div>
-      <UserTeamUpdate currentMemberIsLoading={currentMemberIsLoading} />
+      <Card className="mb-10 px-3 py-10 !rounded-lg">
+        <UserTeamUpdate currentMemberIsLoading={currentMemberIsLoading} />
 
-      <AddMemberButton />
+        <AddMemberButton />
+      </Card>
 
       {/* TABLE ------------------------------------------- */}
       {content}

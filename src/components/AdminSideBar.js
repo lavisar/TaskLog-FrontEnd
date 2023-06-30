@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { CiCircleAlert, CiCircleList } from "react-icons/ci";
-import { MdOutlineAdminPanelSettings, MdManageAccounts } from "react-icons/md";
+import { MdOutlineAdminPanelSettings } from "react-icons/md";
 import { RiTeamLine } from "react-icons/ri";
 import { FaUsers } from "react-icons/fa";
 import { useState } from "react";
@@ -24,11 +24,6 @@ const listItems = [
     icon: <MdOutlineAdminPanelSettings />,
     summary: "Admin Management",
     children: [
-      {
-        icon: <MdManageAccounts />,
-        link: "Account Details",
-        path: WEBLINKS.ADMIN_ACCOUNT,
-      },
       {
         icon: <FaUsers />,
         link: "User List",
