@@ -1,15 +1,15 @@
 import { Box, Button, Modal, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { AiFillSetting } from 'react-icons/ai';
-import { CustomTextArea } from "../../../components/CustomTextArea";
+import { CustomTextArea } from "../../../../components/CustomTextArea";
 import { createSelector } from "reselect";
 import { useDispatch, useSelector } from "react-redux";
 import { LoadingButton } from "@mui/lab";
-import { setTeam, useDeleteTeamMutation, useUpdateTeamMutation } from "../../../store";
+import { setTeam, useDeleteTeamMutation, useUpdateTeamMutation } from "../../../../store";
 import { useNavigate } from "react-router-dom";
-import { WEBLINKS } from "../../../store/constants/WebLinks";
-import { TeamRole } from "../../../store/constants/Role";
-import CustomLink from "../../../components/CustomLink";
+import { WEBLINKS } from "../../../../store/constants/WebLinks";
+import { TeamRole } from "../../../../store/constants/Role";
+import CustomLink from "../../../../components/CustomLink";
 import { RiLogoutCircleRLine } from "react-icons/ri";
 
 export default function UserTeamUpdate({ currentMemberIsLoading }) {

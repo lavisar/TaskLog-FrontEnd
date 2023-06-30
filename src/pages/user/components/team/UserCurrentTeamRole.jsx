@@ -1,7 +1,7 @@
 import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { useEffect, useState } from "react";
-import { TeamRole } from "../../store/constants/Role";
-import { useChangeMemberRoleMutation } from "../../store";
+import { TeamRole } from "../../../../store/constants/Role";
+import { useChangeMemberRoleMutation } from "../../../../store";
 
 export default function UserCurrentTeamRole({ currentRole, memberId, teamId }) {
   const [role, setRole] = useState(currentRole);

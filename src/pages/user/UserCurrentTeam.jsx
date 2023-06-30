@@ -3,14 +3,14 @@ import { setCurrentMember, setTeam, useGetAllMembersDetailsQuery, useGetCurrentM
 import { WEBLINKS } from "../../store/constants/WebLinks";
 import { API_INSTANCE } from "../../store/apis/features/apisConst";
 import CustomTableSortable from "../../components/table/CustomTableSortable";
-import UserCurrentTeamRole from "./UserCurrentTeamRole";
+import UserCurrentTeamRole from "./components/team/UserCurrentTeamRole";
 import { IoPersonRemove } from 'react-icons/io5';
 import { Avatar, Box, Button, Card, Modal, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { useEffect, useState } from "react";
 import { TeamRole } from "../../store/constants/Role";
-import AddMemberButton from "./components/AddMemberButton";
-import UserTeamUpdate from "./components/UserTeamUpdate";
+import AddMemberButton from "./components/team/AddMemberButton";
+import UserTeamUpdate from "./components/team/UserTeamUpdate";
 import { useDispatch } from "react-redux";
 
 export default function UserCurrentTeam() {
@@ -155,7 +155,12 @@ export default function UserCurrentTeam() {
   } else if (membersIsError) {
     console.log(membersError)
   } else if (membersIsSuccess) {
-    content = <CustomTableSortable data={membersData} config={config} />
+    content = (
+      <Card>
+        <AddMemberButton />
+        <CustomTableSortable data={membersData} config={config} />
+      </Card>
+    )
   }
 
   return (
@@ -163,7 +168,6 @@ export default function UserCurrentTeam() {
       <Card className="mb-10 px-3 py-10 !rounded-lg">
         <UserTeamUpdate currentMemberIsLoading={currentMemberIsLoading} />
 
-        <AddMemberButton />
       </Card>
 
       {/* TABLE ------------------------------------------- */}

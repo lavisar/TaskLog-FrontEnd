@@ -1,9 +1,9 @@
 import { Box, Button, ClickAwayListener, FormControl, Grow, InputLabel, NativeSelect, Paper, Popper, TextField } from "@mui/material";
 import { useRef, useState } from "react";
 import { FaPlus } from "react-icons/fa";
-import { TeamRole } from "../../../store/constants/Role";
+import { TeamRole } from "../../../../store/constants/Role";
 import { LoadingButton } from "@mui/lab";
-import { useAddMemberMutation } from "../../../store";
+import { useAddMemberMutation } from "../../../../store";
 import { useSelector } from "react-redux";
 
 export default function AddMemberButton() {
@@ -101,7 +101,7 @@ export default function AddMemberButton() {
   )
 
   return (
-    <Box className="text-right mb-4">
+    <Box className="text-right m-4">
       <Button
         ref={anchorRef}
         aria-describedby="add"
