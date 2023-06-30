@@ -9,6 +9,7 @@ import { setTeam, useDeleteTeamMutation, useUpdateTeamMutation } from "../../../
 import { useNavigate } from "react-router-dom";
 import { WEBLINKS } from "../../../store/constants/WebLinks";
 import { TeamRole } from "../../../store/constants/Role";
+import CustomLink from "../../../components/CustomLink";
 
 export default function UserTeamUpdate({ currentMemberIsLoading }) {
   const selectDetails = createSelector(
@@ -82,17 +83,24 @@ export default function UserTeamUpdate({ currentMemberIsLoading }) {
     <div className="mb-10">
       <div className="flex items-center mb-2 justify-between">
         <Typography variant="h4">{teamName}</Typography>
-        {!currentMemberIsLoading
-          && currentRole === TeamRole.CREATOR
-          && (
-            <Button
-              onClick={() => setOpen(true)}
-              className="!text-white !bg-green-500 hover:!bg-green-300 !rounded-full !px-3"
-            >
-              <AiFillSetting />
-              <span className="pl-1">Team Settings</span>
-            </Button>
-          )}
+        <div>
+          <CustomLink to={WEBLINKS.MAIN}
+            className="text-white bg-yellow-500 rounded-full p-2 hover:bg-yellow-400"
+          >
+            Other teams
+          </CustomLink>
+          {!currentMemberIsLoading
+            && currentRole === TeamRole.CREATOR
+            && (
+              <Button
+                onClick={() => setOpen(true)}
+                className="!text-white !bg-green-500 hover:!bg-green-300 !rounded-full !px-3"
+              >
+                <AiFillSetting />
+                <span className="pl-1">Team Settings</span>
+              </Button>
+            )}
+        </div>
       </div>
       <p>{description}</p>
     </div>

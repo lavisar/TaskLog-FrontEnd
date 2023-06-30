@@ -10,7 +10,7 @@ import {
   changePic,
   signupFormReducer,
 } from "./slices/signupFormSlice";
-import { setTeam, teamReducer } from "./slices/teamSlice";
+import { setTeam, clearTeam, teamReducer } from "./slices/teamSlice";
 import { setUser, userReducer } from "./slices/userSlice";
 
 import { usersApi } from "./apis/usersApi";
@@ -19,6 +19,7 @@ import { teamsApi } from "./apis/teamsApi";
 import {
   currentMemberReducer,
   setCurrentMember,
+  clearCurrentMember,
 } from "./slices/currentMemberSlice";
 
 const store = configureStore({
@@ -63,8 +64,10 @@ export {
   setUser,
   // team
   setTeam,
+  clearTeam,
   //currentMember
   setCurrentMember,
+  clearCurrentMember,
 };
 
 export { useLoginMutation } from "./apis/features/authLoginApi";

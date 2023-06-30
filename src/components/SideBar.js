@@ -1,4 +1,4 @@
-import { Box, Toolbar } from "@mui/material";
+import { Box, Toolbar, Typography } from "@mui/material";
 import { CiCircleAlert } from "react-icons/ci";
 import CustomLink from "./CustomLink";
 import { BiSolidDashboard } from "react-icons/bi";
@@ -13,9 +13,12 @@ import { useSelector } from "react-redux";
 export default function SideBar() {
   const currentTeam = createSelector(
     (state) => state.team.id,
-    (teamId) => ({ teamId })
+    (state) => state.team.teamName,
+    (state) => state.currentMember.teamMemberRole,
+    (teamId, teamName, teamMemberRole) => ({ teamId, teamName, teamMemberRole })
   );
-  const { teamId } = useSelector(currentTeam);
+  const { teamId, teamName, teamMemberRole } = useSelector(currentTeam);
+  console.log(teamMemberRole);
   const listItems = [
     {
       icon: <RiTeamFill />,
@@ -41,12 +44,17 @@ export default function SideBar() {
 
   return (
     <Box sx={{ minHeight: "100vh" }} className="bg-slate-950">
-      <Toolbar></Toolbar>
+      <Toolbar className="text-white flex-col !text-left">
+        <div className="w-full pt-5 select-none">
+          <Typography variant="h5">{teamName}</Typography>
+          <p className="text-gray-400">Role: {teamMemberRole}</p>
+        </div>
+      </Toolbar>
       {listItems.map((item, index) => (
         <div key={index} className="p-2">
           <CustomLink
             to={item.path}
-            className="text-xl text-white rounded-2xl ease-in-out hover:bg-green-400 hover:mx-3 duration-300"
+            className="text-xl text-white rounded-2xl ease-in-out hover:bg-green-400 hover:mx-3 duration-300 select-none"
             activeClassName="mx-4 font-bold bg-green-400 rounded-2xl text-black"
             // linkClass="items-center"
           >

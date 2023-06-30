@@ -29,8 +29,15 @@ const teamSlice = createSlice({
       state.description = description;
       state.createdAt = createdAt;
     },
+    clearTeam: (state, action) => {
+      localStorage.removeItem(teamKey);
+      state.id = null;
+      state.teamName = null;
+      state.description = null;
+      state.createdAt = null;
+    },
   },
 });
 
-export const { setTeam } = teamSlice.actions;
+export const { setTeam, clearTeam } = teamSlice.actions;
 export const teamReducer = teamSlice.reducer;

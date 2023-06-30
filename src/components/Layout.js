@@ -85,6 +85,7 @@ function Layout() {
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
+              border: 0,
             },
           }}
           open
@@ -99,6 +100,8 @@ function Layout() {
           flexGrow: 1,
           p: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
+          minHeight: "100vh",
+          backgroundColor: "rgb(229 231 235)",
         }}
       >
         <Toolbar />

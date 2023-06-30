@@ -58,8 +58,21 @@ const currentMemberSlice = createSlice({
       state.username = username;
       state.pic = pic;
     },
+    clearCurrentMember: (state, action) => {
+      localStorage.removeItem(currentMemberKey);
+      state.teamMemberId = null;
+      state.teamId = null;
+      state.addedBy = null;
+      state.teamMemberRole = null;
+      state.addedAt = null;
+      state.userId = null;
+      state.email = null;
+      state.username = null;
+      state.pic = null;
+    },
   },
 });
 
-export const { setCurrentMember } = currentMemberSlice.actions;
+export const { setCurrentMember, clearCurrentMember } =
+  currentMemberSlice.actions;
 export const currentMemberReducer = currentMemberSlice.reducer;

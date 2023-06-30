@@ -1,6 +1,6 @@
 import { Box, Button, IconButton, Modal, TextField } from "@mui/material";
-import { setTeam, useCreateTeamMutation, useGetAllUserTeamsQuery } from "../../store";
-import { useRef, useState } from "react";
+import { clearCurrentMember, clearTeam, setTeam, useCreateTeamMutation, useGetAllUserTeamsQuery } from "../../store";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CustomTextArea } from "../../components/CustomTextArea";
 import { LoadingButton } from "@mui/lab";
@@ -31,6 +31,10 @@ export default function UserTeams() {
   const dispatch = useDispatch();
   const [form, setForm] = useState(false);
 
+  useEffect(() => {
+    dispatch(clearTeam());
+    dispatch(clearCurrentMember());
+  }, [dispatch])
   const { data, isLoading, isSuccess, isError, error } = useGetAllUserTeamsQuery();
   // console.log(data);
 
