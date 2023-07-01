@@ -34,7 +34,7 @@ export default function SideBar2({ open }) {
     {
       icon: <BiSolidDashboard />,
       link: "TASK BOARD",
-      path: "/",
+      path: WEBLINKS.TASK,
     },
     {
       icon: <FaTasks />,

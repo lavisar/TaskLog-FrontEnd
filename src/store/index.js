@@ -15,7 +15,6 @@ import { setUser, userReducer } from "./slices/userSlice";
 
 import { usersApi } from "./apis/usersApi";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
-import { teamsApi } from "./apis/teamsApi";
 import {
   currentMemberReducer,
   setCurrentMember,
@@ -23,8 +22,7 @@ import {
 } from "./slices/currentMemberSlice";
 import { taskApi } from "./apis/taskApi";
 import { setTasks, taskReducer } from "./slices/taskSlice";
-import { taskApi } from "./apis/taskApi";
-import { setTasks, taskReducer } from "./slices/taskSlice";
+import { teamsApi } from "./apis/teamsApi";
 
 const store = configureStore({
   reducer: {
@@ -103,5 +101,4 @@ export {
   useUpdateTeamMutation,
   useGetAllTeamsQuery,
 } from "./apis/teamsApi";
-export { useGetTasksQuery } from "./apis/taskApi"
 export { useGetTasksQuery } from "./apis/taskApi"
