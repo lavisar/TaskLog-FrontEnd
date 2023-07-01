@@ -14,6 +14,7 @@ import { WEBLINKS } from "./store/constants/WebLinks";
 import UserCurrentTeam from "./pages/user/UserCurrentTeam";
 import UserProfile from "./pages/user/UserProfile";
 import Layout1 from "./components/Layout1";
+import TaskBoard from "./pages/task/TaskBoard";
 
 const router = createBrowserRouter([
   {
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
       {
         path: `${WEBLINKS.TEAMS}/:teamId`,
         element: <UserCurrentTeam />,
+      },
+      {
+        path: WEBLINKS.TASK,
+        element: <TaskBoard />,
       },
     ],
     errorElement: <ErrorPage />,
