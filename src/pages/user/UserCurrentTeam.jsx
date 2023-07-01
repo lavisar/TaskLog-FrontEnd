@@ -72,7 +72,6 @@ export default function UserCurrentTeam() {
   const handleRemove = async (memberId) => {
     try {
       const result = await remove(memberId);
-      console.log(result);
       if (result?.error?.data) {
         console.log("Member cannot be removed");
         return;
@@ -136,13 +135,12 @@ export default function UserCurrentTeam() {
       renderCell: (member) =>
         member.teamMemberRole === TeamRole.CREATOR ? '' : (
           <div>
-            <LoadingButton
-              loading={isLoading}
+            <Button
               onClick={() => handleOpen(member.teamMemberId, member.username, member.email)}
-              className="!rounded-full aspect-square !min-w-min !hover:bg-red-300"
+              className="!rounded-full aspect-square !min-w-min hover:!bg-red-300"
             >
               <IoPersonRemove className="text-lg text-red-400" />
-            </LoadingButton>
+            </Button>
           </div>
         )
       ,
@@ -195,8 +193,8 @@ export default function UserCurrentTeam() {
             Do you want to remove this member?
           </Typography>
           <Typography id="modal-description" sx={{ mt: 2 }} className="text-center">
-            <p>Username: {name}</p>
-            <p>Email: {email}</p>
+            <span>Username: {name}</span>
+            <span>Email: {email}</span>
           </Typography>
           <Box className="flex mt-5 items-center justify-between">
             <LoadingButton

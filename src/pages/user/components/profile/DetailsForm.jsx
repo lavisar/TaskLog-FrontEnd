@@ -1,26 +1,14 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { createSelector } from "reselect";
+import { useDispatch } from "react-redux";
 import { setUser, useUpdateUserMutation } from "../../../../store";
 import { TextField } from "@mui/material";
 import { CustomTextArea } from "../../../../components/CustomTextArea";
 import { LoadingButton } from "@mui/lab";
 
-export default function DetailsForm() {
+export default function DetailsForm({ data }) {
   const dispatch = useDispatch();
-  const selectDetails = createSelector(
-    (state) => state.user.email,
-    (state) => state.user.username,
-    (state) => state.user.role,
-    (state) => state.user.bio,
-    (state) => state.user.pic,
-    (state) => state.user.createdAt,
-    (email, username, bio) => ({ email, username, bio })
-  )
-  const { email, username, bio } = useSelector(selectDetails);
-
-  const [formUsername, setFormUsername] = useState(username);
-  const [formBio, setFormBio] = useState(bio);
+  const [formUsername, setFormUsername] = useState(data.username);
+  const [formBio, setFormBio] = useState(data.bio);
   const [usernameError, setUsernameError] = useState('');
 
   const [updateUser, { isLoading }] = useUpdateUserMutation();
@@ -40,7 +28,6 @@ export default function DetailsForm() {
     updateDetails.append("user", userBlob);
     try {
       const result = await updateUser(updateDetails).unwrap();
-      console.log(result);
       if (result?.error?.data) {
         setRequestError(result.error.data);
         return;
@@ -60,7 +47,7 @@ export default function DetailsForm() {
           id='email'
           type='email'
           label="Email"
-          value={email}
+          value={data.email}
           autoComplete='off'
           className='w-full'
         />
@@ -94,7 +81,7 @@ export default function DetailsForm() {
 
       <div className='text-center'>
         {requestError ? (
-          <p className="text-red-300 text-sm"></p>
+          <p className="text-red-300 text-sm">{requestError}</p>
         ) : ''}
         <LoadingButton
           type='submit'

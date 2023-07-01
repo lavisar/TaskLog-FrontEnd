@@ -10,7 +10,7 @@ import {
   Popper,
 } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logOut, setUser, useGetPersonalAccountQuery } from "../store";
 import { useNavigate } from "react-router-dom";
 import { API_INSTANCE } from "../store/apis/features/apisConst";
@@ -27,6 +27,8 @@ export default function CurrentAccount({ profileLink }) {
       dispatch(setUser(data));
     }
   }, [dispatch, isSuccess, data]);
+
+  const image = useSelector((state) => state.user.pic);
 
   // Account Settings menu
   const [open, setOpen] = useState(false);
@@ -78,10 +80,10 @@ export default function CurrentAccount({ profileLink }) {
           aria-haspopup="true"
           aria-expanded={open ? "true" : undefined}
         >
-          {data?.pic ? (
+          {isSuccess && image ? (
             <img
-              src={`${API_INSTANCE.BASE_URL}/auth/image/${data.pic}`}
-              className="w-10 h-10 aspect-square rounded-full"
+              src={`${API_INSTANCE.BASE_URL}/auth/image/${image}`}
+              className="w-10 h-10 aspect-square object-cover rounded-full"
               alt="Profile pic of user"
             />
           ) : (

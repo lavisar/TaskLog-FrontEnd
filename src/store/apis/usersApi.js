@@ -19,6 +19,10 @@ export const usersApi = authApi.injectEndpoints({
       query: () => "/auth/account",
     }),
     updateUser: builder.mutation({
+      invalidatesTags: (result, error, user) => {
+        const fieldId = user.get("image").name;
+        return [{ type: "UserPic", id: fieldId }];
+      },
       query: (body) => {
         return {
           method: "PUT",
@@ -27,8 +31,13 @@ export const usersApi = authApi.injectEndpoints({
         };
       },
     }),
-    getImage: builder.query({
-      query: (pic) => `auth/image/${pic}`,
+    deleteImage: builder.mutation({
+      query: (id) => {
+        return {
+          method: "DELETE",
+          url: `/auth/image/delete/${id}`,
+        };
+      },
     }),
   }),
 });
@@ -38,5 +47,5 @@ export const {
   useGetAllUsersQuery,
   useGetPersonalAccountQuery,
   useUpdateUserMutation,
-  useGetImageQuery,
+  useDeleteImageMutation,
 } = usersApi;
