@@ -11,7 +11,7 @@ import { AiOutlineMenu } from "react-icons/ai";
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import AdminSideBar from "./AdminSideBar";
-import CurrentAccount from "../pages/shared/CurrentAccount";
+import CurrentAccount from "./CurrentAccount";
 import { WEBLINKS } from "../store/constants/WebLinks";
 
 const drawerWidth = 250;

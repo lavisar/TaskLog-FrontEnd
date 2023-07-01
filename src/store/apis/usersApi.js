@@ -27,6 +27,9 @@ export const usersApi = authApi.injectEndpoints({
         };
       },
     }),
+    getImage: builder.query({
+      query: (pic) => `auth/image/${pic}`,
+    }),
   }),
 });
 
@@ -35,4 +38,5 @@ export const {
   useGetAllUsersQuery,
   useGetPersonalAccountQuery,
   useUpdateUserMutation,
+  useGetImageQuery,
 } = usersApi;

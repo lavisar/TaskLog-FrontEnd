@@ -11,9 +11,9 @@ import {
 } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { logOut, setUser, useGetPersonalAccountQuery } from "../../store";
+import { logOut, setUser, useGetPersonalAccountQuery } from "../store";
 import { useNavigate } from "react-router-dom";
-import { API_INSTANCE } from "../../store/apis/features/apisConst";
+import { API_INSTANCE } from "../store/apis/features/apisConst";
 import { FaUser } from "react-icons/fa6";
 import { PiSignOutBold } from "react-icons/pi";
 
@@ -105,6 +105,7 @@ export default function CurrentAccount({ profileLink }) {
                 transformOrigin:
                   placement === "bottom-end" ? "left top" : "left bottom",
               }}
+              className="!shadow-none !shadow-lg border"
             >
               <Paper>
                 <ClickAwayListener onClickAway={handleClose}>

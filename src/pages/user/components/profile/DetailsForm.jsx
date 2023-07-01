@@ -9,16 +9,15 @@ import { LoadingButton } from "@mui/lab";
 export default function DetailsForm() {
   const dispatch = useDispatch();
   const selectDetails = createSelector(
-    (state) => state.user.id,
     (state) => state.user.email,
     (state) => state.user.username,
     (state) => state.user.role,
     (state) => state.user.bio,
     (state) => state.user.pic,
     (state) => state.user.createdAt,
-    (id, email, username, role, bio, pic, createdAt) => ({ id, email, username, role, bio, pic, createdAt })
+    (email, username, bio) => ({ email, username, bio })
   )
-  const { id, email, username, role, bio, pic, createdAt } = useSelector(selectDetails);
+  const { email, username, bio } = useSelector(selectDetails);
 
   const [formUsername, setFormUsername] = useState(username);
   const [formBio, setFormBio] = useState(bio);

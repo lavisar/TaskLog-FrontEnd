@@ -10,10 +10,10 @@ import UsersList from "./pages/admin/UsersList";
 import SplashPage from "./pages/user/SplashPage";
 import UserTeams from "./pages/user/UserTeams";
 import RequireAuth from "./pages/shared/RequireAuth";
-import Layout from "./components/Layout";
 import { WEBLINKS } from "./store/constants/WebLinks";
 import UserCurrentTeam from "./pages/user/UserCurrentTeam";
 import UserProfile from "./pages/user/UserProfile";
+import Layout1 from "./components/Layout1";
 
 const router = createBrowserRouter([
   {
@@ -35,7 +35,7 @@ const router = createBrowserRouter([
     path: WEBLINKS.MAIN,
     element: (
       <RequireAuth>
-        <Layout />
+        <Layout1 />
       </RequireAuth>
     ),
     children: [

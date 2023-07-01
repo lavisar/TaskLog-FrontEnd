@@ -48,6 +48,7 @@ const store = configureStore({
 
 setupListeners(store.dispatch);
 
+// to simplify import
 export {
   store,
   setCredentials,
@@ -76,6 +77,7 @@ export {
   useSignUpMutation,
   useGetPersonalAccountQuery,
   useUpdateUserMutation,
+  useGetImageQuery,
 } from "./apis/usersApi";
 export {
   useGetAllUserTeamsQuery,
