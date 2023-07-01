@@ -70,11 +70,14 @@ export {
 
   // user
   setUser,
+
   // team
   setTeam,
+  clearTeam,
+
   //task
   setTasks,
-  clearTeam,
+
   //currentMember
   setCurrentMember,
   clearCurrentMember,
@@ -101,4 +104,4 @@ export {
   useUpdateTeamMutation,
   useGetAllTeamsQuery,
 } from "./apis/teamsApi";
-export { useGetTasksQuery } from "./apis/taskApi"
+export { useGetTasksQuery, useCreateTaskMutation } from "./apis/taskApi"
