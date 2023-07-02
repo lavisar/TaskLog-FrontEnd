@@ -30,6 +30,7 @@ const authSlice = createSlice({
       state.refreshToken = refreshToken;
     },
     logOut: (state, action) => {
+      // remove all local storage upone logging out
       localStorage.removeItem(localStorageKey);
       localStorage.removeItem(LOCAL_STORAGE_KEYS.TEAM);
       localStorage.removeItem(LOCAL_STORAGE_KEYS.CURRENT_MEMBER);

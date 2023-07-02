@@ -1,10 +1,10 @@
 import { useDispatch } from "react-redux"
-import { setUser, useDeleteImageMutation, useUpdateUserMutation } from "../../../../store";
 import { useState } from "react";
 import { Avatar, Box, Button, Modal, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { useNavigate } from "react-router-dom";
-import { API_INSTANCE } from "../../../../store/apis/features/apisConst";
+import { API_INSTANCE } from "../../../store/apis/features/apisConst";
+import { setUser, useDeleteImageMutation, useUpdateUserMutation } from "../../../store";
 
 export default function ImageChange({ data }) {
   const dispatch = useDispatch();

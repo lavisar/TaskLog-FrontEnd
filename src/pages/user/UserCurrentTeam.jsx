@@ -86,22 +86,28 @@ export default function UserCurrentTeam() {
       id: 'pic',
       label: '',
       renderCell: (member) => (
-        member.pic ? (
-          <span>
-            <img src={`${API_INSTANCE.BASE_URL}/auth/image/${member.pic}`} className="rounded-full max-h-12 aspect-square object-cover m-0" alt="Profile pic of member" />
-          </span>
-        ) : (
-          <Avatar className="rounded-full max-h-12 aspect-square object-cover m-0">
-            {member.username.charAt(0)}
-          </Avatar>
-        )
+        <div className="grid justify-items-end">
+          {member.pic ? (
+            <span>
+              <img src={`${API_INSTANCE.BASE_URL}/auth/image/${member.pic}`} className="rounded-full max-h-12 aspect-square object-cover m-0" alt="Profile pic of member" />
+            </span>
+          ) : (
+            <Avatar className="rounded-full max-h-12 aspect-square object-cover !m-0">
+              {member.username.charAt(0)}
+            </Avatar>
+          )}
+        </div>
+
       ),
       align: 'right',
     },
     {
       id: 'username',
       label: 'Name',
-      renderCell: (member) => member.username,
+      renderCell: (member) => (
+        <div className={member.teamMemberId === currentMemberData?.teamMemberId ? "bg-green-200 rounded-xl px-2 py-1" : ''}>{member.username}
+        </div>
+      ),
       sortValue: (member) => member.username,
     },
     {
@@ -131,18 +137,22 @@ export default function UserCurrentTeam() {
     {
       id: 'remove',
       label: 'Remove',
-      renderCell: (member) =>
-        member.teamMemberRole === TeamRole.CREATOR ? '' : (
-          <div>
-            <Button
-              onClick={() => handleOpen(member.teamMemberId, member.username, member.email)}
-              className="!rounded-full aspect-square !min-w-min hover:!bg-red-300"
-            >
-              <IoPersonRemove className="text-lg text-red-400" />
-            </Button>
-          </div>
-        )
-      ,
+      renderCell: (member) => {
+        if (member.teamMemberRole === TeamRole.CREATOR) {
+          return '';
+        }
+        if (![TeamRole.CREATOR, TeamRole.ADMINISTRATOR].includes(currentMemberData?.teamMemberRole) && member.teamMemberId !== currentMemberData?.teamMemberId) {
+          return '';
+        }
+        return <div>
+          <Button
+            onClick={() => handleOpen(member.teamMemberId, member.username, member.email)}
+            className="!rounded-full aspect-square !min-w-min hover:!bg-red-300"
+          >
+            <IoPersonRemove className="text-lg text-red-400" />
+          </Button>
+        </div>
+      },
     },
   ]
 
@@ -188,13 +198,23 @@ export default function UserCurrentTeam() {
           boxShadow: 24,
           p: 4,
         }}>
-          <Typography id="remove-member-modal" variant="h6" className="text-center">
-            Do you want to remove this member?
-          </Typography>
-          <Typography id="modal-description" sx={{ mt: 2 }} className="text-center">
-            <span>Username: {name}</span>
-            <span>Email: {email}</span>
-          </Typography>
+          {memberId === currentMemberData?.teamMemberId ? (
+            <Typography id="remove-member-modal" variant="h6" className="text-center">
+              Do you want to leave this team?
+            </Typography>
+          ) : (
+            <div>
+              <Typography id="remove-member-modal" variant="h6" className="text-center">
+                Do you want to remove this member?
+              </Typography>
+              <Typography id="modal-description" sx={{ mt: 2 }} className="text-center !flex-column">
+                <span>Username: {name}</span>
+              </Typography>
+              <Typography id="modal-description" sx={{ mt: 2 }} className="text-center flex-column">
+                <span>Email: {email}</span>
+              </Typography>
+            </div>
+          )}
           <Box className="flex mt-5 items-center justify-between">
             <LoadingButton
               loading={isLoading}
@@ -203,7 +223,7 @@ export default function UserCurrentTeam() {
               color="error"
               className=""
             >
-              Remove
+              {memberId === currentMemberData?.teamMemberId ? 'Yes' : 'Remove'}
             </LoadingButton>
             <Button onClick={() => setOpen(false)}>
               Cancel
@@ -211,6 +231,6 @@ export default function UserCurrentTeam() {
           </Box>
         </Box>
       </Modal>
-    </div>
+    </div >
   );
 }

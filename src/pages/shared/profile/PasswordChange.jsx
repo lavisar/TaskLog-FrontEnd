@@ -1,7 +1,7 @@
 import { LoadingButton } from "@mui/lab";
 import { TextField, Typography } from "@mui/material";
 import { useState } from "react";
-import { useChangePasswordMutation } from "../../../../store";
+import { useChangePasswordMutation } from "../../../store";
 
 export default function PasswordChange() {
   const [currentPwd, setCurrentPwd] = useState('');

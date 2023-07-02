@@ -18,7 +18,7 @@ export default function CustomTableSortable(props) {
         <TableCell
           key={keyFunc(col)}
           align={col.align}
-          className="cursor-pointer hover:bg-gray-100"
+          className="cursor-pointer hover:bg-gray-100 !p-1"
           onClick={() => setSortColumn(col.label)}
         >
           <div className="flex items-center">

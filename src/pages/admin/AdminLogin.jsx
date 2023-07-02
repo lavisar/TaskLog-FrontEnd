@@ -8,9 +8,8 @@ import { Box, Card, TextField } from "@mui/material";
 
 function AdminLogin() {
   const emailRef = useRef();
-  const errRef = useRef();
-  const [email, setEmail] = useState('main@email.com');
-  const [pwd, setPwd] = useState('password');
+  const [email, setEmail] = useState('');
+  const [pwd, setPwd] = useState('');
   const [errMsg, setErrMsg] = useState('');
   const navigate = useNavigate();
 

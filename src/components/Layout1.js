@@ -20,7 +20,7 @@ import { FaChevronLeft } from "react-icons/fa6";
 
 export default function Layout1() {
   const theme = useTheme();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   const drawerWidth = 250;
   return (
@@ -40,10 +40,7 @@ export default function Layout1() {
               aria-label="open drawer"
               onClick={() => setOpen(!open)}
               edge="start"
-              sx={{
-                marginRight: 5,
-                // ...(open && { display: "none" }),
-              }}
+              // sx={{ ...(open && { display: "none" }) }}
               className="!text-black"
             >
               {open ? <FaChevronLeft /> : <AiOutlineMenu />}
@@ -54,6 +51,7 @@ export default function Layout1() {
               noWrap
               component="div"
               className="text-black"
+              sx={{ marginLeft: 5 }}
             >
               TaskLog
             </Typography>
@@ -87,7 +85,9 @@ export default function Layout1() {
         <CustomDrawerHeader theme={theme} />
 
         {/* // MAIN CONTENT */}
-        <Outlet />
+        <Box sx={{}}>
+          <Outlet />
+        </Box>
       </Box>
     </Box>
   );

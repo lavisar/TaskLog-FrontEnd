@@ -15,6 +15,8 @@ import UserCurrentTeam from "./pages/user/UserCurrentTeam";
 import UserProfile from "./pages/user/UserProfile";
 import Layout1 from "./components/Layout1";
 import TaskBoard from "./pages/task/TaskBoard";
+import AdminProfile from "./pages/admin/AdminProfile";
+import ManageAccount from "./pages/admin/ManageAccount";
 
 const router = createBrowserRouter([
   {
@@ -60,6 +62,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
 
+  // ============================================================
   // Links for ADMIN ----------------------------------------
   {
     path: WEBLINKS.ADMIN_LOGIN,
@@ -80,11 +83,15 @@ const router = createBrowserRouter([
       },
       {
         path: WEBLINKS.ADMIN_PROFILE,
-        element: <AdminMain />,
+        element: <AdminProfile />,
       },
       {
         path: WEBLINKS.ADMIN_ALL_USERS,
         element: <UsersList />,
+      },
+      {
+        path: `${WEBLINKS.ADMIN_MANAGE_ACCOUNT}/:accountId`,
+        element: <ManageAccount />,
       },
     ],
     errorElement: <ErrorPage />,

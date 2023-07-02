@@ -30,7 +30,14 @@ export default function CustomTable({ data, config }) {
       return <Fragment key={col.label}>{col.header()}</Fragment>;
     }
     return (
-      <TableCell key={keyFunc(col)} align={col.align}>
+      <TableCell
+        key={keyFunc(col)}
+        align={col.align}
+        className="!p-1"
+        sx={{
+          minWidth: 20,
+        }}
+      >
         {col.label}
       </TableCell>
     );
@@ -41,7 +48,11 @@ export default function CustomTable({ data, config }) {
       <TableRow hover tabIndex={-1} key={index}>
         {config.map((col) => {
           return (
-            <TableCell key={rowData.id + keyFunc(col)} align={col.align}>
+            <TableCell
+              key={rowData.id + keyFunc(col)}
+              align={col.align}
+              className="!py-3 !px-2"
+            >
               {col.renderCell(rowData)}
             </TableCell>
           );
