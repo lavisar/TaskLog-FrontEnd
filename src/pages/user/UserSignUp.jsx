@@ -21,7 +21,6 @@ function UserSignUp() {
   const { email, username, password, bio } = useSelector(selectDetails);
 
   const emailRef = useRef();
-  const errRef = useRef();
   const [errMsg, setErrMsg] = useState('');
   const [confirmPwd, setConfirmPwd] = useState('');
   const [image, setImage] = useState(null);
@@ -34,6 +33,18 @@ function UserSignUp() {
     setErrMsg('');
   }, [])
 
+  // function validatePassword(pw) {
+  //   return /[A-Z]/.test(pw) &&
+  //     /[a-z]/.test(pw) &&
+  //     /[0-9]/.test(pw) &&
+  //     /[^A-Za-z0-9]/.test(pw) &&
+  //     pw.length >= 8;
+  // }
+  const pwdErrFunc = (msg) => {
+    setErrMsg(msg);
+    dispatch(changePassword(''));
+    setConfirmPwd('');
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (email.trim() === '' || username.trim() === '' || password.trim() === '' || confirmPwd.trim() === '') {
@@ -41,9 +52,23 @@ function UserSignUp() {
       return;
     }
     if (confirmPwd.trim() !== password.trim()) {
-      setErrMsg('Passwords do not match');
+      pwdErrFunc('Passwords do not match');
+      return;
+    } else if (password.length < 8) {
+      pwdErrFunc('Password must have at least 8 characters');
+      return;
+    } else if (!/[A-Z]/.test(password)) {
+      pwdErrFunc('Password must contain at least one uppercase letter');
+      return;
+    } else if (!/[a-z]/.test(password)) {
+      pwdErrFunc('Password must contain at least one lowercase letter');
+      return;
+    } else if (!/[0-9]/.test(password)) {
+      pwdErrFunc('Password must contain at least one digit');
       return;
     }
+
+
     const newUser = new FormData();
     newUser.append("image", image);
     const userJson = JSON.stringify({ email, username, password, bio });
@@ -76,7 +101,6 @@ function UserSignUp() {
   const content = (
     <Box sx={{
       minHeight: '100vh',
-      // minHeight: '100dvh',
     }}>
 
       <Toolbar sx={{ minHeight: toolbarHeight }} variant='dense'>
@@ -95,7 +119,6 @@ function UserSignUp() {
         }}>
           <h1 className='text-center font-extrabold text-2xl'>Create an account</h1>
 
-          <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
 
           <form onSubmit={handleSubmit}>
             <div className='p-4'>
@@ -168,7 +191,7 @@ function UserSignUp() {
                   file:rounded-full file:border-0
                   file:text-sm file:font-semibold
                   file:bg-green-50 file:text-green-500
-                  hover:file:bg-green-100"
+                  hover:file:bg-green-100 cursor-pointer"
                   id="pic"
                   onChange={handleUploadFile}
                 />
@@ -176,11 +199,13 @@ function UserSignUp() {
             </div>
 
             <div className='text-center'>
+
+              <p className="text-red-500">{errMsg}</p>
               <LoadingButton
                 type='submit'
                 size='small'
                 loading={isLoading}
-                loadingIndicator="Creating account..."
+                loadingIndicator="Creating..."
                 // loadingPosition='end'
                 variant='contained'
                 className="!bg-green-400 !hover:bg-green-600 !rounded-full"

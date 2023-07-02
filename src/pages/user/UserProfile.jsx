@@ -3,6 +3,7 @@ import DetailsForm from "./components/profile/DetailsForm";
 import ImageChange from "./components/profile/ImageChange";
 import { createSelector } from "reselect";
 import { useSelector } from "react-redux";
+import PasswordChange from "./components/profile/PasswordChange";
 
 export default function UserProfile() {
   const selectDetails = createSelector(
@@ -19,12 +20,13 @@ export default function UserProfile() {
   return <Grid container spacing={2}>
     <Grid item sm={12} md={4}>
       <Card sx={{ minWidth: 275 }} className="!rounded-xl py-10 px-3">
-        <ImageChange data={{ id, pic }} />
+        <ImageChange data={{ id, pic, username }} />
       </Card>
     </Grid>
     <Grid item sm={12} md={8}>
-      <Card sx={{ minWidth: 275 }} className="!rounded-xl py-10 px-3">
+      <Card sx={{ minWidth: 275 }} className="!rounded-xl py-10 px-3 sx:mr-0 md:mr-10">
         <DetailsForm data={{ email, username, bio }} />
+        <PasswordChange />
       </Card>
     </Grid>
   </Grid>

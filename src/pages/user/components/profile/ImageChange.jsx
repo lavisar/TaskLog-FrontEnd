@@ -49,27 +49,29 @@ export default function ImageChange({ data }) {
   }
   return (
     <div className="px-4 items-center">
-      <div>
+      <div className="pb-3">
         {data.pic ? (
           <img
             src={`${API_INSTANCE.BASE_URL}/auth/image/${data.pic}`}
             className="w-20 h-20 aspect-square object-cover rounded-full"
             alt="Profile pic of user"
-          />) : (
-          <Avatar className="w-20 h-20 aspect-square rounded-full">
+          />
+        ) : (
+          <Avatar className="!w-20 !h-20">
             {data?.username?.charAt(0)}
-          </Avatar>)}
+          </Avatar>
+        )}
       </div>
       <form onSubmit={handleUpdate}>
         <label className="block">
-          <span className="sr-only">Choose profile photo</span>
+          <span className="sr-only">Choose profile</span>
           <input type="file"
             className="block w-full text-sm text-slate-500 
           file:mr-4 file:py-2 file:px-4 
           file:rounded-full file:border-0
           file:text-sm file:font-semibold
           file:bg-green-50 file:text-green-500
-          hover:file:bg-green-100"
+          hover:file:bg-green-100 cursor-pointer"
             id="pic"
             onChange={(e) => setImage(e.target.files[0])}
           />

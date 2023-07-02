@@ -46,7 +46,6 @@ export default function UserCurrentTeam() {
     isError: membersIsError,
     error: membersError
   } = useGetAllMembersDetailsQuery(teamId);
-  // console.log(membersData);
 
   const [remove, { isLoading }] = useRemoveMemberMutation();
 
@@ -155,7 +154,7 @@ export default function UserCurrentTeam() {
   } else if (membersIsSuccess) {
     content = (
       <Card>
-        <AddMemberButton />
+        {[TeamRole.CREATOR, TeamRole.ADMINISTRATOR].includes(currentMemberData?.teamMemberRole) && <AddMemberButton />}
         <CustomTableSortable data={membersData} config={config} />
       </Card>
     )

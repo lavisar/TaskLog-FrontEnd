@@ -2,11 +2,14 @@ import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { useEffect, useState } from "react";
 import { TeamRole } from "../../../../store/constants/Role";
 import { useChangeMemberRoleMutation } from "../../../../store";
+import { useSelector } from "react-redux";
 
 export default function UserCurrentTeamRole({ currentRole, memberId, teamId }) {
   const [role, setRole] = useState(currentRole);
   const [changeRole, { isLoading }] = useChangeMemberRoleMutation();
 
+  const userTeamRole = useSelector((state) => state.currentMember.teamMemberRole)
+  const userMemberId = useSelector((state) => state.currentMember.teamMemberId);
   useEffect(() => {
     setRole(currentRole);
   }, [currentRole]);
@@ -26,7 +29,16 @@ export default function UserCurrentTeamRole({ currentRole, memberId, teamId }) {
 
   return (
     <Box sx={{ minWidth: 120 }}>
-      <FormControl fullWidth disabled={isLoading || currentRole === TeamRole.CREATOR}>
+      <FormControl
+        fullWidth
+        disabled={
+          isLoading ||
+          currentRole === TeamRole.CREATOR ||
+          userTeamRole === TeamRole.GUEST ||
+          userTeamRole === TeamRole.MEMBER ||
+          userMemberId === memberId
+        }
+      >
         <InputLabel id={`member_${memberId}`}>
           Team Role
         </InputLabel>

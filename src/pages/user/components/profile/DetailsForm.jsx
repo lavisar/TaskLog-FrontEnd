@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setUser, useUpdateUserMutation } from "../../../../store";
-import { TextField } from "@mui/material";
+import { TextField, Typography } from "@mui/material";
 import { CustomTextArea } from "../../../../components/CustomTextArea";
 import { LoadingButton } from "@mui/lab";
 
@@ -39,61 +39,65 @@ export default function DetailsForm({ data }) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className='p-4'>
-        <TextField
-          disabled
-          required
-          id='email'
-          type='email'
-          label="Email"
-          value={data.email}
-          autoComplete='off'
-          className='w-full'
-        />
-      </div>
+    <div>
+      <Typography variant="h6" className="!ml-4" >Profile details</Typography>
+      <form onSubmit={handleSubmit}>
+        <div className='p-4'>
+          <TextField
+            disabled
+            required
+            id='email'
+            type='email'
+            label="Email"
+            value={data.email}
+            autoComplete='off'
+            className='w-full'
+          />
+        </div>
 
-      <div className='p-4'>
-        <TextField
-          error={formUsername === ''}
-          helperText={usernameError}
-          id='username'
-          label="Username"
-          value={formUsername}
-          onChange={(e) => {
-            setUsernameError('')
-            return setFormUsername(e.target.value)
-          }}
-          autoComplete='off'
-          className='w-full'
-        />
-      </div>
+        <div className='p-4'>
+          <TextField
+            error={formUsername === ''}
+            helperText={usernameError}
+            id='username'
+            label="Username"
+            value={formUsername}
+            onChange={(e) => {
+              setUsernameError('')
+              return setFormUsername(e.target.value)
+            }}
+            autoComplete='off'
+            className='w-full'
+          />
+        </div>
 
-      <div className='p-4'>
-        <CustomTextArea
-          id="bio"
-          placeholder="More about yourself"
-          value={formBio}
-          onChange={e => setFormBio(e.target.value)}
-          className="w-full"
-        />
-      </div>
+        <div className='p-4'>
+          <CustomTextArea
+            id="bio"
+            placeholder="More about yourself"
+            value={formBio}
+            onChange={e => setFormBio(e.target.value)}
+            className="w-full"
+          />
+        </div>
 
-      <div className='text-center'>
-        {requestError ? (
-          <p className="text-red-300 text-sm">{requestError}</p>
-        ) : ''}
-        <LoadingButton
-          type='submit'
-          size='small'
-          loading={isLoading}
-          loadingIndicator="Saving..."
-          // loadingPosition='end'
-          variant='contained'
-          className="!bg-green-400 !hover:bg-green-600 !rounded-full"
-        >
-          <span className='px-5'>Save change</span>
-        </LoadingButton>
-      </div>
-    </form>)
+        <div className='text-center'>
+          {requestError ? (
+            <p className="text-red-300 text-sm">{requestError}</p>
+          ) : ''}
+          <LoadingButton
+            type='submit'
+            size='small'
+            loading={isLoading}
+            loadingIndicator="Saving..."
+            // loadingPosition='end'
+            variant='contained'
+            className="!bg-green-400 !hover:bg-green-600 !rounded-full"
+          >
+            <span className='px-5'>Save change</span>
+          </LoadingButton>
+        </div>
+      </form>
+    </div>
+  )
 }

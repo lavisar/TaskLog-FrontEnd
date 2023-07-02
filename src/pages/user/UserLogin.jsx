@@ -9,7 +9,7 @@ import { WEBLINKS } from '../../store/constants/WebLinks';
 function UserLogin() {
   const emailRef = useRef();
   const errRef = useRef();
-  const [user, setUser] = useState('');
+  const [email, setUser] = useState('');
   const [pwd, setPwd] = useState('');
   const [errMsg, setErrMsg] = useState('');
   const navigate = useNavigate();
@@ -23,14 +23,14 @@ function UserLogin() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (user.trim() === '' || pwd.trim() === '') {
+    if (email.trim() === '' || pwd.trim() === '') {
       setErrMsg('Please fill in all fields');
       return;
     }
     try {
-      const userData = await login({ username: user, password: pwd }).unwrap();
+      const userData = await login({ username: email, password: pwd }).unwrap();
 
-      dispatch(setCredentials({ ...userData, user }));
+      dispatch(setCredentials({ ...userData, user: email }));
       setUser('');
       setPwd('');
       navigate(WEBLINKS.MAIN);
@@ -76,9 +76,8 @@ function UserLogin() {
                 type='email'
                 label="Email"
                 ref={emailRef}
-                value={user}
+                value={email}
                 onChange={handleUserInput}
-                autoComplete='off'
                 className='w-full'
               />
             </div>

@@ -39,6 +39,15 @@ export const usersApi = authApi.injectEndpoints({
         };
       },
     }),
+    changePassword: builder.mutation({
+      query: (body) => {
+        return {
+          method: "PUT",
+          url: "/auth/user/change-password",
+          body,
+        };
+      },
+    }),
   }),
 });
 
@@ -48,4 +57,5 @@ export const {
   useGetPersonalAccountQuery,
   useUpdateUserMutation,
   useDeleteImageMutation,
+  useChangePasswordMutation,
 } = usersApi;

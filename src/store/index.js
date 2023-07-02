@@ -90,6 +90,7 @@ export {
   useGetPersonalAccountQuery,
   useUpdateUserMutation,
   useDeleteImageMutation,
+  useChangePasswordMutation,
 } from "./apis/usersApi";
 export {
   useGetAllUserTeamsQuery,
@@ -104,4 +105,4 @@ export {
   useUpdateTeamMutation,
   useGetAllTeamsQuery,
 } from "./apis/teamsApi";
-export { useGetTasksQuery, useCreateTaskMutation } from "./apis/taskApi"
+export { useGetTasksQuery, useCreateTaskMutation } from "./apis/taskApi";
