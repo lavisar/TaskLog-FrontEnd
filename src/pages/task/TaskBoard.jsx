@@ -28,6 +28,7 @@ function TaskBoard() {
 
 	return (
 		<>
+			<div className="container mx-auto">
 			<div className="flex">
 				<div className="w-full">
 					<div className="flex justify-between">
@@ -68,10 +69,11 @@ function TaskBoard() {
 				</div>
 			</div>
 			{showAsList ? (
-				<TaskList taskLst={{ data, isLoading, err }} />
+				<TaskList taskLst={{ data, membersData, isLoading, err }} />
 			) : (
 				<TaskColumn />
 			)}
+			</div>
 		</>
 	);
 }
