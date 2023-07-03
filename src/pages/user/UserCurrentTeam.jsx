@@ -12,6 +12,7 @@ import { TeamRole } from "../../store/constants/Role";
 import AddMemberButton from "./components/team/AddMemberButton";
 import UserTeamUpdate from "./components/team/UserTeamUpdate";
 import { useDispatch } from "react-redux";
+import dayjs from "dayjs";
 
 export default function UserCurrentTeam() {
   const { teamId } = useParams();
@@ -131,7 +132,7 @@ export default function UserCurrentTeam() {
     {
       id: 'addedAt',
       label: 'Joined Date',
-      renderCell: (member) => member.addedAt,
+      renderCell: (member) => dayjs(member.addedAt).format('MMM. DD, YYYY'),
       sortValue: (member) => member.addedAt,
     },
     {

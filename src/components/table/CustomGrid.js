@@ -1,6 +1,6 @@
 import { DataGrid } from "@mui/x-data-grid";
 
-export default function CustomGrid({ data, config }) {
+export default function CustomGrid({ data, config, pageSize }) {
   const columns = config.map((col) => {
     const flex = isNaN(col.flex) ? 1 : col.flex;
     return {
@@ -21,10 +21,15 @@ export default function CustomGrid({ data, config }) {
         columns={columns}
         initialState={{
           pagination: {
-            paginationModel: { page: 0, pageSize: 20 },
+            paginationModel: { page: 0, pageSize: pageSize || 20 },
           },
         }}
-        pageSizeOptions={[20, 50]}
+        pageSizeOptions={[
+          pageSize || 20,
+          pageSize * 2 || 40,
+          pageSize * 3 || 50,
+        ]}
+        autoHeight
       />
     </div>
   );

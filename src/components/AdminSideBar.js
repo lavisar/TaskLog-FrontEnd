@@ -9,13 +9,14 @@ import {
   Typography,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { CiCircleAlert, CiCircleList } from "react-icons/ci";
+import { CiBoxList, CiCircleAlert, CiCircleList } from "react-icons/ci";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";
 import { RiTeamLine } from "react-icons/ri";
-import { FaUsers } from "react-icons/fa";
 import { useState } from "react";
 import CustomLink from "./CustomLink";
 import { WEBLINKS } from "../store/constants/WebLinks";
+import { IoPersonAddOutline } from "react-icons/io5";
+import { PiUsersThree } from "react-icons/pi";
 
 const expandIcon = <ExpandMoreIcon />;
 
@@ -25,12 +26,12 @@ const listItems = [
     summary: "Admin Management",
     children: [
       {
-        icon: <FaUsers />,
+        icon: <PiUsersThree />,
         link: "User List",
         path: WEBLINKS.ADMIN_ALL_USERS,
       },
       {
-        icon: null,
+        icon: <IoPersonAddOutline />,
         link: "Create Admin",
         path: WEBLINKS.ADMIN_CREATE,
       },
@@ -41,14 +42,9 @@ const listItems = [
     summary: "Team Management",
     children: [
       {
-        icon: null,
+        icon: <CiBoxList />,
         link: "Team List",
         path: WEBLINKS.ADMIN_ALL_TEAMS,
-      },
-      {
-        icon: null,
-        link: "Team Details",
-        path: "/admin/team",
       },
     ],
   },

@@ -3,19 +3,22 @@ import { useGetAllUsersQuery } from "../../store";
 import { API_INSTANCE } from "../../store/apis/features/apisConst";
 import CustomLink from "../../components/CustomLink";
 import { WEBLINKS } from "../../store/constants/WebLinks";
-import { CgDetailsMore } from "react-icons/cg";
+import { CgDetailsMore, CgProfile } from "react-icons/cg";
+import { Card } from "@mui/material";
+import { useSelector } from "react-redux";
 
 function UsersList() {
   const { data, isLoading, isSuccess, isError, error } = useGetAllUsersQuery();
+  const currentUserId = useSelector((state) => state.user.id);
   let content;
   if (isLoading) {
-    content = <p>Loading</p>;
+    content = <p>Loading...</p>;
   } else if (isSuccess) {
     const config = [
-      // {
-      //   id: 'id',
-      //   label: "Id",
-      // },
+      {
+        id: 'id',
+        label: "Id",
+      },
       {
         id: 'pic',
         label: "Profile Pic",
@@ -58,19 +61,28 @@ function UsersList() {
         label: "Details",
         flex: 1,
         renderCell: (user) => (
-          <div>
-            <CustomLink to={`${WEBLINKS.ADMIN_MANAGE_ACCOUNT}/${user.id}`} className="text-blue-500 border border-blue-500 rounded-full px-2 flex items-center hover:bg-blue-300">
-              <CgDetailsMore className="mr-1" />
-              Details
-            </CustomLink>
-          </div>
+          currentUserId !== user.id ? (
+            <div>
+              <CustomLink to={`${WEBLINKS.ADMIN_MANAGE_ACCOUNT}/${user.id}`} className="text-blue-500 border border-blue-500 rounded-full px-2 flex items-center hover:bg-blue-300">
+                <CgDetailsMore className="mr-1" />
+                Details
+              </CustomLink>
+            </div>
+          ) : (
+            <div>
+              <CustomLink to={WEBLINKS.ADMIN_PROFILE} className="text-green-500 border border-green-500 rounded-full px-2 flex items-center hover:bg-green-300">
+                <CgProfile className="mr-1" />
+                Profile
+              </CustomLink>
+            </div>
+          )
         ),
       }
     ]
     content = (
-      <section>
+      <Card>
         <CustomGrid data={data} config={config} />
-      </section>
+      </Card>
     )
   } else if (isError) {
     console.error("Error loading data: " + error);

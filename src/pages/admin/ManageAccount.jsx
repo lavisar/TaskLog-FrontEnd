@@ -1,16 +1,32 @@
-import { useParams } from "react-router-dom";
-import { useChangeAdminRoleMutation, useGetUserQuery } from "../../store";
+import { useNavigate, useParams } from "react-router-dom";
+import { useChangeAdminRoleMutation, useDeleteUserMutation, useGetUserQuery } from "../../store";
 import { useEffect, useState } from "react";
-import { FormControl, InputLabel, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableRow } from "@mui/material";
+import { Box, Button, FormControl, InputLabel, MenuItem, Modal, Paper, Select, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from "@mui/material";
 import { UserRole } from "../../store/constants/Role";
 import { useSelector } from "react-redux";
+import { LoadingButton } from "@mui/lab";
+import { MdDelete } from "react-icons/md";
+import { WEBLINKS } from "../../store/constants/WebLinks";
+import ImageChange from "../shared/profile/ImageChange";
+import { createSelector } from "reselect";
 
 export default function ManageAccount() {
   const { accountId } = useParams();
+  const navigate = useNavigate();
   const [role, setRole] = useState('')
+  const [roleErr, setRoleErr] = useState('');
+  const [open, setOpen] = useState(false);
+
   const { data, isLoading, isSuccess } = useGetUserQuery(accountId);
   const [changeAdminRole, { isLoading: changingRole }] = useChangeAdminRoleMutation();
-  const currentRole = useSelector((state) => state.user.role);
+  const [deleteUser, { isLoading: deleting }] = useDeleteUserMutation();
+
+  const selectDetails = createSelector(
+    (state) => state.user.id,
+    (state) => state.user.role,
+    (id, role) => ({ id, role })
+  )
+  const { id: currentId, role: currentRole } = useSelector(selectDetails);
   useEffect(() => {
     if (isSuccess) {
       setRole(data.role);
@@ -19,10 +35,26 @@ export default function ManageAccount() {
 
   const handleChangeRole = async (e) => {
     try {
+      setRoleErr('');
       const result = await changeAdminRole({ email: data.email, role: e.target.value }).unwrap();
-      if (result) {
-        setRole(e.target.value);
+      if (result?.data?.error) {
+        setRoleErr(result.data.error);
+        return;
       }
+      setRole(e.target.value);
+    } catch (error) {
+      setRoleErr(error.data);
+    }
+  }
+
+  const handleDelete = async () => {
+    try {
+      const result = await deleteUser(data.id).unwrap();
+      if (result?.data?.error) {
+        console.log(result.data.error);
+        return;
+      }
+      navigate(WEBLINKS.ADMIN_ALL_USERS);
     } catch (error) {
       console.log(error);
     }
@@ -34,9 +66,17 @@ export default function ManageAccount() {
   } else if (isSuccess) {
     content = (
       <div>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }}>
+        <TableContainer component={Paper} sx={{ px: 5 }}>
+          <Table sx={{ maxWidth: 1000 }}>
             <TableBody>
+              <TableRow>
+                <TableCell>Profile Pic</TableCell>
+                <TableCell>
+                  {data.pic && <div>
+                    <ImageChange data={{ id: data.id, pic: data.pic, username: data.username }} admin={true} />
+                  </div>}
+                </TableCell>
+              </TableRow>
               <TableRow>
                 <TableCell>Id</TableCell>
                 <TableCell>{data.id}</TableCell>
@@ -65,7 +105,12 @@ export default function ManageAccount() {
                       <FormControl fullWidth>
                         <InputLabel id="user-role">Role</InputLabel>
                         <Select
-                          disabled={changingRole || currentRole !== UserRole.MAIN}
+                          error={roleErr !== ''}
+                          disabled={
+                            changingRole ||
+                            (currentRole === UserRole.ADMIN && role === UserRole.MAIN) ||
+                            data.id === currentId
+                          }
                           labelId="user-role"
                           id="role"
                           value={role}
@@ -78,13 +123,67 @@ export default function ManageAccount() {
                           <MenuItem value={UserRole.BANNED}>Banned</MenuItem>
                         </Select>
                       </FormControl>
+                      <p className="text-red-400">{roleErr}</p>
                     </div>
                   )}
                 </TableCell>
               </TableRow>
+              {data.role !== UserRole.MAIN ? (
+                <TableRow>
+                  <TableCell>
+                    <Button onClick={() => setOpen(true)} className="!rounded-full">
+                      <div className="flex items-center p-3 bg-red-500 rounded-full text-white hover:bg-red-600">
+                        <span className="pr-2"><MdDelete /></span>
+                        Delete account
+                      </div>
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ) : ''}
             </TableBody>
           </Table>
         </TableContainer>
+
+
+        <Modal
+          open={open}
+          onClose={() => setOpen(false)}
+          aria-labelledby="delete-user-modal"
+          aria-describedby="modal-description"
+        >
+          <Box sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 500,
+            bgcolor: 'background.paper',
+            borderRadius: '20px',
+            boxShadow: 24,
+            p: 4,
+          }}>
+            <div>
+              <Typography id="remove-member-modal" variant="h6" className="text-center">
+                Do you want to delete this user?
+              </Typography>
+            </div>
+            <Box className="flex mt-5 items-center justify-between">
+              <LoadingButton
+                loading={deleting}
+                onClick={() => handleDelete()}
+                loadingIndicator="Deleting..."
+                variant="contained"
+                color="error"
+                className=""
+              >
+                Delete
+              </LoadingButton>
+              <Button onClick={() => setOpen(false)}>
+                Cancel
+              </Button>
+            </Box>
+          </Box>
+        </Modal>
       </div>
     )
   }

@@ -13,9 +13,18 @@ export const teamsApi = authApi.injectEndpoints({
           body,
         };
       },
+      invalidatesTags: (result, error, team) => {
+        return [{ type: "CreateTeam", id: "CrTeam" }];
+      },
     }),
     getTeam: builder.query({
       query: (id) => `/team/${id}`,
+      providesTags: (result, error, teamId) => {
+        const tags = [];
+        tags.push({ type: "DeleteTeam", id: "Del" });
+        tags.push({ type: "UpdateTeam", id: "UpTeam" });
+        return tags;
+      },
     }),
     getCurrentMember: builder.query({
       query: (teamId) => `/team/${teamId}/current-member`,
@@ -69,6 +78,9 @@ export const teamsApi = authApi.injectEndpoints({
           method: "DELETE",
         };
       },
+      invalidatesTags: (result, error, id) => {
+        return [{ type: "DeleteTeam", id: "Del" }];
+      },
     }),
     updateTeam: builder.mutation({
       query: (body) => {
@@ -78,9 +90,19 @@ export const teamsApi = authApi.injectEndpoints({
           body,
         };
       },
+      invalidatesTags: (result, error, id) => {
+        return [{ type: "UpdateTeam", id: "UpTeam" }];
+      },
     }),
     getAllTeams: builder.query({
       query: () => "/team/all",
+      providesTags: (result, error, teamId) => {
+        const tags = [];
+        tags.push({ type: "DeleteTeam", id: "Del" });
+        tags.push({ type: "UpdateTeam", id: "UpTeam" });
+        tags.push({ type: "CreateTeam", id: "CrTeam" });
+        return tags;
+      },
     }),
   }),
 });
