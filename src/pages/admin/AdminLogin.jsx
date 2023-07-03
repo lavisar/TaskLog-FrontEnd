@@ -33,6 +33,7 @@ function AdminLogin() {
       setPwd('');
       navigate(WEBLINKS.ADMIN_MAIN);
     } catch (err) {
+      console.log(err);
       if (err.status === 401) {
         setErrMsg("Invalid email or password");
       }

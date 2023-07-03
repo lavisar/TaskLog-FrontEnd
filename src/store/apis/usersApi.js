@@ -15,6 +15,9 @@ export const usersApi = authApi.injectEndpoints({
       query: () => "/auth/all-users",
       // keepUnusedDataFor: 10,
     }),
+    getUser: builder.query({
+      query: (id) => `/auth/user/${id}`,
+    }),
     getPersonalAccount: builder.query({
       query: () => "/auth/account",
     }),
@@ -48,14 +51,25 @@ export const usersApi = authApi.injectEndpoints({
         };
       },
     }),
+    changeAdminRole: builder.mutation({
+      query: (body) => {
+        return {
+          method: "PUT",
+          url: "/auth/admin-role",
+          body,
+        };
+      },
+    }),
   }),
 });
 
 export const {
   useSignUpMutation,
   useGetAllUsersQuery,
+  useGetUserQuery,
   useGetPersonalAccountQuery,
   useUpdateUserMutation,
   useDeleteImageMutation,
   useChangePasswordMutation,
+  useChangeAdminRoleMutation,
 } = usersApi;

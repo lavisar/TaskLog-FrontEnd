@@ -60,22 +60,55 @@ export default function Layout1() {
           <CurrentAccount profileLink={WEBLINKS.PROFILE} />
         </Toolbar>
       </CustomAppBar>
-      <CustomDrawer
-        variant="permanent"
-        open={open}
-        theme={theme}
-        drawerWidth={drawerWidth}
-        sx={{
-          minHeight: "100vh",
-        }}
-      >
-        <Toolbar>
-          {/* This place is for image-------------------------- */}
-        </Toolbar>
 
-        <Divider />
-        <SideBar1 open={open} />
-      </CustomDrawer>
+      <Box
+        component="nav"
+        // sx={{ flexShrink: { sm: 0 } }}
+        aria-label="mailbox folders"
+      >
+        <CustomDrawer
+          variant="permanent"
+          open={open}
+          theme={theme}
+          drawerWidth={drawerWidth}
+          ModalProps={{ keepMounted: true }}
+          onClose={(e) => setOpen(true)}
+          sx={{
+            width: 0,
+            minHeight: "100vh",
+            display: { xs: "block", sm: "block", md: "none" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: open ? drawerWidth : 0,
+            },
+          }}
+        >
+          <Toolbar>
+            {/* This place is for image-------------------------- */}
+          </Toolbar>
+
+          <Divider />
+          <SideBar1 open={open} />
+        </CustomDrawer>
+
+        <CustomDrawer
+          variant="permanent"
+          open={open}
+          theme={theme}
+          drawerWidth={drawerWidth}
+          sx={{
+            minHeight: "100vh",
+            display: { xs: "none", sm: "none", md: "block" },
+          }}
+        >
+          <Toolbar>
+            {/* This place is for image-------------------------- */}
+          </Toolbar>
+
+          <Divider />
+          <SideBar1 open={open} />
+        </CustomDrawer>
+      </Box>
 
       <Box
         component="main"

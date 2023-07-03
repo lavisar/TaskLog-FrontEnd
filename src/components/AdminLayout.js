@@ -32,7 +32,7 @@ function AdminLayout() {
         }}
       >
         <Toolbar className="justify-between">
-          <div>
+          <div className="flex items-center">
             <IconButton
               color="inherit"
               aria-label="open drawer"
@@ -94,7 +94,9 @@ function AdminLayout() {
           flexGrow: 1,
           p: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
+          minHeight: `100vh`,
         }}
+        className="!bg-gray-100"
       >
         <Toolbar />
 

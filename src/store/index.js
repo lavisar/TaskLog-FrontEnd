@@ -87,10 +87,12 @@ export { useLoginMutation } from "./apis/features/authLoginApi";
 export {
   useGetAllUsersQuery,
   useSignUpMutation,
+  useGetUserQuery,
   useGetPersonalAccountQuery,
   useUpdateUserMutation,
   useDeleteImageMutation,
   useChangePasswordMutation,
+  useChangeAdminRoleMutation,
 } from "./apis/usersApi";
 export {
   useGetAllUserTeamsQuery,

@@ -63,8 +63,8 @@ export default function CustomTable({ data, config }) {
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
-      <TableContainer>
-        <Table sx={{ minWidth: 450 }} aria-label="table">
+      <TableContainer sx={{ maxWidth: "100%" }}>
+        <Table sx={{ minWidth: 300 }} aria-label="table" stickyHeader>
           <TableHead>
             <TableRow>{renderedHeader}</TableRow>
           </TableHead>

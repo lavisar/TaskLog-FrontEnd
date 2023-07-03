@@ -63,14 +63,14 @@ export default function SideBar2({ open }) {
             <CustomLink
               to={item.path}
               className="text-xl text-white rounded-2xl ease-in-out hover:bg-green-400 hover:mx-3 duration-300 select-none my-2"
-              activeClassName="mx-4 !font-bold bg-green-400 rounded-2xl !text-black"
+              activeClassName="mx-2 !font-bold bg-green-400 rounded-2xl !text-black"
               // linkClass="items-center"
             >
               <ListItemButton
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? "initial" : "center",
-                  px: 2.5,
+                  px: 'auto',
                 }}
               >
                 <ListItemIcon
