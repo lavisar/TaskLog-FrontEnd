@@ -1,4 +1,4 @@
-import { Box, Button, IconButton, Modal, TextField } from "@mui/material";
+import { Box, Button, Card, IconButton, TextField, Toolbar } from "@mui/material";
 import { clearCurrentMember, clearTeam, setTeam, useCreateTeamMutation, useGetAllUserTeamsQuery } from "../../store";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -10,18 +10,6 @@ import CustomLink from "../../components/CustomLink";
 import { FaPlus } from 'react-icons/fa';
 import { AiOutlineClose } from 'react-icons/ai';
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  minWidth: 500,
-  bgcolor: 'background.paper',
-  // border: '2px solid #000',
-  borderRadius: '10px',
-  boxShadow: 24,
-  p: 4,
-};
 export default function UserTeams() {
   const teamNameRef = useRef();
   const [teamName, setTeamName] = useState('');
@@ -156,11 +144,27 @@ export default function UserTeams() {
     content = <p className="text-red-500">Error connect to server</p>
   }
 
-  return <Modal
-    open={true}
-  >
-    <Box sx={style}>
-      {content}
+  const toolbarHeight = 50;
+  return <Box className="w-screen h-screen">
+    <Toolbar
+      variant="dense"
+      sx={{
+        height: toolbarHeight,
+      }}
+    >
+      {/* Put logo on top left */}
+    </Toolbar>
+    <Box sx={{
+      minHeight: `calc(100vh - ${toolbarHeight}px)`,
+      display: 'grid',
+      placeItems: 'center',
+      alignItems: 'center',
+    }}>
+      <Card className='p-2' sx={{
+        width: 450, position: 'relative', top: toolbarHeight / -2
+      }}>
+        {content}
+      </Card>
     </Box>
-  </Modal>;
+  </Box>
 }

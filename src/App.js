@@ -41,14 +41,23 @@ const router = createBrowserRouter([
     path: WEBLINKS.MAIN,
     element: (
       <RequireAuth>
+        <UserTeams />
+      </RequireAuth>
+    ),
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: WEBLINKS.MAIN,
+    element: (
+      <RequireAuth>
         <Layout1 />
       </RequireAuth>
     ),
     children: [
-      {
-        path: WEBLINKS.MAIN,
-        element: <UserTeams />,
-      },
+      // {
+      //   path: WEBLINKS.MAIN,
+      //   element: <UserTeams />,
+      // },
       {
         path: WEBLINKS.PROFILE,
         element: <UserProfile />,

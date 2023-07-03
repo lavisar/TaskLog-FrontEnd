@@ -182,7 +182,6 @@ export default function AdminCreate() {
           </div>
 
           <div className='text-center'>
-
             <p className="text-red-500">{errMsg}</p>
             <LoadingButton
               type='submit'
@@ -193,7 +192,7 @@ export default function AdminCreate() {
               variant='contained'
               className="!bg-green-400 !hover:bg-green-600 !rounded-full"
             >
-              <span className='px-5'>Sign Up</span>
+              <span className='px-5'>Create Admin</span>
             </LoadingButton>
           </div>
         </form>
