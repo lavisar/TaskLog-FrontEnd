@@ -68,6 +68,10 @@ const router = createBrowserRouter([
         element: <UserCurrentTeam />,
       },
       {
+        path: `${WEBLINKS.PROJECT}/:teamId`,
+        element: <UserCurrentProject/>,
+      },
+      {
         path: WEBLINKS.TASK,
         element: <TaskBoard />,
       },

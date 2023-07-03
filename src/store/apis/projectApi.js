@@ -3,7 +3,7 @@ import { authApi } from "./features/authApi";
 export const projectApi = authApi.injectEndpoints({
     endpoints: (builder) => ({
         getAllProjects: builder.query({
-            query: () => "/projects",
+            query: () => "/projects/getAll",
         }),
         // createProject: builder.mutation({
         //     query: (body) => {
@@ -14,6 +14,10 @@ export const projectApi = authApi.injectEndpoints({
         //         };
         //     },
         // }),
+
+        findProjectByName: builder.query({
+            query: (name) => `/projects/${name}`,
+          }),
         createProjects: builder.mutation({
             invalidatesTags: (result, error, project) => {
                 return [{type: "ProjectCreate", id: project.teamId}];
@@ -37,7 +41,7 @@ export const projectApi = authApi.injectEndpoints({
         updateProjects: builder.mutation({
             query: (body) => {
                 return{
-                    url: `/projects/${id}`,
+                    url: `/projects/${body.id}`,
                     method: "PUT",
                     body,
                 };
