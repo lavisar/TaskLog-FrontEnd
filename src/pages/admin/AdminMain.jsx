@@ -1,7 +1,11 @@
 import { useSelector } from "react-redux";
 import { selectCurrentUser, selectCurrentToken, selectCurrentRoles } from "../../store/apis/features/authSlice";
+import { useEffect } from "react";
 
 function AdminMain() {
+  useEffect(() => {
+    document.title = "Admin Main Page";
+  }, [])
   const user = useSelector(selectCurrentUser);
   const role = useSelector(selectCurrentRoles);
   const token = useSelector(selectCurrentToken);

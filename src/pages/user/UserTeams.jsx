@@ -20,6 +20,10 @@ export default function UserTeams() {
   const [form, setForm] = useState(false);
 
   useEffect(() => {
+    document.title = "Choose a team";
+  }, [])
+
+  useEffect(() => {
     dispatch(clearTeam());
     dispatch(clearCurrentMember());
   }, [dispatch])
@@ -145,7 +149,11 @@ export default function UserTeams() {
   }
 
   const toolbarHeight = 50;
-  return <Box className="w-screen h-screen">
+  return <Box
+    className="w-screen h-screen"
+    sx={{ overflow: "hidden" }}
+  >
+    <div id="team-background"></div>
     <Toolbar
       variant="dense"
       sx={{
@@ -154,6 +162,7 @@ export default function UserTeams() {
     >
       {/* Put logo on top left */}
     </Toolbar>
+
     <Box sx={{
       minHeight: `calc(100vh - ${toolbarHeight}px)`,
       display: 'grid',
@@ -161,7 +170,9 @@ export default function UserTeams() {
       alignItems: 'center',
     }}>
       <Card className='p-2' sx={{
-        width: 450, position: 'relative', top: toolbarHeight / -2
+        width: 450, position: 'relative',
+        top: toolbarHeight / -2,
+        borderRadius: '20px',
       }}>
         {content}
       </Card>

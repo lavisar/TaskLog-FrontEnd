@@ -18,6 +18,7 @@ function UserLogin() {
   const [login, { isLoading }] = useLoginMutation();
 
   useEffect(() => {
+    document.title = "Login";
     emailRef.current.focus();
   }, [])
 

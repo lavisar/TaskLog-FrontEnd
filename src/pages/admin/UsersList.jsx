@@ -6,8 +6,13 @@ import { WEBLINKS } from "../../store/constants/WebLinks";
 import { CgDetailsMore, CgProfile } from "react-icons/cg";
 import { Card } from "@mui/material";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 function UsersList() {
+  useEffect(() => {
+    document.title = "Users List";
+  }, [])
+
   const { data, isLoading, isSuccess, isError, error } = useGetAllUsersQuery();
   const currentUserId = useSelector((state) => state.user.id);
   let content;

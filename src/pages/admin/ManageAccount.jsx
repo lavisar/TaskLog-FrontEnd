@@ -29,6 +29,7 @@ export default function ManageAccount() {
   const { id: currentId, role: currentRole } = useSelector(selectDetails);
   useEffect(() => {
     if (isSuccess) {
+      document.title = `User ${data.username}`;
       setRole(data.role);
     }
   }, [isSuccess, data])

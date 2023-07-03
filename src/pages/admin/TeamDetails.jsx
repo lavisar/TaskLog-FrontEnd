@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { useDeleteTeamMutation, useGetAllMembersDetailsQuery, useGetTeamQuery } from "../../store";
 import { Box, Button, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { MdDelete } from "react-icons/md";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LoadingButton } from "@mui/lab";
 import { WEBLINKS } from "../../store/constants/WebLinks";
 
@@ -12,6 +12,12 @@ export default function TeamDetails() {
   const [open, setOpen] = useState(false);
 
   const { data, isLoading, isSuccess, isError } = useGetTeamQuery(teamId);
+  useEffect(() => {
+    if (isSuccess) {
+      document.title = `Team ${data.teamName}`;
+    }
+  }, [isSuccess, data])
+
   const { data: membersData, isLoading: membersIsLoading, isSuccess: membersIsSuccess, isError: membersIsError } = useGetAllMembersDetailsQuery(teamId);
   const [deleteTeam, { isLoading: deleting }] = useDeleteTeamMutation();
   const handleDelete = async (e) => {

@@ -4,8 +4,12 @@ import { createSelector } from "reselect";
 import ImageChange from "../shared/profile/ImageChange";
 import DetailsForm from "../shared/profile/DetailsForm";
 import PasswordChange from "../shared/profile/PasswordChange";
+import { useEffect } from "react";
 
 export default function AdminProfile() {
+  useEffect(() => {
+    document.title = "Personal Profile";
+  }, [])
   const selectDetails = createSelector(
     (state) => state.user.id,
     (state) => state.user.email,

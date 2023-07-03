@@ -29,6 +29,7 @@ function UserSignUp() {
   const [signup, { isLoading }] = useSignUpMutation();
 
   useEffect(() => {
+    document.title = "Sign Up";
     emailRef.current.focus();
     setErrMsg('');
   }, [])

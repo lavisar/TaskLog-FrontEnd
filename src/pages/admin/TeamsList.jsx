@@ -5,8 +5,13 @@ import CustomGrid from "../../components/table/CustomGrid";
 import CustomLink from "../../components/CustomLink";
 import { WEBLINKS } from "../../store/constants/WebLinks";
 import { CgDetailsMore } from "react-icons/cg";
+import { useEffect } from "react";
 
 export default function TeamList() {
+  useEffect(() => {
+    document.title = "Teams List";
+  }, [])
+
   const { data, isLoading, isSuccess } = useGetAllTeamsQuery();
 
   let content;

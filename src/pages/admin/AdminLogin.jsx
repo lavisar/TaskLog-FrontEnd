@@ -17,6 +17,7 @@ function AdminLogin() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    document.title = "Login";
     emailRef.current.focus();
   }, [])
 

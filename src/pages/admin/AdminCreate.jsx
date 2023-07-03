@@ -28,6 +28,7 @@ export default function AdminCreate() {
   const [createAdmin, { isLoading }] = useCreateAdminMutation();
 
   useEffect(() => {
+    document.title = "Create Admin";
     emailRef.current.focus();
     setErrMsg('');
   }, [])

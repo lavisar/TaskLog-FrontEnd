@@ -1,3 +1,4 @@
+import "./App.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import UserLogin from "./pages/user/UserLogin";
 import UserSignUp from "./pages/user/UserSignUp";

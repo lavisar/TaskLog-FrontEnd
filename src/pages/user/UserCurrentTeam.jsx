@@ -34,6 +34,12 @@ export default function UserCurrentTeam() {
     // error: teamError
   } = useGetTeamQuery(teamId);
 
+  useEffect(() => {
+    document.title = "Team"
+    if (teamIsSuccess) {
+      document.title = `Team ${teamData.teamName}`;
+    }
+  }, [teamIsSuccess, teamData]);
   const {
     data: currentMemberData,
     isSuccess: currentMemberIsSuccess,
