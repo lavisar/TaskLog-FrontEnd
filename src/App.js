@@ -17,6 +17,7 @@ import Layout1 from "./components/Layout1";
 import TaskBoard from "./pages/task/TaskBoard";
 import AdminProfile from "./pages/admin/AdminProfile";
 import ManageAccount from "./pages/admin/ManageAccount";
+import UserCurrentProject from "./pages/user/UserCurrentProject";
 
 const router = createBrowserRouter([
   {
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
       {
         path: `${WEBLINKS.TEAMS}/:teamId`,
         element: <UserCurrentTeam />,
+      },
+      {
+        path: `${WEBLINKS.PROJECT}/:teamId`,
+        element: <UserCurrentProject/>,
       },
       {
         path: WEBLINKS.TASK,
