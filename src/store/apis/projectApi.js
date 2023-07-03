@@ -3,7 +3,11 @@ import { authApi } from "./features/authApi";
 export const projectApi = authApi.injectEndpoints({
     endpoints: (builder) => ({
         getAllProjects: builder.query({
+<<<<<<< HEAD
             query: () => "/projects/getAll",
+=======
+            query: () => "/projects",
+>>>>>>> a1db39331880bb00614f09f3f08d7303d74afc5d
         }),
         // createProject: builder.mutation({
         //     query: (body) => {
@@ -14,10 +18,13 @@ export const projectApi = authApi.injectEndpoints({
         //         };
         //     },
         // }),
+<<<<<<< HEAD
 
         findProjectByName: builder.query({
             query: (name) => `/projects/${name}`,
           }),
+=======
+>>>>>>> a1db39331880bb00614f09f3f08d7303d74afc5d
         createProjects: builder.mutation({
             invalidatesTags: (result, error, project) => {
                 return [{type: "ProjectCreate", id: project.teamId}];
@@ -41,7 +48,11 @@ export const projectApi = authApi.injectEndpoints({
         updateProjects: builder.mutation({
             query: (body) => {
                 return{
+<<<<<<< HEAD
                     url: `/projects/${body.id}`,
+=======
+                    url: `/projects/${id}`,
+>>>>>>> a1db39331880bb00614f09f3f08d7303d74afc5d
                     method: "PUT",
                     body,
                 };
@@ -50,6 +61,7 @@ export const projectApi = authApi.injectEndpoints({
     }),
 });
 
+<<<<<<< HEAD
 export const {
     useCreateProjectsMutation,
     useDeleteProjectsMutation,
@@ -58,3 +70,5 @@ export const {
     useUpdateProjectsMutation
 } = projectApi
 
+=======
+>>>>>>> a1db39331880bb00614f09f3f08d7303d74afc5d
