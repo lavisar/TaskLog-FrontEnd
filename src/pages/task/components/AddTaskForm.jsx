@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-
+import { useSelector } from "react-redux";
 import { useCreateTaskMutation } from "../../../store";
 
 import {
@@ -19,14 +19,28 @@ import dayjs from "dayjs";
 
 
 export function AddTaskForm({props}) {
+	const taskToShowDetails = useSelector(state => state.tasks.taskToShowDetails);
     const [createTask] = useCreateTaskMutation();
-    const {data, membersData, handleClose} = props;
+    const {data, membersData, handleClose, isCreateNew} = props;
     useEffect(() => {
 		if (membersData) {
 			setOptions([
 				...options,
 				...membersData?.map((member) => member.username),
 			]);
+		}
+		if (!isCreateNew && Object.keys(taskToShowDetails).length > 0) {
+			setTaskName(taskToShowDetails.taskName);
+			setDesc(taskToShowDetails.description);
+			setBrief(taskToShowDetails.brief);
+			setCategory(taskToShowDetails.category);
+			setPriority(taskToShowDetails.priority);
+			setStatus(taskToShowDetails.status);
+			setEstimated(taskToShowDetails.estimated);
+			setStartDate(dayjs(taskToShowDetails.startDate));
+			setDueDate(dayjs(taskToShowDetails.dueDate));
+			setAssignee(taskToShowDetails.user.username);
+			setParentTask(taskToShowDetails.parentTask);
 		}
 	}, [membersData]);
     

@@ -21,7 +21,7 @@ import {
   clearCurrentMember,
 } from "./slices/currentMemberSlice";
 import { taskApi } from "./apis/taskApi";
-import { setTasks, taskReducer } from "./slices/taskSlice";
+import { setTasks, setShowTaskDetails, taskReducer } from "./slices/taskSlice";
 import { teamsApi } from "./apis/teamsApi";
 
 const store = configureStore({
@@ -77,6 +77,7 @@ export {
 
   //task
   setTasks,
+  setShowTaskDetails,
 
   //currentMember
   setCurrentMember,
