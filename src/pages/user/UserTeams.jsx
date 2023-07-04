@@ -153,7 +153,7 @@ export default function UserTeams() {
     className="w-screen h-screen"
     sx={{ overflow: "hidden" }}
   >
-    <div id="team-background"></div>
+    <div id="tasklog-background"></div>
     <Toolbar
       variant="dense"
       sx={{

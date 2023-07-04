@@ -98,14 +98,15 @@ function UserSignUp() {
   }
 
   // styling
-  const toolbarHeight = 45;
+  const toolbarHeight = 80;
   const content = (
     <Box sx={{
       minHeight: '100vh',
     }}>
+      <div id="tasklog-background"></div>
 
       <Toolbar sx={{ minHeight: toolbarHeight }} variant='dense'>
-        <CustomLink to={WEBLINKS.LOGIN}>
+        <CustomLink to={WEBLINKS.LOGIN} className="text-white bg-green-400 rounded-full px-2 py-1 m-2 hover:bg-green-600 font-bold">
           Login
         </CustomLink>
       </Toolbar>

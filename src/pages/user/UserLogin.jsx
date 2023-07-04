@@ -1,10 +1,11 @@
 import { useRef, useState, useEffect } from 'react';
-import { Box, Button, Card, TextField, Toolbar } from '@mui/material';
+import { Box, Card, TextField, Toolbar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { LoadingButton } from '@mui/lab';
 import { setCredentials, useLoginMutation } from '../../store';
 import { WEBLINKS } from '../../store/constants/WebLinks';
+import CustomLink from '../../components/CustomLink';
 
 function UserLogin() {
   const emailRef = useRef();
@@ -42,20 +43,20 @@ function UserLogin() {
   }
   const handleUserInput = e => setUser(e.target.value);
   const handlePwdInput = e => setPwd(e.target.value);
-  const handleSignUp = () => {
-    navigate(WEBLINKS.SIGNUP);
-  }
 
-  const toolbarHeight = 45;
+  const toolbarHeight = 80;
 
   const content = (
     <Box sx={{
       minHeight: '100vh',
       // minHeight: '100dvh',
     }}>
+      <div id="tasklog-background"></div>
 
       <Toolbar sx={{ minHeight: toolbarHeight }} variant='dense'>
-        <Button onClick={handleSignUp}>Sign Up</Button>
+        <CustomLink to={WEBLINKS.SIGNUP} className="text-white bg-green-400 rounded-full px-2 py-1 m-2 hover:bg-green-600 font-bold">
+          Sign Up
+        </CustomLink>
       </Toolbar>
       <Box sx={{
         minHeight: `calc(100vh - ${toolbarHeight}px)`,
