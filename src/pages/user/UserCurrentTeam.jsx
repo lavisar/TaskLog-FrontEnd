@@ -13,6 +13,7 @@ import AddMemberButton from "./components/team/AddMemberButton";
 import UserTeamUpdate from "./components/team/UserTeamUpdate";
 import { useDispatch } from "react-redux";
 import dayjs from "dayjs";
+import UserCurrentProject from "./UserCurrentProject";
 
 export default function UserCurrentTeam() {
   const { teamId } = useParams();
@@ -183,6 +184,8 @@ export default function UserCurrentTeam() {
         <UserTeamUpdate currentMemberIsLoading={currentMemberIsLoading} />
 
       </Card>
+
+      
 
       {/* TABLE ------------------------------------------- */}
       {content}

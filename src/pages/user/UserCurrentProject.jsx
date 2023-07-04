@@ -1,12 +1,17 @@
 import dayjs from "dayjs";
 import { useState } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { TeamRole } from "../../store/constants/Role";
-import { setCurrentMember, setTeam, useGetAllMembersDetailsQuery, useGetCurrentMemberQuery, useGetTeamQuery, useRemoveMemberMutation } from "../../store";
+import { setCurrentMember, setTeam,useGetCurrentMemberQuery, useGetTeamQuery} from "../../store";
+import { setuseGetAllProjectsQuery, useDeleteProjectsMutation } from "../../store";
+
 import { WEBLINKS } from "../../store/constants/WebLinks";
 import { API_INSTANCE } from "../../store/apis/features/apisConst";
 import { Button } from "@mui/material";
+
+
 export default function UserCurrentProject() {
     const { teamId } = useParams();
     const navigate = useNavigate();
