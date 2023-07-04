@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import {
 	Autocomplete,
+	Box,
 	Button,
 	FormControl,
-	FormLabel,
 	InputLabel,
 	MenuItem,
 	Select,
 	TextField,
+    Typography,
 } from "@mui/material";
 import {
 	TaskPriority,
@@ -25,44 +26,7 @@ export const TaskList = ({ taskLst }) => {
 	const [inputValue, setInputValue] = useState("");
 
 	const [rows, setRows] = useState([]);
-	const [columns, setColumns] = useState([]);
 	const [options, setOptions] = useState([""]);
-
-	const config = [
-		{
-			field: "id",
-			headerName: "ID",
-			flex: 1,
-			renderCell: (row) => (
-				<div className="text-center">{row.id}</div>
-			)
-		},
-		{
-			field: "taskName",
-			headerName: "Task",
-			flex: 2,
-		},
-		{ field: "priority", headerName: "Priority", flex: 1 },
-		{ field: "category", headerName: "Category", flex: 1 },
-		{
-			field: "dueDate",
-			headerName: "Due Date",
-			flex: 1,
-		},
-		{
-			field: "assignee",
-			headerName: "Assignee",
-			flex: 1,
-		},
-		{
-			field: "status",
-			headerName: "Status",
-			flex: 1,
-			renderCell: (param) => (
-				<Button variant="outlined" className="text-red-500 !rounded-full">{param.value}</Button>
-			)
-		},
-	];
 
 	useEffect(() => {
 		if (membersData) {
@@ -72,7 +36,7 @@ export const TaskList = ({ taskLst }) => {
 			]);
 		}
 		if (data) {
-			const newRow = data.map((row, index) => {
+			const rowConfig = data.map((row, index) => {
 				return {
 					id: index + 1,
 					taskName: row.taskName,
@@ -83,19 +47,34 @@ export const TaskList = ({ taskLst }) => {
 					status: row.status,
 				};
 			});
-			setRows(newRow);
-			const newColumn = config.map((cell) => {
-				return {
-					field: cell.field,
-					headerName: cell.headerName,
-					flex: cell.flex,
-					valueGetter: cell.valueGetter,
-					renderCell: cell.renderCell
-				};
-			});
-			setColumns(newColumn);
+			setRows(rowConfig);
 		}
 	}, [membersData, data]);
+
+	const columns = [
+		{
+			field: "id",
+			headerName: "ID",
+			flex: 1,
+			renderCell: (row) => <div className="text-center">{row.id}</div>,
+		},
+		{ field: "taskName", headerName: "Task", flex: 2 },
+		{ field: "priority", headerName: "Priority", flex: 1 },
+		{ field: "category", headerName: "Category", flex: 1 },
+		{ field: "dueDate", headerName: "Due Date", flex: 1 },
+		{ field: "assignee", headerName: "Assignee", flex: 1 },
+		{
+			field: "status",
+			headerName: "Status",
+			flex: 1,
+			renderCell: (param) => (
+				<Box component="Typography" className="flex justify-center items-center p-1 w-[150px] bg-[#26BB98] !rounded-[16px]">
+                    <Typography color={'#fff'} fontWeight={500}>{param.value}</Typography>
+                </Box>
+			),
+            
+		},
+	];
 
 	return (
 		<>
@@ -179,25 +158,12 @@ export const TaskList = ({ taskLst }) => {
 					</div>
 				</div>
 				<div>
-					{/* {isLoading ? (
-						<div>Loading...</div>
-					) : err ? (
-						<div>{err}</div>
-					) : (
-						<ul>
-							{data?.map((task, index) => (
-								<div key={index}>
-									{index + 1} - {task.taskName}
-								</div>
-							))}
-						</ul>
-					)} */}
-
 					<div
 						className="mt-6"
 						style={{ height: 400, width: "100%" }}
 					>
 						<DataGrid
+							className="shadow-md shadow-[#00000033] bg-white !rounded-[16px] pl-4"
 							sx={{ width: "100%" }}
 							rows={rows}
 							columns={columns}
@@ -207,6 +173,13 @@ export const TaskList = ({ taskLst }) => {
 								},
 							}}
 							pageSizeOptions={[5, 10]}
+							loading={isLoading}
+							disableColumnFilter
+							rowSelection={false}
+							disableRowSelectionOnClick
+							disableColumnSelector
+							disableDensitySelector
+							disableColumnMenu
 						/>
 					</div>
 				</div>
