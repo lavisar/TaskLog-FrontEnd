@@ -185,7 +185,7 @@ export default function UserCurrentTeam() {
 
       </Card>
 
-      
+      <UserCurrentProject/>
 
       {/* TABLE ------------------------------------------- */}
       {content}

@@ -5,13 +5,11 @@ import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { TeamRole } from "../../store/constants/Role";
 import { setCurrentMember, setTeam,useGetCurrentMemberQuery, useGetTeamQuery} from "../../store";
-import { setuseGetAllProjectsQuery, useDeleteProjectsMutation } from "../../store";
-
+import {useGetAllProjectsQuery, useDeleteProjectsMutation} from "../../store/apis/projectApi"
 import { WEBLINKS } from "../../store/constants/WebLinks";
 import { API_INSTANCE } from "../../store/apis/features/apisConst";
-import { Button } from "@mui/material";
-
-
+import CustomTableSortable from "../../components/table/CustomTableSortable";
+import { Avatar, Box, Button, Card, Modal, Typography } from "@mui/material";
 export default function UserCurrentProject() {
     const { teamId } = useParams();
     const navigate = useNavigate();
@@ -66,6 +64,7 @@ export default function UserCurrentProject() {
       }, [dispatch, navigate, teamData, teamIsError, teamIsSuccess, currentMemberData, currentMemberIsSuccess]);
 
 
+
     const config = [
         {
             id: 'projectname',
@@ -79,24 +78,45 @@ export default function UserCurrentProject() {
             renderCell: (project) => dayjs(project.addedAt).format("MMM. DD, YYYY"),
             sortValue: (project) => project.addedAt,
         },
-        {
-            id: 'remove',
-            label: 'Remove',
-            renderCell: (project) =>{
-                if (member.teamMemberRole === TeamRole.CREATOR){
-                    return '';
-                }
-                if(![TeamRole.CREATOR, TeamRole.ADMINISTRATOR].includes(currentMemberData?.teamMemberRole) && member.teamMemberId !== currentMemberData?.teamMemberId){
-                    return '';
-                }
-                return <div>
-                    <Button onClick={() => handleOpen(project.projectId, project.project.name)}>
+        
+        // {
+        //     id: 'remove',
+        //     label: 'Remove',
+        //     renderCell: (project) =>{
+        //         if (member.teamMemberRole === TeamRole.CREATOR){
+        //             return '';
+        //         }
+        //         if(![TeamRole.CREATOR, TeamRole.ADMINISTRATOR].includes(currentMemberData?.teamMemberRole) && member.teamMemberId !== currentMemberData?.teamMemberId){
+        //             return '';
+        //         }
+        //         return <div>
+        //             <Button onClick={() => handleOpen(project.projectId, project.project.name)}>
 
-                    </Button>
-                </div>
-            }
+        //             </Button>
+        //         </div>
+        //     }
 
-        }
+        // }
 
     ]
+
+    let content2
+    if(projectIsLoading){
+        content2 = <h1>Loading ...</h1>;
+    }else if(projectIsError){
+        console.log(projectError)
+    }else if(projectIsSuccess){
+        content2 = (
+            <Card>
+            <CustomTableSortable data={projectData} config={config} />
+          </Card>
+        )
+    }
+
+    return (
+        <div>
+            {content2}
+        </div>
+    )
+
 }
