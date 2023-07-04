@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import ImageChange from "../shared/profile/ImageChange";
 import DetailsForm from "../shared/profile/DetailsForm";
 import PasswordChange from "../shared/profile/PasswordChange";
+import { useEffect } from "react";
 
 export default function UserProfile() {
   const selectDetails = createSelector(
@@ -16,6 +17,10 @@ export default function UserProfile() {
     (id, email, username, bio, pic) => ({ id, email, username, bio, pic })
   )
   const { id, email, username, bio, pic } = useSelector(selectDetails);
+
+  useEffect(() => {
+    document.title = "User Profile";
+  }, [])
 
   return <Grid container spacing={2}>
     <Grid item sm={12} md={4}>

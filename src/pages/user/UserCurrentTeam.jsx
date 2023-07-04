@@ -12,6 +12,8 @@ import { TeamRole } from "../../store/constants/Role";
 import AddMemberButton from "./components/team/AddMemberButton";
 import UserTeamUpdate from "./components/team/UserTeamUpdate";
 import { useDispatch } from "react-redux";
+import dayjs from "dayjs";
+import UserCurrentProject from "./UserCurrentProject";
 
 export default function UserCurrentTeam() {
   const { teamId } = useParams();
@@ -33,6 +35,12 @@ export default function UserCurrentTeam() {
     // error: teamError
   } = useGetTeamQuery(teamId);
 
+  useEffect(() => {
+    document.title = "Team"
+    if (teamIsSuccess) {
+      document.title = `Team ${teamData.teamName}`;
+    }
+  }, [teamIsSuccess, teamData]);
   const {
     data: currentMemberData,
     isSuccess: currentMemberIsSuccess,
@@ -131,7 +139,7 @@ export default function UserCurrentTeam() {
     {
       id: 'addedAt',
       label: 'Joined Date',
-      renderCell: (member) => member.addedAt,
+      renderCell: (member) => dayjs(member.addedAt).format('MMM. DD, YYYY'),
       sortValue: (member) => member.addedAt,
     },
     {
@@ -176,6 +184,8 @@ export default function UserCurrentTeam() {
         <UserTeamUpdate currentMemberIsLoading={currentMemberIsLoading} />
 
       </Card>
+
+      
 
       {/* TABLE ------------------------------------------- */}
       {content}

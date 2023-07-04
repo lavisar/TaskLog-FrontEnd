@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { API_INSTANCE } from "../../../store/apis/features/apisConst";
 import { setUser, useDeleteImageMutation, useUpdateUserMutation } from "../../../store";
 
-export default function ImageChange({ data }) {
+export default function ImageChange({ data, admin }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -62,44 +62,46 @@ export default function ImageChange({ data }) {
           </Avatar>
         )}
       </div>
-      <form onSubmit={handleUpdate}>
-        <label className="block">
-          <span className="sr-only">Choose profile</span>
-          <input type="file"
-            className="block w-full text-sm text-slate-500 
+      {admin || (
+        <form onSubmit={handleUpdate}>
+          <label className="block">
+            <span className="sr-only">Choose profile</span>
+            <input type="file"
+              className="block w-full text-sm text-slate-500 
           file:mr-4 file:py-2 file:px-4 
           file:rounded-full file:border-0
           file:text-sm file:font-semibold
           file:bg-green-50 file:text-green-500
           hover:file:bg-green-100 cursor-pointer"
-            id="pic"
-            onChange={(e) => setImage(e.target.files[0])}
-          />
-        </label>
+              id="pic"
+              onChange={(e) => setImage(e.target.files[0])}
+            />
+          </label>
 
-        {image && (
-          <div>
-            {requestError ? (
-              <p className="text-red-300 text-sm">{requestError}</p>
-            ) : ''}
+          {image && (
+            <div>
+              {requestError ? (
+                <p className="text-red-300 text-sm">{requestError}</p>
+              ) : ''}
 
-            <div className="flex m-2">
-              <LoadingButton
-                type='submit'
-                size='small'
-                loading={Updating}
-                loadingIndicator="Updating..."
-                // loadingPosition='end'
-                variant='contained'
-                className="!bg-green-400 !hover:bg-green-600 !rounded-full"
-              >
-                <span className='px-5'>Update profile picture</span>
-              </LoadingButton>
-              <Button onClick={() => setImage(null)}>Cancel</Button>
+              <div className="flex m-2">
+                <LoadingButton
+                  type='submit'
+                  size='small'
+                  loading={Updating}
+                  loadingIndicator="Updating..."
+                  // loadingPosition='end'
+                  variant='contained'
+                  className="!bg-green-400 !hover:bg-green-600 !rounded-full"
+                >
+                  <span className='px-5'>Update profile picture</span>
+                </LoadingButton>
+                <Button onClick={() => setImage(null)}>Cancel</Button>
+              </div>
             </div>
-          </div>
-        )}
-      </form>
+          )}
+        </form>
+      )}
 
       <Button
         size='small'

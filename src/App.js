@@ -1,3 +1,4 @@
+import "./App.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import UserLogin from "./pages/user/UserLogin";
 import UserSignUp from "./pages/user/UserSignUp";
@@ -17,6 +18,9 @@ import Layout1 from "./components/Layout1";
 import TaskBoard from "./pages/task/TaskBoard";
 import AdminProfile from "./pages/admin/AdminProfile";
 import ManageAccount from "./pages/admin/ManageAccount";
+import TeamList from "./pages/admin/TeamsList";
+import TeamDetails from "./pages/admin/TeamDetails";
+import AdminCreate from "./pages/admin/AdminCreate";
 import UserCurrentProject from "./pages/user/UserCurrentProject";
 
 const router = createBrowserRouter([
@@ -39,14 +43,23 @@ const router = createBrowserRouter([
     path: WEBLINKS.MAIN,
     element: (
       <RequireAuth>
+        <UserTeams />
+      </RequireAuth>
+    ),
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: WEBLINKS.MAIN,
+    element: (
+      <RequireAuth>
         <Layout1 />
       </RequireAuth>
     ),
     children: [
-      {
-        path: WEBLINKS.MAIN,
-        element: <UserTeams />,
-      },
+      // {
+      //   path: WEBLINKS.MAIN,
+      //   element: <UserTeams />,
+      // },
       {
         path: WEBLINKS.PROFILE,
         element: <UserProfile />,
@@ -91,12 +104,26 @@ const router = createBrowserRouter([
         element: <AdminProfile />,
       },
       {
+        path: WEBLINKS.ADMIN_CREATE,
+        element: <AdminCreate />,
+      },
+      {
         path: WEBLINKS.ADMIN_ALL_USERS,
         element: <UsersList />,
       },
       {
         path: `${WEBLINKS.ADMIN_MANAGE_ACCOUNT}/:accountId`,
         element: <ManageAccount />,
+      },
+
+      // team
+      {
+        path: WEBLINKS.ADMIN_ALL_TEAMS,
+        element: <TeamList />,
+      },
+      {
+        path: `${WEBLINKS.ADMIN_TEAM_DETAIL}/:teamId`,
+        element: <TeamDetails />,
       },
     ],
     errorElement: <ErrorPage />,

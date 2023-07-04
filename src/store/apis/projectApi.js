@@ -50,11 +50,12 @@ export const projectApi = authApi.injectEndpoints({
     }),
 });
 
-export const {
+export const{
     useCreateProjectsMutation,
     useDeleteProjectsMutation,
-    useFindProjectByNameQuery,
     useGetAllProjectsQuery,
-    useUpdateProjectsMutation
+    useUpdateProjectsMutation,
+    
+
 } = projectApi
 

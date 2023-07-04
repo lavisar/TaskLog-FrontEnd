@@ -2,10 +2,10 @@ export const WEBLINKS = {
   HOME: "/home",
   LOGIN: "/login",
   SIGNUP: "/sign-up",
+  PROFILE: "/profile",
 
   MAIN: "/",
   TEAMS: "/teams",
-  PROFILE: "/profile",
 
   TASK: "/task",
 
@@ -21,4 +21,5 @@ export const WEBLINKS = {
   ADMIN_CREATE: "/admin/create-admin",
 
   ADMIN_ALL_TEAMS: "/admin/all-teams",
+  ADMIN_TEAM_DETAIL: "/admin/team",
 };
