@@ -13,8 +13,9 @@ function TaskBoard() {
 
 	const [open, setOpen] = useState(false);
 	const [showAsList, setShowAsList] = useState(true);
-
+	const [isCreateNew, setIsCreateNew] = useState(false);
 	const handleClickOpen = () => {
+		setIsCreateNew(false);
 		setOpen(true);
 	};
 
@@ -28,50 +29,71 @@ function TaskBoard() {
 
 	return (
 		<>
-			<div className="flex">
-				<div className="w-full">
-					<div className="flex justify-between">
-						<Button variant="contained" onClick={handleClickOpen}>
-							+ NEW TASK
-						</Button>
-						<div className="flex gap-2">
+			<div className="container mx-auto">
+				<div className="flex">
+					<div className="w-full">
+						<div className="flex justify-between">
 							<Button
 								variant="contained"
-								disabled={!showAsList}
-								onClick={handleShowType}
+								onClick={() => {
+									setIsCreateNew(true);
+									setOpen(true);
+								}}
 							>
-								COLUMNS
+								+ NEW TASK
 							</Button>
-							<Button
-								variant="contained"
-								disabled={showAsList}
-								onClick={handleShowType}
-							>
-								LISTS
-							</Button>
+							<div className="flex gap-2">
+								<Button
+									variant="contained"
+									disabled={!showAsList}
+									onClick={handleShowType}
+								>
+									COLUMNS
+								</Button>
+								<Button
+									variant="contained"
+									disabled={showAsList}
+									onClick={handleShowType}
+								>
+									LISTS
+								</Button>
+							</div>
 						</div>
+						<Dialog
+							className="w-screen"
+							fullWidth={true}
+							maxWidth={"md"}
+							open={open}
+							onClose={handleClose}
+							sx={{
+								overflow: "auto",
+							}}
+						>
+							<AddTaskForm
+								props={{
+									data,
+									membersData,
+									isCreateNew,
+									handleClose,
+								}}
+							/>
+						</Dialog>
 					</div>
-					<Dialog
-						className="w-screen"
-						fullWidth={true}
-						maxWidth={"md"}
-						open={open}
-						onClose={handleClose}
-						sx={{
-							overflow: "auto",
-						}}
-					>
-						<AddTaskForm
-							props={{ data, membersData, handleClose }}
-						/>
-					</Dialog>
 				</div>
+				{showAsList ? (
+					<TaskList
+						taskLst={{
+							data,
+							membersData,
+							isLoading,
+							err,
+							handleClickOpen,
+						}}
+					/>
+				) : (
+					<TaskColumn />
+				)}
 			</div>
-			{showAsList ? (
-				<TaskList taskLst={{ data, isLoading, err }} />
-			) : (
-				<TaskColumn />
-			)}
 		</>
 	);
 }
