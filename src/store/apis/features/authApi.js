@@ -34,6 +34,7 @@ const baseQuery = fetchBaseQuery({
 const refreshToken = createAsyncThunk(
   "auth/refreshtoken",
   async (_, { getState }) => {
+    console.log("Sending refresh token...");
     const refreshToken = selectCurrentRefreshToken(getState());
     const response = await axios.post(
       `${API_INSTANCE.BASE_URL}/auth/refreshtoken`,
@@ -43,20 +44,46 @@ const refreshToken = createAsyncThunk(
   }
 );
 
+// For multiple unauthenticated synchronous requests
+let refreshResult = null;
+let isFetchingToken = false;
+const waitForRefreshToken = async (api, triesLeft = 5) => {
+  // wait for the first one to be done
+  if (!isFetchingToken) {
+    isFetchingToken = true;
+    refreshResult = await api.dispatch(refreshToken());
+    isFetchingToken = false;
+  } else {
+    await new Promise((resolve, reject) => {
+      const interval = setInterval(() => {
+        if (!isFetchingToken) {
+          clearInterval(interval);
+          resolve();
+        } else if (triesLeft <= 1) {
+          reject();
+          clearInterval(interval);
+        }
+        console.log(isFetchingToken);
+        triesLeft--;
+      }, 200);
+    });
+  }
+  return refreshResult;
+};
+
 const baseQueryWithReauth = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
   console.log(args);
   if (result?.error?.status === 401) {
     const hasRefreshToken = store.getState().auth.refreshToken;
     if (hasRefreshToken) {
-      console.log("sending refresh token");
       try {
         // fetch new token
-        const refreshResult = await api.dispatch(refreshToken());
-        if (refreshResult?.payload) {
+        const refreshDone = await waitForRefreshToken(api);
+        if (refreshDone?.payload) {
           const user = api.getState().auth.user;
           // store new token
-          api.dispatch(setCredentials({ ...refreshResult.payload, user }));
+          api.dispatch(setCredentials({ ...refreshDone.payload, user }));
           // retry the orginal query with new access token
           result = await baseQuery(args, api, extraOptions);
         } else {
