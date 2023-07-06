@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { LOCAL_STORAGE_KEYS } from "../../constants/LocalStorageKeys";
 
 const localStorageKey = "TaskLogCredentials";
 function decodeValue(key) {
@@ -31,10 +30,7 @@ const authSlice = createSlice({
     },
     logOut: (state, action) => {
       // remove all local storage upone logging out
-      localStorage.removeItem(localStorageKey);
-      localStorage.removeItem(LOCAL_STORAGE_KEYS.TEAM);
-      localStorage.removeItem(LOCAL_STORAGE_KEYS.CURRENT_MEMBER);
-      localStorage.removeItem(LOCAL_STORAGE_KEYS.USER);
+      localStorage.clear();
       state.user = null;
       state.roles = null;
       state.token = null;

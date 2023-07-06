@@ -6,9 +6,9 @@
   background: linear-gradient(
       to bottom,
       rgb(255, 255, 255),
-      rgba(255, 255, 255, 1) 30%,
+      rgba(255, 255, 255, 1) 25%,
       rgba(255, 255, 255, 0.8) 40%,
-      rgba(169, 169, 169, 0.322) 70%
+      rgba(255, 255, 255, 0.2) 70%
     ),
     linear-gradient(
       145deg,
