@@ -15,6 +15,10 @@ export const projectApi = authApi.injectEndpoints({
         //     },
         // }),
 
+        getProject: builder.query({
+            query: (projectId) => `/projects/get/${projectId}`,
+        }),
+
         findProjectByName: builder.query({
             query: (name) => `/projects/${name}`,
           }),
@@ -55,7 +59,7 @@ export const{
     useDeleteProjectsMutation,
     useGetAllProjectsQuery,
     useUpdateProjectsMutation,
-    
+    useGetProjectQuery
 
 } = projectApi
 
