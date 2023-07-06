@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { LOCAL_STORAGE_KEYS } from "../constants/LocalStorageKeys";
 
-const teamKey = LOCAL_STORAGE_KEYS.TEAM;
+const teamKey = LOCAL_STORAGE_KEYS.PROJECT;
 function decodeValue(key) {
   if (localStorage.getItem(teamKey)) {
     return JSON.parse(localStorage.getItem(teamKey))[key];

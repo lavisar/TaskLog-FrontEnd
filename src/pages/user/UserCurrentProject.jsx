@@ -138,7 +138,8 @@ export default function UserCurrentProject() {
     } else if (projectIsError) {
         console.log(projectError)
     } else if (projectIsSuccess) {
-        const teamProjects = projectData.filter(project => project.teamId === teamId);
+        const teamProjects = projectData.filter(project => project.team_id === teamId);
+        console.log(teamProjects);
         content2 = (
           <Card>
             <CustomTableSortable data={teamProjects} config={config} />

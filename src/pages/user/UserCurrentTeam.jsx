@@ -182,10 +182,11 @@ export default function UserCurrentTeam() {
     <div>
       <Card className="mb-10 px-3 py-10 !rounded-lg">
         <UserTeamUpdate currentMemberIsLoading={currentMemberIsLoading} />
-
       </Card>
 
-      <UserCurrentProject/>
+      <Card className="mb-10">
+        <UserCurrentProject />
+      </Card>
 
       {/* TABLE ------------------------------------------- */}
       {content}
