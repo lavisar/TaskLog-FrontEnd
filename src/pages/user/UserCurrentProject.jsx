@@ -91,12 +91,14 @@ export default function UserCurrentProject() {
 
     const handleRemove = async (projectId) => {
         try {
-            const result = await remove(projectId).unwrap();
-            if (result?.error) {
-                console.log("Project cannot be removed");
+            const result = await remove(projectId);
+            console.log(result);
+            if (result?.error.originalStatus === 200) {
+                setOpen(false);
                 return;
             }
-            setOpen(false);
+            console.log("Project cannot be removed");
+            return;
         } catch (error) {
             console.log(error);
         }
