@@ -24,7 +24,7 @@ export const projectApi = authApi.injectEndpoints({
           }),
         createProjects: builder.mutation({
             invalidatesTags: (result, error, project) => {
-                return [{type: "ProjectCreate", id: project.teamId}];
+                return [{type: "ProjectCreate", id: project.team_id}];
             },
             query: (body) => {
                 return {

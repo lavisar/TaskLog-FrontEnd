@@ -12,6 +12,8 @@ import CustomTableSortable from "../../components/table/CustomTableSortable";
 import { Avatar, Box, Button, Card, Modal, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { IoRemoveCircleSharp } from 'react-icons/io5';
+import AddProjectButton from "./AddProjectButton";
+
 export default function UserCurrentProject() {
     const { teamId } = useParams();
     const navigate = useNavigate();
@@ -81,16 +83,16 @@ export default function UserCurrentProject() {
     }, [dispatch, navigate, teamData, teamIsError, teamIsSuccess, currentMemberData, currentMemberIsSuccess]);
 
 
-    const handleOpen = (id, name) => {
+    const handleOpen = (id, projectName) => {
         setOpen(true);
         setProjectId(id);
-        setName(name);
+        setName(projectName);
     }
 
     const handleRemove = async (projectId) => {
         try {
             const result = await remove(projectId);
-            if (result?.error?.data) {
+            if (result?.error) {
                 console.log("Project cannot be removed");
                 return;
             }
@@ -119,7 +121,7 @@ export default function UserCurrentProject() {
             label: 'Remove',
             renderCell: (project) => {
                 return <div>
-                    <Button onClick={() => handleOpen(project.projectId, project.projectName)}
+                    <Button onClick={() => handleOpen(project.id, project.projectName)}
                         className="!rounded-full aspect-square !min-w-min hover:!bg-red-300"
                     >
                         <IoRemoveCircleSharp className="text-lg text-red-400" />
@@ -138,13 +140,13 @@ export default function UserCurrentProject() {
     } else if (projectIsError) {
         console.log(projectError)
     } else if (projectIsSuccess) {
-        const teamProjects = projectData.filter(project => project.team_id === teamId);
-        console.log(teamProjects);
-        content2 = (
-          <Card>
-            <CustomTableSortable data={teamProjects} config={config} />
-          </Card>
-        );
+         const teamProjects = projectData.filter(project => project.team_id === teamId);
+  content2 = (
+    <Card>
+        <AddProjectButton/>
+      <CustomTableSortable data={teamProjects} config={config} />
+    </Card>
+  );
     }
 
     return (
@@ -167,17 +169,14 @@ export default function UserCurrentProject() {
                     boxShadow: 24,
                     p: 4,
                 }}>
-                    {projectId === getProjectIsLoading?.projectId ? (
+                    {projectId === getProjectIsLoading?.id ? (
                         <Typography id="remove-member-modal" variant="h6" className="text-center">
-                            Do you want to remove this project?
+                            Do you want to remove this project? 
                         </Typography>
                     ) : (
                         <div>
                             <Typography id="remove-member-modal" variant="h6" className="text-center">
                                 Do you want to remove this project?
-                            </Typography>
-                            <Typography id="modal-description" sx={{ mt: 2 }} className="text-center !flex-column">
-                                <span>Username: {name}</span>
                             </Typography>
                         </div>
                     )}
@@ -189,7 +188,7 @@ export default function UserCurrentProject() {
                             color="error"
                             className=""
                         >
-                            {projectId === getProjectIsLoading?.projectId ? 'Yes' : 'Remove'}
+                            {projectId === getProjectData?.id ? 'Yes' : 'Remove'}
                         </LoadingButton>
                         <Button onClick={() => setOpen(false)}>
                             Cancel
