@@ -33,7 +33,6 @@ export const projectApi = authApi.injectEndpoints({
         return [{ type: "ProjectCreate", id: "CreateProj" }];
       },
       query: (body) => {
-        console.log(body);
         return {
           url: `/projects/create`,
           method: "POST",
