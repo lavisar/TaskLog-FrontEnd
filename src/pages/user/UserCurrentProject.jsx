@@ -91,7 +91,7 @@ export default function UserCurrentProject() {
 
     const handleRemove = async (projectId) => {
         try {
-            const result = await remove(projectId);
+            const result = await remove(projectId).unwrap();
             if (result?.error) {
                 console.log("Project cannot be removed");
                 return;
@@ -140,13 +140,13 @@ export default function UserCurrentProject() {
     } else if (projectIsError) {
         console.log(projectError)
     } else if (projectIsSuccess) {
-         const teamProjects = projectData.filter(project => project.team_id === teamId);
-  content2 = (
-    <Card>
-        <AddProjectButton/>
-      <CustomTableSortable data={teamProjects} config={config} />
-    </Card>
-  );
+        const teamProjects = projectData.filter(project => project.team_id === teamId);
+        content2 = (
+            <Card>
+                <AddProjectButton />
+                <CustomTableSortable data={teamProjects} config={config} />
+            </Card>
+        );
     }
 
     return (
@@ -171,7 +171,7 @@ export default function UserCurrentProject() {
                 }}>
                     {projectId === getProjectIsLoading?.id ? (
                         <Typography id="remove-member-modal" variant="h6" className="text-center">
-                            Do you want to remove this project? 
+                            Do you want to remove this project?
                         </Typography>
                     ) : (
                         <div>
