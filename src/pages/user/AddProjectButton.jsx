@@ -12,7 +12,7 @@ export default function AddProjectButton() {
     const [open, setOpen] = useState(false);
     const anchorRef = useRef(null);
 
-    const { id } = useSelector(state => state.team);
+    const id = useSelector(state => state.team.id);
     const [createProjects, { isLoading }] = useCreateProjectsMutation();
 
     const handlePopperClose = (event) => {
@@ -29,13 +29,13 @@ export default function AddProjectButton() {
         }
     }
 
-    const handleSubmit = async n =>{
+    const handleSubmit = async n => {
         n.preventDefault();
-        if(name.trim()=== ''){
+        if (name.trim() === '') {
             return;
         }
         try {
-            await createProjects({name, team_id: id});
+            await createProjects({ name, team_id: id });
             setOpen(false);
             setName('');
         } catch (error) {

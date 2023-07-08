@@ -7,6 +7,7 @@ export const projectApi = authApi.injectEndpoints({
       providesTags: (result, error, project) => {
         const tags = [];
         tags.push({ type: "ProjectDelete", id: "DelProj" });
+        tags.push({ type: "ProjectCreate", id: "CreateProj" });
         return tags;
       },
     }),
@@ -29,13 +30,15 @@ export const projectApi = authApi.injectEndpoints({
     }),
     createProjects: builder.mutation({
       invalidatesTags: (result, error, project) => {
-        return [{ type: "ProjectCreate", id: project.team_id }];
+        return [{ type: "ProjectCreate", id: "CreateProj" }];
       },
       query: (body) => {
+        console.log(body);
         return {
-          url: "/projects/create",
+          url: `/projects/create`,
           method: "POST",
           body,
+          params: { teamId: body.team_id },
         };
       },
     }),
