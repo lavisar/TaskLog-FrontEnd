@@ -3,7 +3,6 @@ import { useDispatch } from "react-redux";
 import {
 	Autocomplete,
 	Box,
-	Button,
 	FormControl,
 	InputLabel,
 	MenuItem,
@@ -16,14 +15,14 @@ import {
 	TaskCategory,
 	TaskStatus,
 } from "../../../store/constants/TaskConstant";
-import { setShowTaskDetails } from "../../../store"
+import { setShowTaskDetails } from "../../../store";
 import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-
+import { ArrowDownward, ArrowForward, ArrowUpward } from "@mui/icons-material";
 
 export const TaskList = ({ taskLst }) => {
 	const dispatch = useDispatch();
-	const { data, membersData, isLoading, err, handleClickOpen } = taskLst;
+	const { data, membersData, isLoading, handleClickOpen } = taskLst;
 	const [category, setCategory] = useState("");
 	const [status, setStatus] = useState("");
 	const [priority, setPriority] = useState("");
@@ -35,9 +34,7 @@ export const TaskList = ({ taskLst }) => {
 
 	useEffect(() => {
 		if (membersData) {
-			setOptions([
-				...membersData?.map((member) => member.username),
-			]);
+			setOptions([...membersData?.map((member) => member.username)]);
 		}
 		if (data) {
 			const rowConfig = data.map((row, index) => {
@@ -63,9 +60,23 @@ export const TaskList = ({ taskLst }) => {
 			flex: 1,
 			renderCell: (row) => <div className="text-center">{row.id}</div>,
 		},
-		{ field: "taskId", headerName: "taskId", flex: 2},
+		{ field: "taskId", headerName: "taskId", flex: 2 },
 		{ field: "taskName", headerName: "Task", flex: 2 },
-		{ field: "priority", headerName: "Priority", flex: 1 },
+		{ 
+			field: "priority", 
+			headerName: "Priority", 
+			flex: 1,
+			renderCell: (cell) => {
+				switch(cell.value) {
+					case TaskPriority.HIGH:
+						return <ArrowUpward sx={{color: "#f42858"}} />
+					case TaskPriority.NORMAL: 
+						return <ArrowForward sx={{color: "#4488c5"}} />
+					default: 
+						return <ArrowDownward sx={{color: "#5eb5a6"}} />
+				}
+			}  
+		},
 		{ field: "category", headerName: "Category", flex: 1 },
 		{ field: "dueDate", headerName: "Due Date", flex: 1 },
 		{ field: "assignee", headerName: "Assignee", flex: 1 },
@@ -75,7 +86,9 @@ export const TaskList = ({ taskLst }) => {
 			flex: 1,
 			renderCell: (param) => (
 				<Box
-					className="flex justify-center items-center p-1 w-[150px] bg-[#26BB98] !rounded-[16px]"
+					className={`flex justify-center items-center p-1 w-[150px] bg-[${setStatusColor(
+						param.value
+					)}] !rounded-[16px]`}
 				>
 					<Typography color={"#fff"} fontWeight={500}>
 						{param.value}
@@ -85,12 +98,24 @@ export const TaskList = ({ taskLst }) => {
 		},
 	];
 
+	const setStatusColor = (status) => {
+		switch (status) {
+			case TaskStatus.INPROGRESS:
+				return "#FFBA49";
+			case TaskStatus.RESOLVED:
+				return "#BB2649";
+			case TaskStatus.CLOSED:
+				return "#8C8C8C";
+			default:
+				return "#26BB98";
+		}
+	};
+
 	const handleRowClick = (taskId) => {
 		const taskRow = data.find((dataRow) => dataRow.id === taskId);
 		dispatch(setShowTaskDetails(taskRow));
 		handleClickOpen(true);
-
-	}
+	};
 
 	return (
 		<>
@@ -187,9 +212,11 @@ export const TaskList = ({ taskLst }) => {
 								setInputValue(newInputValue);
 							}}
 							options={options}
-							isOptionEqualToValue={(option, value) => option.value === value.value}
+							isOptionEqualToValue={(option, value) =>
+								option.value === value.value
+							}
 							renderInput={(params) => (
-								<TextField {...params} label="Assignee"/>
+								<TextField {...params} label="Assignee" />
 							)}
 						/>
 					</div>
@@ -201,7 +228,13 @@ export const TaskList = ({ taskLst }) => {
 					>
 						<DataGrid
 							className="shadow-md shadow-[#00000033] bg-white !rounded-[16px] pl-4"
-							sx={{ width: "100%", '& .MuiDataGrid-row': { cursor: 'pointer' }, '& .MuiDataGrid-cell:focus': {outline: 'none'} }}
+							sx={{
+								width: "100%",
+								"& .MuiDataGrid-row": { cursor: "pointer" },
+								"& .MuiDataGrid-cell:focus": {
+									outline: "none",
+								},
+							}}
 							rows={rows}
 							columns={columns}
 							initialState={{
@@ -219,8 +252,10 @@ export const TaskList = ({ taskLst }) => {
 							disableColumnMenu
 							columnVisibilityModel={{
 								taskId: false,
-							  }}
-							onRowClick={(params) => handleRowClick(params.row.taskId)}
+							}}
+							onRowClick={(params) =>
+								handleRowClick(params.row.taskId)
+							}
 						/>
 					</div>
 				</div>
