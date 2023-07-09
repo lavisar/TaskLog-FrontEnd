@@ -5,7 +5,7 @@ import { API_INSTANCE } from "../../store/apis/features/apisConst";
 import CustomTableSortable from "../../components/table/CustomTableSortable";
 import UserCurrentTeamRole from "./components/team/UserCurrentTeamRole";
 import { IoPersonRemove } from 'react-icons/io5';
-import { Avatar, Box, Button, Card, Modal, Typography } from "@mui/material";
+import { Avatar, Box, Button, Card, LinearProgress, Modal, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { useEffect, useState } from "react";
 import { TeamRole } from "../../store/constants/Role";
@@ -165,7 +165,7 @@ export default function UserCurrentTeam() {
 
   let content
   if (membersIsLoading) {
-    content = <h1>Loading...</h1>;
+    content = <LinearProgress color="success" />;
   } else if (membersIsError) {
     console.log(membersError)
   } else if (membersIsSuccess) {

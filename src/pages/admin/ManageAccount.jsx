@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useChangeAdminRoleMutation, useDeleteUserMutation, useGetUserQuery } from "../../store";
 import { useEffect, useState } from "react";
-import { Box, Button, FormControl, InputLabel, MenuItem, Modal, Paper, Select, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from "@mui/material";
+import { Box, Button, FormControl, InputLabel, LinearProgress, MenuItem, Modal, Paper, Select, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from "@mui/material";
 import { UserRole } from "../../store/constants/Role";
 import { useSelector } from "react-redux";
 import { LoadingButton } from "@mui/lab";
@@ -63,7 +63,7 @@ export default function ManageAccount() {
 
   let content;
   if (isLoading) {
-    content = <div>Loading...</div>
+    content = <LinearProgress color="success" />
   } else if (isSuccess) {
     content = (
       <div>

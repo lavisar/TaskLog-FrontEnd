@@ -1,4 +1,4 @@
-import { Card } from "@mui/material";
+import { Card, LinearProgress } from "@mui/material";
 import { useGetAllTeamsQuery } from "../../store";
 import TeamCreator from "./components/team/TeamCreator";
 import CustomGrid from "../../components/table/CustomGrid";
@@ -16,7 +16,7 @@ export default function TeamList() {
 
   let content;
   if (isLoading) {
-    content = <p>Loading...</p>;
+    content = <LinearProgress color="success" />
   } else if (isSuccess) {
     const config = [
       {

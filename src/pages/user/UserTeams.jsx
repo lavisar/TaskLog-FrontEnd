@@ -1,4 +1,4 @@
-import { Box, Button, Card, IconButton, TextField, Toolbar } from "@mui/material";
+import { Box, Button, Card, IconButton, LinearProgress, TextField, Toolbar } from "@mui/material";
 import { clearCurrentMember, clearTeam, setTeam, useCreateTeamMutation, useGetAllUserTeamsQuery } from "../../store";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -95,7 +95,7 @@ export default function UserTeams() {
 
   let content;
   if (isLoading) {
-    content = <p>Loading...</p>;
+    content = <LinearProgress color="success" />;
   } else if (isSuccess) {
     if (data.length === 0) {
       content = <div>

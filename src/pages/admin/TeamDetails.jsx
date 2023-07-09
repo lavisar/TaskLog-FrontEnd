@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom"
 import { useDeleteTeamMutation, useGetAllMembersDetailsQuery, useGetTeamQuery } from "../../store";
-import { Box, Button, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, Button, LinearProgress, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { MdDelete } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { LoadingButton } from "@mui/lab";
@@ -36,7 +36,7 @@ export default function TeamDetails() {
 
   let content;
   if (isLoading) {
-    content = <p>Loading...</p>
+    content = <LinearProgress color="success" />
   } else if (isSuccess) {
     content = <div>
       <TableContainer component={Paper}>
@@ -68,7 +68,7 @@ export default function TeamDetails() {
 
   let members;
   if (membersIsLoading) {
-    members = <p>Loading...</p>
+    members = <LinearProgress color="success" />
   } else if (membersIsError) {
     members = <p>Error loading members</p>
   } else if (membersIsSuccess) {

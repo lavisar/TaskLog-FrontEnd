@@ -4,7 +4,7 @@ import { API_INSTANCE } from "../../store/apis/features/apisConst";
 import CustomLink from "../../components/CustomLink";
 import { WEBLINKS } from "../../store/constants/WebLinks";
 import { CgDetailsMore, CgProfile } from "react-icons/cg";
-import { Card } from "@mui/material";
+import { Card, LinearProgress } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 
@@ -17,7 +17,7 @@ function UsersList() {
   const currentUserId = useSelector((state) => state.user.id);
   let content;
   if (isLoading) {
-    content = <p>Loading...</p>;
+    content = <LinearProgress color="success" />;
   } else if (isSuccess) {
     const config = [
       {
