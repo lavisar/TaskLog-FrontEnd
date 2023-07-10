@@ -11,6 +11,8 @@ export const WEBLINKS = {
 
   PROJECT: "/project",
 
+  MILESTONE: "/milestone",
+
   //
   // admins links
   ADMIN_MAIN: "/admin",
@@ -22,4 +24,7 @@ export const WEBLINKS = {
 
   ADMIN_ALL_TEAMS: "/admin/all-teams",
   ADMIN_TEAM_DETAIL: "/admin/team",
+
+  ADMIN_ALL_PROJECTS: "/admin/all-projects",
+  ADMIN_PROJECT_DETAIL: "/admin/project",
 };

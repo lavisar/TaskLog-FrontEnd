@@ -106,6 +106,12 @@ export default function UserCurrentProject() {
 
     const config = [
         {
+            id: 'projectId',
+            label: 'Project Id',
+            renderCell: (project) => project.id,
+            sortValue: (project) => project.id,
+        },
+        {
             id: 'projectname',
             label: 'Project Name',
             renderCell: (project) => project.name,
