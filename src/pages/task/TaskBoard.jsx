@@ -5,6 +5,7 @@ import { Button, Dialog } from "@mui/material";
 import { TaskList } from "./components/TaskList";
 import { TaskColumn } from "./components/TaskColumn";
 import AddTaskForm from "./components/AddTaskForm";
+import TaskDetailForm from "./components/TaskDetailForm";
 
 function TaskBoard() {
 	const teamSelect = useSelector((state) => state.team.id);
@@ -69,14 +70,23 @@ function TaskBoard() {
 								overflow: "auto",
 							}}
 						>
-							<AddTaskForm
-								props={{
-									data,
-									membersData,
-									isCreateNew,
-									handleClose,
-								}}
-							/>
+							{isCreateNew ? (
+								<AddTaskForm
+									props={{
+										data,
+										membersData,
+										handleClose,
+									}}
+								/>
+							) : (
+								<TaskDetailForm
+									props={{
+										data,
+										membersData,
+										handleClose,
+									}}
+								/>
+							)}
 						</Dialog>
 					</div>
 				</div>
