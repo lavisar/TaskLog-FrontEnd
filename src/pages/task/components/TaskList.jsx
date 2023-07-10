@@ -86,9 +86,7 @@ export const TaskList = ({ taskLst }) => {
 			flex: 1,
 			renderCell: (param) => (
 				<Box
-					className={`flex justify-center items-center p-1 w-[150px] bg-[${setStatusColor(
-						param.value
-					)}] !rounded-[16px]`}
+					className={`flex justify-center items-center p-1 w-[150px] ${setStatusColor(param.value)} !rounded-[16px]`}
 				>
 					<Typography color={"#fff"} fontWeight={500}>
 						{param.value}
@@ -101,13 +99,13 @@ export const TaskList = ({ taskLst }) => {
 	const setStatusColor = (status) => {
 		switch (status) {
 			case TaskStatus.INPROGRESS:
-				return "#FFBA49";
+				return "bg-[#FFBA49]";
 			case TaskStatus.RESOLVED:
-				return "#BB2649";
+				return "bg-[#BB2649]";
 			case TaskStatus.CLOSED:
-				return "#8C8C8C";
+				return "bg-[#8C8C8C]";
 			default:
-				return "#26BB98";
+				return "bg-[#26BB98]";
 		}
 	};
 

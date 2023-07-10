@@ -26,27 +26,26 @@ export function AddTaskForm({ props }) {
 		(state) => state.tasks.taskToShowDetails
 	);
 	const [createTask] = useCreateTaskMutation();
-	const { data, membersData, handleClose, isCreateNew } = props;
+	const { data, membersData, handleClose } = props;
 	useEffect(() => {
 		if (membersData) {
 			setOptions([
-				...options,
 				...membersData?.map((member) => member.username),
 			]);
 		}
-		if (!isCreateNew && Object.keys(taskToShowDetails).length > 0) {
-			setTaskName(taskToShowDetails.taskName);
-			setDesc(taskToShowDetails.description);
-			setBrief(taskToShowDetails.brief);
-			setCategory(taskToShowDetails.category);
-			setPriority(taskToShowDetails.priority);
-			setStatus(taskToShowDetails.status);
-			setEstimated(taskToShowDetails.estimated);
-			setStartDate(dayjs(taskToShowDetails.startDate));
-			setDueDate(dayjs(taskToShowDetails.dueDate));
-			setAssignee(taskToShowDetails.user.username);
-			setParentTask(taskToShowDetails.parentTask);
-		}
+		// if (!isCreateNew && Object.keys(taskToShowDetails).length > 0) {
+		// 	setTaskName(taskToShowDetails.taskName);
+		// 	setDesc(taskToShowDetails.description);
+		// 	setBrief(taskToShowDetails.brief);
+		// 	setCategory(taskToShowDetails.category);
+		// 	setPriority(taskToShowDetails.priority);
+		// 	setStatus(taskToShowDetails.status);
+		// 	setEstimated(taskToShowDetails.estimated);
+		// 	setStartDate(dayjs(taskToShowDetails.startDate));
+		// 	setDueDate(dayjs(taskToShowDetails.dueDate));
+		// 	setAssignee(taskToShowDetails.user.username);
+		// 	setParentTask(taskToShowDetails.parentTask);
+		// }
 	}, []);
 
 	const [options, setOptions] = useState([""]);
@@ -104,9 +103,9 @@ export function AddTaskForm({ props }) {
 	};
 
 	return (
-		<div className="p-2">
-			<h1 className="text-center font-extrabold text-2xl">
-				{isCreateNew ? "Create a new task" : "Task detail"}
+		<div className="p-5">
+			<h1 className="text-center font-extrabold text-2xl py-5">
+				Create a new task
 			</h1>
 			<form onSubmit={handleSubmit}>
 				<div className="flex">
@@ -370,7 +369,7 @@ export function AddTaskForm({ props }) {
 						className="!bg-green-400 !hover:bg-green-600 !rounded-full"
 					>
 						<span className="px-5">
-							{isCreateNew ? "Create" : "Update"}
+							Create
 						</span>
 					</LoadingButton>
 				</div>
