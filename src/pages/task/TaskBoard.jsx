@@ -63,7 +63,7 @@ function TaskBoard() {
 						<Dialog
 							className="w-screen"
 							fullWidth={true}
-							maxWidth={"md"}
+							maxWidth={"lg"}
 							open={open}
 							onClose={handleClose}
 							sx={{

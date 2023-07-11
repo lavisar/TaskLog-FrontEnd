@@ -7,29 +7,43 @@ import {
 } from "../../../store/constants/TaskConstant";
 import {
 	Autocomplete,
+	Avatar,
+	Button,
+	IconButton,
 	MenuItem,
 	Select,
 	TextField,
 	Typography,
 } from "@mui/material";
 import {
+	Add,
 	ArrowDownward,
 	ArrowForward,
 	ArrowUpward,
+	Delete,
+	Flag,
 	Folder,
+	Notes,
+	Send,
+	UploadFile,
 } from "@mui/icons-material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
 import { CustomTextArea } from "../../../components/CustomTextArea";
+import { API_INSTANCE } from "../../../store/apis/features/apisConst";
 
 const handleUpdateTask = () => {};
+const handleDeleteFile = () => {};
+const handleComment = () => {};
 
 function TaskDetailForm({ props }) {
 	const taskToShowDetails = useSelector(
 		(state) => state.tasks.taskToShowDetails
 	);
+
+	const currentMember = useSelector((state) => state.currentMember);
 	const { data, membersData, handleClose } = props;
 
 	useEffect(() => {
@@ -60,17 +74,21 @@ function TaskDetailForm({ props }) {
 	const [estimated, setEstimated] = useState("");
 	const [actual, setActual] = useState("");
 	const [startDate, setStartDate] = useState(null);
+	const [endDate, setEndDate] = useState(null);
 	const [dueDate, setDueDate] = useState(null);
 	const [status, setStatus] = useState("");
 	const [assignee, setAssignee] = useState("");
 	const [inputValue, setInputValue] = useState("");
 	const [parentTask, setParentTask] = useState("");
 	const [files, setFiles] = useState("");
+	const [comment, setComment] = useState("");
+
+	let index = 2;
 
 	return (
-		<div className="min-h-full bg-slate-400">
+		<div className="min-h-full">
 			<form className="h-full" onSubmit={handleUpdateTask}>
-				<div className="p-5 flex border-b-2">
+				<div className="p-5 flex border-b-2 shadow-lg">
 					<div className="flex flex-col justify-between  gap-2 w-2/3 pr-2 border-r-2">
 						<div className="flex justify-between items-center gap-4">
 							<TextField
@@ -117,30 +135,32 @@ function TaskDetailForm({ props }) {
 							</div>
 						</div>
 						<div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-							<p>Category: </p>
-							<Select
-								size="small"
-								required
-								// className="w-full"
-								id="category"
-								value={category}
-								onChange={(e) => setCategory(e.target.value)}
-							>
-								<MenuItem disabled value="">
-									Select task category
-								</MenuItem>
-								<MenuItem value={TaskCategory.TASK}>
-									TASK
-								</MenuItem>
-								<MenuItem value={TaskCategory.BUG}>
-									BUG
-								</MenuItem>
-								<MenuItem value={TaskCategory.CR}>
-									CHANGE REQUEST
-								</MenuItem>
-							</Select>
-                            </div>
+							<div className="flex items-center gap-2">
+								<p>Category: </p>
+								<Select
+									size="small"
+									required
+									// className="w-full"
+									id="category"
+									value={category}
+									onChange={(e) =>
+										setCategory(e.target.value)
+									}
+								>
+									<MenuItem disabled value="">
+										Select task category
+									</MenuItem>
+									<MenuItem value={TaskCategory.TASK}>
+										TASK
+									</MenuItem>
+									<MenuItem value={TaskCategory.BUG}>
+										BUG
+									</MenuItem>
+									<MenuItem value={TaskCategory.CR}>
+										CHANGE REQUEST
+									</MenuItem>
+								</Select>
+							</div>
 							<div className="flex justify-end items-center gap-2">
 								<p>Due on:</p>
 								<span className="w-1/2">
@@ -218,11 +238,13 @@ function TaskDetailForm({ props }) {
 						</div>
 					</div>
 				</div>
-				<div className="grid grid-rows-4 grid-cols-3 h-full gap-2 p-5">
-					<div className="row-start-1 row-end-3 col-end-2 p-2">
+				<div className="grid grid-rows-4 grid-cols-3 h-full gap-y-2 gap-x-6 p-5">
+					<div className="row-start-1 row-end-3 col-end-2 px-2 pt-2 pb-6 flex flex-col gap-3 border-b border-solid border-[#e5e7eb]">
 						<div className="flex items-center gap-2">
 							<Folder />
-							<div className="font-bold text-xl">Task Brief</div>
+							<div className="font-extrabold text-xl">
+								Task Brief
+							</div>
 						</div>
 						<div className="">
 							<CustomTextArea
@@ -233,7 +255,7 @@ function TaskDetailForm({ props }) {
 								className="!w-1/3 !bg-[#F6F6F6] !rounded-[16px] !min-w-[100%]"
 							/>
 						</div>
-						<div>
+						<div className="flex flex-col gap-3">
 							<div className="flex justify-between items-center">
 								<p>Estimated hours:</p>
 								<p>{estimated} hrs</p>
@@ -241,20 +263,269 @@ function TaskDetailForm({ props }) {
 							<div className="flex justify-between items-center">
 								<p>Actual hours:</p>
 								<p className="flex justify-center items-center gap-1">
-									<input type="text" className="w-8 text-center border-1"/>
+									<input
+										type="text"
+										className="w-8 text-center border-solid border-2 border-[#c4c4c4] outline-none rounded-[4px]"
+									/>
 									<span>hrs</span>
 								</p>
 							</div>
-							<div></div>
-							<div></div>
+							<div className="flex justify-between items-center">
+								<p>Actual start date:</p>
+								<div className="w-1/2">
+									<LocalizationProvider
+										dateAdapter={AdapterDayjs}
+									>
+										<DatePicker
+											size="small"
+											// sx={{ height: "100%"}}
+											slotProps={{
+												textField: {
+													size: "small",
+													fullWidth: false,
+												},
+											}}
+											// id="dueDate"
+											value={startDate}
+											onChange={(newValue) =>
+												setDueDate(newValue)
+											}
+											format="DD/MM/YY"
+											views={["day"]}
+										/>
+									</LocalizationProvider>
+								</div>
+							</div>
+							<div className="flex justify-between items-center">
+								<p>Actual end date:</p>
+								<div className="w-1/2">
+									<LocalizationProvider
+										dateAdapter={AdapterDayjs}
+									>
+										<DatePicker
+											size="small"
+											// sx={{ height: "100%"}}
+											slotProps={{
+												textField: {
+													size: "small",
+													fullWidth: false,
+												},
+											}}
+											// id="dueDate"
+											value={endDate}
+											onChange={(newValue) =>
+												setDueDate(newValue)
+											}
+											format="DD/MM/YY"
+											views={["day"]}
+										/>
+									</LocalizationProvider>
+								</div>
+							</div>
 						</div>
 					</div>
-					<div className="row-start-3 row-end-5 col-end-2 bg-red-400">MILESTONE</div>
-					<div className="row-span-2 col-span-2 bg-blue-400">
-						FILES
+					<div className="row-start-3 row-end-5 col-end-2 flex flex-col gap-3 mt-4">
+						<div className="flex items-center gap-2">
+							<Flag />
+							<div className="font-extrabold text-xl">
+								Milestone
+							</div>
+						</div>
+						<div className="flex flex-col gap-2">
+							<div className="flex items-center gap-4 px-6">
+								<div className="w-2 h-2 rounded-full bg-black"></div>
+								<div>Current milestone info</div>
+							</div>
+							<div className="flex items-center px-6 gap-1">
+								<p className="text-base font-extrabold text-[#8C8C8C]">
+									Date:{" "}
+								</p>
+								<span>09/06/23 - 06/09/23</span>
+							</div>
+							<div className="flex px-6">
+								<p className="text-base font-extrabold text-[#8C8C8C]">
+									Description:{" "}
+									<span className="font-normal text-black">
+										Current milestone details Lorem ipsum
+										dolor sit amet, consectetur adipiscing
+										elit, sed do eiusmod tempor incididunt
+										ut labore et.
+									</span>
+								</p>
+							</div>
+						</div>
 					</div>
-					<div className="row-span-2 col-span-2 bg-red-400">
-						COMMENT
+					<div className="row-span-2 col-span-2">
+						<div className="flex items-center gap-2">
+							<UploadFile />
+							<div className="font-extrabold text-xl">Files</div>
+						</div>
+						<div className="mt-4 max-h-[220px] overflow-auto p-3">
+							<table
+								className="w-full table-auto border-collapse border-spacing-4 rounded-2xl"
+								style={{
+									boxShadow:
+										"0px 3px 10px 0 rgba(0, 0, 0, 0.25)",
+								}}
+							>
+								<thead>
+									<tr className="border-b  border-[rgba(0, 0, 0, 0.12)] h-[52px]">
+										<th className="w-[60%] text-left pl-4 text-base font-bold">
+											File name
+										</th>
+										<th className="w-[25%] text-left text-base font-bold">
+											Uploaded
+										</th>
+										<th className="w-[15%] text-center text-base font-bold">
+											Actions
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr className="border-b border-[rgba(0, 0, 0, 0.12)] h-[52px]">
+										<td className="pl-4 text-base font-normal text-[#26BB98]">
+											filename.exe
+										</td>
+										<td>6/9/2023</td>
+										<td className="text-center">
+											<IconButton
+												className="!text-black"
+												onClick={handleDeleteFile}
+											>
+												<Delete />
+											</IconButton>
+										</td>
+									</tr>
+									<tr
+										className={`${
+											index === 2
+												? ""
+												: "border-b border-slate-500"
+										} h-[52px]`}
+									>
+										<td className="pl-4 text-base font-normal text-[#26BB98]">
+											filename.exe
+										</td>
+										<td>6/9/2023</td>
+										<td className="text-center">
+											<IconButton
+												className="!text-black"
+												onClick={handleDeleteFile}
+											>
+												<Delete />
+											</IconButton>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div className="mt-4 px-3">
+							<Button
+								fullWidth
+								variant="contained"
+								className="!bg-[#EAEAEA] !rounded-2xl !h-14 !py-2 !shadow-md !flex !items-center !gap-2"
+							>
+								<div>
+									<Add className="!text-[40px] text-[#0E141A]" />
+								</div>
+								<div className="text-xl font-bold text-[#0E141A]">
+									UPLOAD NEW FILES
+								</div>
+							</Button>
+						</div>
+					</div>
+					<div className="row-span-2 col-span-2">
+						<div className="flex items-center gap-2">
+							<Notes />
+							<div className="font-extrabold text-xl">
+								Comments
+							</div>
+						</div>
+						<div className="flex flex-col gap-4 mt-4">
+							<div className="flex gap-4 items-center py-2 px-4">
+								<div className="grid justify-items-end w-[5%]">
+									{currentMember.pic ? (
+										<span>
+											<img
+												src={`${API_INSTANCE.BASE_URL}/auth/image/${currentMember.pic}`}
+												className="rounded-full max-h-32 aspect-square object-cover m-0"
+												alt="Profile pic of member"
+											/>
+										</span>
+									) : (
+										<Avatar className="rounded-full max-h-32 aspect-square object-cover !m-0">
+											{currentMember?.username?.charAt(0)}
+										</Avatar>
+									)}
+								</div>
+								<div className="text-base font-normal text-[#0E141A] w-[75%] text-ellipsis line-clamp-3">
+									Comment content Lorem ipsum dolor sit amet,
+									consectetur adipiscing elit, sed do eiusmod
+									tempor incididunt ut labore et dolore magna
+									aliqua. Ut enim ad minim veniam, quis
+									nostrud exercitation ullamco laboris nisi ut
+									aliquip ex ea commodo consequat.ted hours:{" "}
+								</div>
+								<div className="text-sm font-normal text-[#8C8C8C] ml-4">
+									09:41 09/06
+								</div>
+							</div>
+							<div className="flex gap-4 items-center py-2 px-4">
+								<div className="grid justify-items-end w-[5%]">
+									{currentMember.pic ? (
+										<span>
+											<img
+												src={`${API_INSTANCE.BASE_URL}/auth/image/${currentMember.pic}`}
+												className="rounded-full max-h-32 aspect-square object-cover m-0"
+												alt="Profile pic of member"
+											/>
+										</span>
+									) : (
+										<Avatar className="rounded-full max-h-32 aspect-square object-cover !m-0">
+											{currentMember?.username?.charAt(0)}
+										</Avatar>
+									)}
+								</div>
+								<div className="text-base font-normal text-[#0E141A] w-[75%] text-ellipsis line-clamp-3">
+									Comment content Lorem ipsum dolor sit amet,
+									consectetur adipiscing elit, sed do eiusmod
+									tempor incididunt ut labore et dolore magna
+									aliqua. Ut enim ad minim veniam, quis
+									nostrud exercitation ullamco laboris nisi ut
+									aliquip ex ea commodo consequat.ted hours:{" "}
+								</div>
+								<div className="text-sm font-normal text-[#8C8C8C] ml-4">
+									09:41 09/06
+								</div>
+							</div>
+						</div>
+						<div className="flex items-center gap-3 mt-4">
+							<CustomTextArea
+								id=""
+								placeholder="Write a comment, use @ to mention..."
+								value={comment}
+								onChange={(e) => setComment(e.target.value)}
+								className="w-[90%] !rounded-lg"
+							/>
+							<IconButton
+								className="!text-black"
+								onClick={handleComment}
+							>
+								<Send />
+							</IconButton>
+						</div>
+					</div>
+				</div>
+				<div className="flex justify-end gap-6 pl-5 pb-5 pr-8">
+					<div>
+						<Button variant="contained" className="!bg-[#EAEAEA] !rounded-2xl !h-12 !py-2 !px-5 !shadow-md">
+							<span className="text-base font-extrabold text-[#0E141A]">CANCEL</span>
+						</Button>
+					</div>
+					<div>
+						<Button variant="contained" className="!bg-[#26BB98] !rounded-2xl !h-12 !py-2 !px-5 !shadow-md">
+							<span className="text-base font-extrabold text-white">CONFIRM</span>
+						</Button>
 					</div>
 				</div>
 			</form>
