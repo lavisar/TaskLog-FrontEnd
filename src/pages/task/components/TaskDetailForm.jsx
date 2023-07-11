@@ -7,9 +7,7 @@ import {
 } from "../../../store/constants/TaskConstant";
 import {
 	Autocomplete,
-	IconButton,
 	MenuItem,
-	Popover,
 	Select,
 	TextField,
 	Typography,
@@ -18,12 +16,13 @@ import {
 	ArrowDownward,
 	ArrowForward,
 	ArrowUpward,
-	CalendarToday,
+	Folder,
 } from "@mui/icons-material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
+import { CustomTextArea } from "../../../components/CustomTextArea";
 
 const handleUpdateTask = () => {};
 
@@ -59,6 +58,7 @@ function TaskDetailForm({ props }) {
 	const [priority, setPriority] = useState("");
 	const [category, setCategory] = useState("");
 	const [estimated, setEstimated] = useState("");
+	const [actual, setActual] = useState("");
 	const [startDate, setStartDate] = useState(null);
 	const [dueDate, setDueDate] = useState(null);
 	const [status, setStatus] = useState("");
@@ -66,23 +66,9 @@ function TaskDetailForm({ props }) {
 	const [inputValue, setInputValue] = useState("");
 	const [parentTask, setParentTask] = useState("");
 	const [files, setFiles] = useState("");
-	const [selectedDate, setSelectedDate] = useState(null);
-	const [anchorEl, setAnchorEl] = useState(null);
 
-	const handleOpenCalendar = (event) => {
-		setAnchorEl(event.currentTarget);
-	};
-
-	const handleCloseCalendar = () => {
-		setAnchorEl(null);
-	};
-
-	const handleDateChange = (date) => {
-		setSelectedDate(date);
-		handleCloseCalendar();
-	};
 	return (
-		<div className="min-h-full">
+		<div className="min-h-full bg-slate-400">
 			<form className="h-full" onSubmit={handleUpdateTask}>
 				<div className="p-5 flex border-b-2">
 					<div className="flex flex-col justify-between  gap-2 w-2/3 pr-2 border-r-2">
@@ -232,11 +218,38 @@ function TaskDetailForm({ props }) {
 						</div>
 					</div>
 				</div>
-				<div className="grid grid-rows-4 grid-flow-col h-full gap-2">
-					<div className="row-span-2 bg-red-400">
-						<div></div>
+				<div className="grid grid-rows-4 grid-cols-3 h-full gap-2 p-5">
+					<div className="row-start-1 row-end-3 col-end-2 p-2">
+						<div className="flex items-center gap-2">
+							<Folder />
+							<div className="font-bold text-xl">Task Brief</div>
+						</div>
+						<div className="">
+							<CustomTextArea
+								id=""
+								placeholder="Type in task briefings..."
+								value={brief}
+								onChange={(e) => setBrief(e.target.value)}
+								className="!w-1/3 !bg-[#F6F6F6] !rounded-[16px] !min-w-[100%]"
+							/>
+						</div>
+						<div>
+							<div className="flex justify-between items-center">
+								<p>Estimated hours:</p>
+								<p>{estimated} hrs</p>
+							</div>
+							<div className="flex justify-between items-center">
+								<p>Actual hours:</p>
+								<p className="flex justify-center items-center gap-1">
+									<input type="text" className="w-8 text-center border-1"/>
+									<span>hrs</span>
+								</p>
+							</div>
+							<div></div>
+							<div></div>
+						</div>
 					</div>
-					<div className="row-span-2 bg-red-400">MILESTONE</div>
+					<div className="row-start-3 row-end-5 col-end-2 bg-red-400">MILESTONE</div>
 					<div className="row-span-2 col-span-2 bg-blue-400">
 						FILES
 					</div>
