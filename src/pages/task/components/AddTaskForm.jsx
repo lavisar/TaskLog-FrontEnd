@@ -33,19 +33,6 @@ export function AddTaskForm({ props }) {
 				...membersData?.map((member) => member.username),
 			]);
 		}
-		// if (!isCreateNew && Object.keys(taskToShowDetails).length > 0) {
-		// 	setTaskName(taskToShowDetails.taskName);
-		// 	setDesc(taskToShowDetails.description);
-		// 	setBrief(taskToShowDetails.brief);
-		// 	setCategory(taskToShowDetails.category);
-		// 	setPriority(taskToShowDetails.priority);
-		// 	setStatus(taskToShowDetails.status);
-		// 	setEstimated(taskToShowDetails.estimated);
-		// 	setStartDate(dayjs(taskToShowDetails.startDate));
-		// 	setDueDate(dayjs(taskToShowDetails.dueDate));
-		// 	setAssignee(taskToShowDetails.user.username);
-		// 	setParentTask(taskToShowDetails.parentTask);
-		// }
 	}, []);
 
 	const [options, setOptions] = useState([""]);
@@ -83,7 +70,7 @@ export function AddTaskForm({ props }) {
 			status,
 			project: { id: "001" },
 			// position,
-			user: user.userId,
+			user: {id: user.userId},
 			// version,
 			parentTask,
 		};

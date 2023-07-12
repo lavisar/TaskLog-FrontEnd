@@ -110,4 +110,4 @@ export {
   useUpdateTeamMutation,
   useGetAllTeamsQuery,
 } from "./apis/teamsApi";
-export { useGetTasksQuery, useCreateTaskMutation } from "./apis/taskApi";
+export { useGetTasksQuery, useCreateTaskMutation, useGetTasksByProjectQuery, useUpdateTaskMutation } from "./apis/taskApi";

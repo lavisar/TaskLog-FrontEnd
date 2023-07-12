@@ -12,8 +12,7 @@ import {
 	IconButton,
 	MenuItem,
 	Select,
-	TextField,
-	Typography,
+	TextField
 } from "@mui/material";
 import {
 	Add,
@@ -33,41 +32,19 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
 import { CustomTextArea } from "../../../components/CustomTextArea";
 import { API_INSTANCE } from "../../../store/apis/features/apisConst";
-
-const handleUpdateTask = () => {};
-const handleDeleteFile = () => {};
-const handleComment = () => {};
+import { useUpdateTaskMutation } from "../../../store";
 
 function TaskDetailForm({ props }) {
 	const taskToShowDetails = useSelector(
 		(state) => state.tasks.taskToShowDetails
 	);
-
 	const currentMember = useSelector((state) => state.currentMember);
 	const { data, membersData, handleClose } = props;
-
-	useEffect(() => {
-		if (membersData) {
-			setOptions([...membersData?.map((member) => member.username)]);
-		}
-		if (Object.keys(taskToShowDetails).length > 0) {
-			setTaskName(taskToShowDetails.taskName);
-			setDesc(taskToShowDetails.description);
-			setBrief(taskToShowDetails.brief);
-			setCategory(taskToShowDetails.category);
-			setPriority(taskToShowDetails.priority);
-			setStatus(taskToShowDetails.status);
-			setEstimated(taskToShowDetails.estimated);
-			setStartDate(dayjs(taskToShowDetails.startDate));
-			setDueDate(dayjs(taskToShowDetails.dueDate));
-			setAssignee(taskToShowDetails.user.username);
-			setParentTask(taskToShowDetails.parentTask);
-		}
-	}, []);
+	const [updateTask] = useUpdateTaskMutation(); 
 
 	const [options, setOptions] = useState([""]);
+	const [taskId, setTaskId] = useState("");
 	const [taskName, setTaskName] = useState("");
-	const [desc, setDesc] = useState("");
 	const [brief, setBrief] = useState("");
 	const [priority, setPriority] = useState("");
 	const [category, setCategory] = useState("");
@@ -79,14 +56,61 @@ function TaskDetailForm({ props }) {
 	const [status, setStatus] = useState("");
 	const [assignee, setAssignee] = useState("");
 	const [inputValue, setInputValue] = useState("");
-	const [parentTask, setParentTask] = useState("");
-	const [files, setFiles] = useState("");
 	const [comment, setComment] = useState("");
-
 	let index = 2;
+	useEffect(() => {
+		if (membersData) {
+			setOptions([...membersData?.map((member) => member.username)]);
+		}
+		if (Object.keys(taskToShowDetails).length > 0) {	
+			setTaskId(taskToShowDetails.id);
+			setTaskName(taskToShowDetails.taskName);
+			setBrief(taskToShowDetails.brief);
+			setCategory(taskToShowDetails.category);
+			setPriority(taskToShowDetails.priority);
+			setStatus(taskToShowDetails.status);
+			setEstimated(taskToShowDetails.estimated);
+			setStartDate(taskToShowDetails.startDate ? dayjs(taskToShowDetails.startDate) : null);
+			setDueDate(taskToShowDetails.dueDate ? dayjs(taskToShowDetails.dueDate) : null);
+			setEndDate(taskToShowDetails.endDate ? dayjs(taskToShowDetails.endDate) : null);
+			setAssignee(taskToShowDetails.user.username);
+		}
+	}, []);
+
+	const handleUpdateTask = async (e) => {
+		e.preventDefault();
+		const user = membersData.find((member) => member.username === assignee);
+		const taskModel = {
+			id: taskId,
+			taskName,
+			brief,
+			priority,
+			category,
+			estimated: estimated,
+			actualHours: actual,
+			startDate: dayjs(startDate).format("YYYY-MM-DD"),
+			dueDate: dayjs(dueDate).format("YYYY-MM-DD"),
+			endDate: endDate ? dayjs(endDate).format("YYYY-MM-DD") : null,
+			status,
+			project: { id: "001" },
+			user: {id: user.userId},
+		};
+		try {
+			await updateTask(taskModel);
+			handleClose(false);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const handleCloseDialog = () => {
+		handleClose(false);
+	}
+	const handleDeleteFile = () => {};
+	const handleComment = () => {};
 
 	return (
-		<div className="min-h-full">
+		<div className="min-h-full !rounded-2xl">
 			<form className="h-full" onSubmit={handleUpdateTask}>
 				<div className="p-5 flex border-b-2 shadow-lg">
 					<div className="flex flex-col justify-between  gap-2 w-2/3 pr-2 border-r-2">
@@ -112,7 +136,6 @@ function TaskDetailForm({ props }) {
 								<Select
 									required
 									size="small"
-									// className="w-full h-8"
 									id="priority"
 									value={priority}
 									onChange={(e) =>
@@ -140,7 +163,6 @@ function TaskDetailForm({ props }) {
 								<Select
 									size="small"
 									required
-									// className="w-full"
 									id="category"
 									value={category}
 									onChange={(e) =>
@@ -169,7 +191,6 @@ function TaskDetailForm({ props }) {
 									>
 										<DatePicker
 											size="small"
-											// sx={{ height: "100%"}}
 											slotProps={{
 												textField: {
 													size: "small",
@@ -193,7 +214,6 @@ function TaskDetailForm({ props }) {
 						<div>
 							<Select
 								fullWidth
-								// className="rounded-[16px] h-8"
 								id="status"
 								value={status}
 								onChange={(e) => setStatus(e.target.value)}
@@ -266,6 +286,10 @@ function TaskDetailForm({ props }) {
 									<input
 										type="text"
 										className="w-8 text-center border-solid border-2 border-[#c4c4c4] outline-none rounded-[4px]"
+										value={actual}
+										onChange={(e) =>
+											setActual(e.target.value)
+										}
 									/>
 									<span>hrs</span>
 								</p>
@@ -278,17 +302,15 @@ function TaskDetailForm({ props }) {
 									>
 										<DatePicker
 											size="small"
-											// sx={{ height: "100%"}}
 											slotProps={{
 												textField: {
 													size: "small",
 													fullWidth: false,
 												},
 											}}
-											// id="dueDate"
 											value={startDate}
 											onChange={(newValue) =>
-												setDueDate(newValue)
+												setStartDate(newValue)
 											}
 											format="DD/MM/YY"
 											views={["day"]}
@@ -304,17 +326,16 @@ function TaskDetailForm({ props }) {
 									>
 										<DatePicker
 											size="small"
-											// sx={{ height: "100%"}}
 											slotProps={{
 												textField: {
 													size: "small",
 													fullWidth: false,
 												},
 											}}
-											// id="dueDate"
+											id="endDate"
 											value={endDate}
 											onChange={(newValue) =>
-												setDueDate(newValue)
+												setEndDate(newValue)
 											}
 											format="DD/MM/YY"
 											views={["day"]}
@@ -518,13 +539,25 @@ function TaskDetailForm({ props }) {
 				</div>
 				<div className="flex justify-end gap-6 pl-5 pb-5 pr-8">
 					<div>
-						<Button variant="contained" className="!bg-[#EAEAEA] !rounded-2xl !h-12 !py-2 !px-5 !shadow-md">
-							<span className="text-base font-extrabold text-[#0E141A]">CANCEL</span>
+						<Button
+							variant="contained"
+							className="!bg-[#EAEAEA] !rounded-2xl !h-12 !py-2 !px-5 !shadow-md"
+							onClick={handleCloseDialog}
+						>
+							<span className="text-base font-extrabold text-[#0E141A]">
+								CANCEL
+							</span>
 						</Button>
 					</div>
 					<div>
-						<Button variant="contained" className="!bg-[#26BB98] !rounded-2xl !h-12 !py-2 !px-5 !shadow-md">
-							<span className="text-base font-extrabold text-white">CONFIRM</span>
+						<Button
+							variant="contained"
+							className="!bg-[#26BB98] !rounded-2xl !h-12 !py-2 !px-5 !shadow-md"
+							type="submit"
+						>
+							<span className="text-base font-extrabold text-white">
+								CONFIRM
+							</span>
 						</Button>
 					</div>
 				</div>

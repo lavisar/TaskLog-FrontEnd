@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { useGetTasksQuery, useGetAllMembersDetailsQuery } from "../../store";
+import { useParams, useLocation } from "react-router-dom";
+import { useGetTasksQuery, useGetAllMembersDetailsQuery, useGetTasksByProjectQuery } from "../../store";
 import { Button, Dialog } from "@mui/material";
 import { TaskList } from "./components/TaskList";
 import { TaskColumn } from "./components/TaskColumn";
@@ -9,7 +10,9 @@ import TaskDetailForm from "./components/TaskDetailForm";
 
 function TaskBoard() {
 	const teamSelect = useSelector((state) => state.team.id);
-	const { data, isLoading, err } = useGetTasksQuery();
+	const {search} = useLocation();
+	const projectId = search.split("=")[1];
+	const { data, isLoading, err } = useGetTasksByProjectQuery(projectId);
 	const { data: membersData } = useGetAllMembersDetailsQuery(teamSelect);
 
 	const [open, setOpen] = useState(false);
@@ -61,7 +64,7 @@ function TaskBoard() {
 							</div>
 						</div>
 						<Dialog
-							className="w-screen"
+							className="w-screen rounded-2xl"
 							fullWidth={true}
 							maxWidth={"lg"}
 							open={open}
