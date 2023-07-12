@@ -45,7 +45,7 @@ export default function UserTeams() {
       dispatch(setTeam(teamData));
       setTeamName('');
       setDescription('');
-      navigate(`${WEBLINKS.TEAMS}/${teamData.id}`);
+      navigate(`/${teamData.id}${WEBLINKS.PROJECTS}`);
     } catch (error) {
       console.log(error);
     }
@@ -129,7 +129,7 @@ export default function UserTeams() {
                 data.map((team, index) => {
                   return <div key={index}>
                     <CustomLink
-                      to={`${WEBLINKS.TEAMS}/${team.teamId}`}
+                      to={`/${team.teamId}${WEBLINKS.PROJECTS}`}
                       className="border-2 border-green-500 rounded-full m-2"
                     >
                       <h3 className="text-lg font-bold text-xl">{team.teamName}</h3>

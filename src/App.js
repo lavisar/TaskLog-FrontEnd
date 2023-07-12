@@ -22,6 +22,7 @@ import TeamList from "./pages/admin/TeamsList";
 import TeamDetails from "./pages/admin/TeamDetails";
 import AdminCreate from "./pages/admin/AdminCreate";
 import UserCurrentProject from "./pages/user/UserCurrentProject";
+import UserProjects from "./pages/user/UserProjects";
 
 const router = createBrowserRouter([
   {
@@ -49,6 +50,15 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
+    path: `/:teamId${WEBLINKS.PROJECTS}`,
+    element: (
+      <RequireAuth>
+        <UserProjects />
+      </RequireAuth>
+    ),
+    errorElement: <ErrorPage />,
+  },
+  {
     path: WEBLINKS.MAIN,
     element: (
       <RequireAuth>
@@ -70,7 +80,7 @@ const router = createBrowserRouter([
       },
       {
         path: `${WEBLINKS.PROJECT}/:teamId`,
-        element: <UserCurrentProject/>,
+        element: <UserCurrentProject />,
       },
       {
         path: WEBLINKS.TASK,
