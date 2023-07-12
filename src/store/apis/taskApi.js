@@ -29,8 +29,12 @@ export const taskApi = authApi.injectEndpoints({
           body
         }
       }
-    })
+    }),
+    getTaskByUser: builder.query({
+      invalidatesTags: ['TaskAdd', 'TaskUpdate'],
+      query: (userId) => `/task/${userId}`
+    }),
   }),
 });
 
-export const { useGetTasksQuery, useCreateTaskMutation, useGetTasksByProjectQuery, useUpdateTaskMutation } = taskApi;
+export const { useGetTasksQuery, useCreateTaskMutation, useGetTasksByProjectQuery, useUpdateTaskMutation, useGetTaskByUserQuery } = taskApi;
