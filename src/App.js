@@ -22,6 +22,7 @@ import TeamList from "./pages/admin/TeamsList";
 import TeamDetails from "./pages/admin/TeamDetails";
 import AdminCreate from "./pages/admin/AdminCreate";
 import UserCurrentProject from "./pages/user/UserCurrentProject";
+import MyTasks from "./pages/task/MyTasks";
 import UserProjects from "./pages/user/UserProjects";
 
 const router = createBrowserRouter([
@@ -86,6 +87,10 @@ const router = createBrowserRouter([
         path: WEBLINKS.TASK,
         element: <TaskBoard />,
       },
+      {
+        path: `${WEBLINKS.TASK}/:userId`,
+        element: <MyTasks />
+      }
     ],
     errorElement: <ErrorPage />,
   },

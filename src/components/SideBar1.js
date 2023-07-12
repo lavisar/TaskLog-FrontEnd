@@ -26,6 +26,7 @@ export default function SideBar2({ open }) {
     (teamId, teamName, teamMemberRole) => ({ teamId, teamName, teamMemberRole })
   );
   const { teamId, teamName, teamMemberRole } = useSelector(currentTeam);
+  const userId = useSelector((state) => state.user.id);
   const projectId = "001";
   const listItems = [
     {
@@ -41,7 +42,7 @@ export default function SideBar2({ open }) {
     {
       icon: <FaTasks />,
       link: "MY TASK",
-      path: "/",
+      path: `${WEBLINKS.TASK}/${userId}`,
     },
     {
       icon: <HiDocumentDuplicate />,
