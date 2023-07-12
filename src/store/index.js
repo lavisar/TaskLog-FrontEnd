@@ -12,6 +12,11 @@ import {
 } from "./slices/signupFormSlice";
 import { setTeam, clearTeam, teamReducer } from "./slices/teamSlice";
 import { setUser, userReducer } from "./slices/userSlice";
+import {
+  setProject,
+  clearProject,
+  projectReducer,
+} from "./slices/projectSlice";
 
 import { usersApi } from "./apis/usersApi";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
@@ -23,6 +28,7 @@ import {
 import { taskApi } from "./apis/taskApi";
 import { setTasks, setShowTaskDetails, taskReducer } from "./slices/taskSlice";
 import { teamsApi } from "./apis/teamsApi";
+import { projectApi } from "./apis/projectApi";
 
 const store = configureStore({
   reducer: {
@@ -38,6 +44,10 @@ const store = configureStore({
     // teams
     [teamsApi.reducerPath]: teamsApi.reducer,
     team: teamReducer,
+
+    // projects
+    [projectApi.reducerPath]: projectApi.reducer,
+    project: projectReducer,
 
     // tasks
     [taskApi.reducerPath]: taskApi.reducer,
@@ -75,6 +85,10 @@ export {
   setTeam,
   clearTeam,
 
+  // project
+  setProject,
+  clearProject,
+
   //task
   setTasks,
   setShowTaskDetails,
@@ -110,4 +124,9 @@ export {
   useUpdateTeamMutation,
   useGetAllTeamsQuery,
 } from "./apis/teamsApi";
-export { useGetTasksQuery, useCreateTaskMutation, useGetTasksByProjectQuery, useUpdateTaskMutation } from "./apis/taskApi";
+export {
+  useGetTasksQuery,
+  useCreateTaskMutation,
+  useGetTasksByProjectQuery,
+  useUpdateTaskMutation,
+} from "./apis/taskApi";

@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { LOCAL_STORAGE_KEYS } from "../constants/LocalStorageKeys";
 
-const teamKey = LOCAL_STORAGE_KEYS.PROJECT;
+const projectKey = LOCAL_STORAGE_KEYS.PROJECT;
 function decodeValue(key) {
-  if (localStorage.getItem(teamKey)) {
-    return JSON.parse(localStorage.getItem(teamKey))[key];
+  if (localStorage.getItem(projectKey)) {
+    return JSON.parse(localStorage.getItem(projectKey))[key];
   }
   return null;
 }
@@ -21,7 +21,7 @@ const projectSlice = createSlice({
         setProject: (state, action) =>{
             const { id,name,team_id,createAt} = action.payload;
             localStorage.setItem(
-                teamKey,
+                projectKey,
                 JSON.stringify({id,name,team_id,createAt})
             );
             state.id = id;
@@ -30,7 +30,7 @@ const projectSlice = createSlice({
             state.createAt = createAt;
         },
         clearProject: (state, action) => {
-            localStorage.removeItem(teamKey);
+            localStorage.removeItem(projectKey);
             state.id = null;
             state.name = null;
             state.team_id = null;
@@ -40,5 +40,5 @@ const projectSlice = createSlice({
 });
 
 export const { setProject, clearProject} = projectSlice.actions;
-export const teamReducer = projectSlice.reducer;
+export const projectReducer = projectSlice.reducer;
 
