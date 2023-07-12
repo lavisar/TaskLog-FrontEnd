@@ -25,6 +25,7 @@ export default function SideBar2({ open }) {
     (teamId, teamName, teamMemberRole) => ({ teamId, teamName, teamMemberRole })
   );
   const { teamId, teamName, teamMemberRole } = useSelector(currentTeam);
+  const projectId = "001";
   const listItems = [
     {
       icon: <RiTeamFill />,
@@ -34,7 +35,7 @@ export default function SideBar2({ open }) {
     {
       icon: <BiSolidDashboard />,
       link: "TASK BOARD",
-      path: WEBLINKS.TASK,
+      path: `${WEBLINKS.TASK}?projectId=${projectId}`,
     },
     {
       icon: <FaTasks />,
