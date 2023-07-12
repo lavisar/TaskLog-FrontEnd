@@ -7,7 +7,8 @@ function CustomLink({ to, children, className, activeClassName, linkClass }) {
   const classes = classNames(
     "text-base",
     className,
-    currentLocation.pathname === to && activeClassName
+    // currentLocation.pathname + currentLocation.search === to && activeClassName
+    to?.includes(currentLocation.pathname) && activeClassName
   );
 
   const handleClick = (e) => {
