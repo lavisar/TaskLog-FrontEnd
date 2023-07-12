@@ -39,6 +39,11 @@ export default function SideBar() {
       link: "DOCUMENTS",
       path: null,
     },
+    {
+      icon: <LuMilestone/>,
+      link: "MILESTONE",
+      path: null,
+    }
   ];
 
   return (

@@ -16,6 +16,7 @@ import { HiDocumentDuplicate } from "react-icons/hi";
 import { createSelector } from "reselect";
 import { useSelector } from "react-redux";
 import CustomLink from "./CustomLink";
+import { LuMilestone } from "react-icons/lu";
 
 export default function SideBar2({ open }) {
   const currentTeam = createSelector(
@@ -47,6 +48,11 @@ export default function SideBar2({ open }) {
       link: "DOCUMENTS",
       path: null,
     },
+    {
+      icon: <LuMilestone/>,
+      link: "MILESTONE",
+      path: null,
+    }
   ];
   return (
     <Box>
