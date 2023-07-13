@@ -9,6 +9,7 @@ import { RiTeamFill } from "react-icons/ri";
 import { WEBLINKS } from "../store/constants/WebLinks";
 import { createSelector } from "reselect";
 import { useSelector } from "react-redux";
+import { LuMilestone } from "react-icons/lu";
 
 export default function SideBar() {
   const currentTeam = createSelector(
@@ -40,10 +41,10 @@ export default function SideBar() {
       path: null,
     },
     {
-      icon: <LuMilestone/>,
+      icon: <LuMilestone />,
       link: "MILESTONE",
       path: null,
-    }
+    },
   ];
 
   return (

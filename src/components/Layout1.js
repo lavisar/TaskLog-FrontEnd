@@ -4,7 +4,6 @@ import {
   Divider,
   IconButton,
   Toolbar,
-  Typography,
   useTheme,
 } from "@mui/material";
 import { AiOutlineMenu } from "react-icons/ai";
@@ -17,11 +16,17 @@ import { CustomAppBar } from "./layout/CustomAppBar";
 import { CustomDrawer } from "./layout/CustomDrawer";
 import { CustomDrawerHeader } from "./layout/CustomDrawerHeader";
 import { FaChevronLeft } from "react-icons/fa6";
+import ChangeProject from "./ChangeProject";
 
 export default function Layout1() {
   const theme = useTheme();
   const [open, setOpen] = useState(true);
-
+  useState(() => {
+    let body = document.getElementsByTagName("body")[0];
+    if (body.clientWidth < 900) {
+      setOpen(false);
+    }
+  }, []);
   const drawerWidth = 250;
   return (
     <Box sx={{ display: "flex" }}>
@@ -46,7 +51,8 @@ export default function Layout1() {
               {open ? <FaChevronLeft /> : <AiOutlineMenu />}
             </IconButton>
 
-            <Typography
+            <ChangeProject />
+            {/* <Typography
               variant="h6"
               noWrap
               component="div"
@@ -54,7 +60,7 @@ export default function Layout1() {
               sx={{ marginLeft: 5 }}
             >
               TaskLog
-            </Typography>
+            </Typography> */}
           </div>
 
           <CurrentAccount profileLink={WEBLINKS.PROFILE} />
