@@ -15,7 +15,10 @@ export const DocumentList = ({ documentLst }) => {
 	const [options, setOptions] = useState([""]);
 
 	const deleteDocumentById = useDeleteDocumentByIdMutation();
-	const getFileDownload = useGetFileDownloadQuery();
+	const { data: fileData } = useGetFileDownloadQuery();
+
+	console.log("useGetFileDownloadQuery:", useGetFileDownloadQuery());
+	// console.log("getFileDownload", fileData);
 
 	const handleDelete = async (documentId) => {
 		console.log("deleting id:", documentId);
@@ -32,12 +35,13 @@ export const DocumentList = ({ documentLst }) => {
 	};
 	const downloadFile = (documentId) => {
 		console.log("dowloading id: " + documentId);
-		getFileDownload(documentId).then((res) => {
-			const a = document.createElement("a");
-			a.href = URL.createObjectURL(res.data);
-			a.download = res.data.fileName || "file";
-			a.click();
-		});
+		console.log("getFileDownload", fileData(documentId));
+		// getFileDownload(documentId).then((res) => {
+		// 	const a = document.createElement("a");
+		// 	a.href = URL.createObjectURL(res.data);
+		// 	a.download = res.data.fileName || "file";
+		// 	a.click();
+		// });
 	};
 
 	useEffect(() => {
@@ -86,7 +90,10 @@ export const DocumentList = ({ documentLst }) => {
 					<div className="flex items-center justify-center space-x-3">
 						<GetApp onClick={() => downloadFile(documentId)} />
 						<span className="mx-2">|</span>
-						<DeleteIcon onClick={() => handleDelete(documentId)} />
+						<DeleteIcon
+							onClick={() => handleDelete(documentId)}
+							style={{ color: "red" }}
+						/>
 					</div>
 				);
 			},
