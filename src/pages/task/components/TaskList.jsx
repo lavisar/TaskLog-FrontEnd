@@ -45,7 +45,7 @@ export const TaskList = ({ taskLst }) => {
 					priority: row.priority,
 					category: row.category,
 					dueDate: row.dueDate,
-					assignee: row.user.username,
+					assignee: row?.user?.username,
 					status: row.status,
 				};
 			});
@@ -62,20 +62,20 @@ export const TaskList = ({ taskLst }) => {
 		},
 		{ field: "taskId", headerName: "taskId", flex: 2 },
 		{ field: "taskName", headerName: "Task", flex: 2 },
-		{ 
-			field: "priority", 
-			headerName: "Priority", 
+		{
+			field: "priority",
+			headerName: "Priority",
 			flex: 1,
 			renderCell: (cell) => {
-				switch(cell.value) {
+				switch (cell.value) {
 					case TaskPriority.HIGH:
-						return <ArrowUpward sx={{color: "#f42858"}} />
-					case TaskPriority.NORMAL: 
-						return <ArrowForward sx={{color: "#4488c5"}} />
-					default: 
-						return <ArrowDownward sx={{color: "#5eb5a6"}} />
+						return <ArrowUpward sx={{ color: "#f42858" }} />;
+					case TaskPriority.NORMAL:
+						return <ArrowForward sx={{ color: "#4488c5" }} />;
+					default:
+						return <ArrowDownward sx={{ color: "#5eb5a6" }} />;
 				}
-			}  
+			},
 		},
 		{ field: "category", headerName: "Category", flex: 1 },
 		{ field: "dueDate", headerName: "Due Date", flex: 1 },
@@ -86,7 +86,9 @@ export const TaskList = ({ taskLst }) => {
 			flex: 1,
 			renderCell: (param) => (
 				<Box
-					className={`flex justify-center items-center p-1 w-[150px] ${setStatusColor(param.value)} !rounded-[16px]`}
+					className={`flex justify-center items-center p-1 w-[150px] ${setStatusColor(
+						param.value
+					)} !rounded-[16px]`}
 				>
 					<Typography color={"#fff"} fontWeight={500}>
 						{param.value}

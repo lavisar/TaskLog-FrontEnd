@@ -12,7 +12,7 @@ import {
 	IconButton,
 	MenuItem,
 	Select,
-	TextField
+	TextField,
 } from "@mui/material";
 import {
 	Add,
@@ -40,7 +40,7 @@ function TaskDetailForm({ props }) {
 	);
 	const currentMember = useSelector((state) => state.currentMember);
 	const { data, membersData, handleClose } = props;
-	const [updateTask] = useUpdateTaskMutation(); 
+	const [updateTask] = useUpdateTaskMutation();
 
 	const [options, setOptions] = useState([""]);
 	const [taskId, setTaskId] = useState("");
@@ -62,7 +62,7 @@ function TaskDetailForm({ props }) {
 		if (membersData) {
 			setOptions([...membersData?.map((member) => member.username)]);
 		}
-		if (Object.keys(taskToShowDetails).length > 0) {	
+		if (Object.keys(taskToShowDetails).length > 0) {
 			setTaskId(taskToShowDetails.id);
 			setTaskName(taskToShowDetails.taskName);
 			setBrief(taskToShowDetails.brief);
@@ -70,10 +70,22 @@ function TaskDetailForm({ props }) {
 			setPriority(taskToShowDetails.priority);
 			setStatus(taskToShowDetails.status);
 			setEstimated(taskToShowDetails.estimated);
-			setStartDate(taskToShowDetails.startDate ? dayjs(taskToShowDetails.startDate) : null);
-			setDueDate(taskToShowDetails.dueDate ? dayjs(taskToShowDetails.dueDate) : null);
-			setEndDate(taskToShowDetails.endDate ? dayjs(taskToShowDetails.endDate) : null);
-			setAssignee(taskToShowDetails.user.username);
+			setStartDate(
+				taskToShowDetails.startDate
+					? dayjs(taskToShowDetails.startDate)
+					: null
+			);
+			setDueDate(
+				taskToShowDetails.dueDate
+					? dayjs(taskToShowDetails.dueDate)
+					: null
+			);
+			setEndDate(
+				taskToShowDetails.endDate
+					? dayjs(taskToShowDetails.endDate)
+					: null
+			);
+			setAssignee(taskToShowDetails.user?.username);
 		}
 	}, []);
 
@@ -93,7 +105,7 @@ function TaskDetailForm({ props }) {
 			endDate: endDate ? dayjs(endDate).format("YYYY-MM-DD") : null,
 			status,
 			project: { id: "001" },
-			user: {id: user.userId},
+			user: { id: user.userId },
 		};
 		try {
 			await updateTask(taskModel);
@@ -105,7 +117,7 @@ function TaskDetailForm({ props }) {
 
 	const handleCloseDialog = () => {
 		handleClose(false);
-	}
+	};
 	const handleDeleteFile = () => {};
 	const handleComment = () => {};
 
