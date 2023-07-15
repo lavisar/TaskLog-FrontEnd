@@ -24,129 +24,134 @@ import AdminCreate from "./pages/admin/AdminCreate";
 import UserCurrentProject from "./pages/user/UserCurrentProject";
 import MyTasks from "./pages/task/MyTasks";
 import UserProjects from "./pages/user/UserProjects";
+import Document from "./pages/document/Document";
 
 const router = createBrowserRouter([
-  {
-    path: WEBLINKS.HOME,
-    element: <SplashPage />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: WEBLINKS.LOGIN,
-    element: <UserLogin />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: WEBLINKS.SIGNUP,
-    element: <UserSignUp />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: WEBLINKS.MAIN,
-    element: (
-      <RequireAuth>
-        <UserTeams />
-      </RequireAuth>
-    ),
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: `/:teamId${WEBLINKS.PROJECTS}`,
-    element: (
-      <RequireAuth>
-        <UserProjects />
-      </RequireAuth>
-    ),
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: WEBLINKS.MAIN,
-    element: (
-      <RequireAuth>
-        <Layout1 />
-      </RequireAuth>
-    ),
-    children: [
-      // {
-      //   path: WEBLINKS.MAIN,
-      //   element: <UserTeams />,
-      // },
-      {
-        path: WEBLINKS.PROFILE,
-        element: <UserProfile />,
-      },
-      {
-        path: `${WEBLINKS.TEAMS}/:teamId`,
-        element: <UserCurrentTeam />,
-      },
-      {
-        path: `${WEBLINKS.PROJECT}/:teamId`,
-        element: <UserCurrentProject />,
-      },
-      {
-        path: WEBLINKS.TASK,
-        element: <TaskBoard />,
-      },
-      {
-        path: `${WEBLINKS.TASK}/:userId`,
-        element: <MyTasks />
-      }
-    ],
-    errorElement: <ErrorPage />,
-  },
+	{
+		path: WEBLINKS.HOME,
+		element: <SplashPage />,
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: WEBLINKS.LOGIN,
+		element: <UserLogin />,
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: WEBLINKS.SIGNUP,
+		element: <UserSignUp />,
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: WEBLINKS.MAIN,
+		element: (
+			<RequireAuth>
+				<UserTeams />
+			</RequireAuth>
+		),
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: `/:teamId${WEBLINKS.PROJECTS}`,
+		element: (
+			<RequireAuth>
+				<UserProjects />
+			</RequireAuth>
+		),
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: WEBLINKS.MAIN,
+		element: (
+			<RequireAuth>
+				<Layout1 />
+			</RequireAuth>
+		),
+		children: [
+			// {
+			//   path: WEBLINKS.MAIN,
+			//   element: <UserTeams />,
+			// },
+			{
+				path: WEBLINKS.PROFILE,
+				element: <UserProfile />,
+			},
+			{
+				path: `${WEBLINKS.TEAMS}/:teamId`,
+				element: <UserCurrentTeam />,
+			},
+			{
+				path: `${WEBLINKS.PROJECT}/:teamId`,
+				element: <UserCurrentProject />,
+			},
+			{
+				path: WEBLINKS.TASK,
+				element: <TaskBoard />,
+			},
+			{
+				path: `${WEBLINKS.TASK}/:userId`,
+				element: <MyTasks />,
+			},
+			{
+				path: `${WEBLINKS.DOCUMENT}/:projectId`,
+				element: <Document />,
+			},
+		],
+		errorElement: <ErrorPage />,
+	},
 
-  // ============================================================
-  // Links for ADMIN ----------------------------------------
-  {
-    path: WEBLINKS.ADMIN_LOGIN,
-    element: <AdminLogin />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: WEBLINKS.ADMIN_MAIN,
-    element: (
-      <RequireAdminAuth>
-        <AdminLayout />
-      </RequireAdminAuth>
-    ),
-    children: [
-      {
-        path: WEBLINKS.ADMIN_MAIN,
-        element: <AdminMain />,
-      },
-      {
-        path: WEBLINKS.ADMIN_PROFILE,
-        element: <AdminProfile />,
-      },
-      {
-        path: WEBLINKS.ADMIN_CREATE,
-        element: <AdminCreate />,
-      },
-      {
-        path: WEBLINKS.ADMIN_ALL_USERS,
-        element: <UsersList />,
-      },
-      {
-        path: `${WEBLINKS.ADMIN_MANAGE_ACCOUNT}/:accountId`,
-        element: <ManageAccount />,
-      },
+	// ============================================================
+	// Links for ADMIN ----------------------------------------
+	{
+		path: WEBLINKS.ADMIN_LOGIN,
+		element: <AdminLogin />,
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: WEBLINKS.ADMIN_MAIN,
+		element: (
+			<RequireAdminAuth>
+				<AdminLayout />
+			</RequireAdminAuth>
+		),
+		children: [
+			{
+				path: WEBLINKS.ADMIN_MAIN,
+				element: <AdminMain />,
+			},
+			{
+				path: WEBLINKS.ADMIN_PROFILE,
+				element: <AdminProfile />,
+			},
+			{
+				path: WEBLINKS.ADMIN_CREATE,
+				element: <AdminCreate />,
+			},
+			{
+				path: WEBLINKS.ADMIN_ALL_USERS,
+				element: <UsersList />,
+			},
+			{
+				path: `${WEBLINKS.ADMIN_MANAGE_ACCOUNT}/:accountId`,
+				element: <ManageAccount />,
+			},
 
-      // team
-      {
-        path: WEBLINKS.ADMIN_ALL_TEAMS,
-        element: <TeamList />,
-      },
-      {
-        path: `${WEBLINKS.ADMIN_TEAM_DETAIL}/:teamId`,
-        element: <TeamDetails />,
-      },
-    ],
-    errorElement: <ErrorPage />,
-  },
+			// team
+			{
+				path: WEBLINKS.ADMIN_ALL_TEAMS,
+				element: <TeamList />,
+			},
+			{
+				path: `${WEBLINKS.ADMIN_TEAM_DETAIL}/:teamId`,
+				element: <TeamDetails />,
+			},
+		],
+		errorElement: <ErrorPage />,
+	},
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+	return <RouterProvider router={router} />;
 }
 
 export default App;
