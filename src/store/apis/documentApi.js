@@ -20,10 +20,10 @@ export const documentApi = authApi.injectEndpoints({
 			providesTags: ["Document"],
 			query: (file) => `/document/${file}`,
 		}),
-		getFileDownload: builder.query({
-			providesTags: ["Document"],
-			query: (fileId) => `/document/download/${fileId}`,
-		}),
+		// getFileDownload: builder.query({
+		// 	providesTags: ["Document"],
+		// 	query: (fileId) => `/document/download/${fileId}`,
+		// }),
 		deleteDocumentById: builder.mutation({
 			invalidatesTags: ["Document"],
 			query: (id) => {
@@ -40,6 +40,6 @@ export const {
 	useCreateDocumentMutation,
 	useGetDocumentsByProjectIdQuery,
 	useGetDocumentByNameQuery,
-	useGetFileDownloadQuery,
+	// useGetFileDownloadQuery,
 	useDeleteDocumentByIdMutation,
 } = documentApi;

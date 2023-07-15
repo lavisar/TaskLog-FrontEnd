@@ -1,24 +1,23 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { DataGrid } from "@mui/x-data-grid";
-import {
-	useDeleteDocumentByIdMutation,
-	useGetFileDownloadQuery,
-} from "../../../store/apis/documentApi";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { GetApp } from "@mui/icons-material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { DataGrid } from "@mui/x-data-grid";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useDeleteDocumentByIdMutation } from "../../../store/apis/documentApi";
+import { API_INSTANCE } from "../../../store/apis/features/apisConst";
+import {
+	selectCurrentRefreshToken,
+	selectCurrentToken,
+} from "./../../../store/apis/features/authSlice";
+import { useSelector } from "react-redux";
 
 export const DocumentList = ({ documentLst }) => {
-	const dispatch = useDispatch();
 	const { data, isLoading, err } = documentLst;
 	const [rows, setRows] = useState([]);
-	const [options, setOptions] = useState([""]);
-
 	const deleteDocumentById = useDeleteDocumentByIdMutation();
-	const { data: fileData } = useGetFileDownloadQuery();
 
-	console.log("useGetFileDownloadQuery:", useGetFileDownloadQuery());
-	// console.log("getFileDownload", fileData);
+	const token = useSelector(selectCurrentToken);
+	const refreshToken = useSelector(selectCurrentRefreshToken);
 
 	const handleDelete = async (documentId) => {
 		console.log("deleting id:", documentId);
@@ -35,13 +34,23 @@ export const DocumentList = ({ documentLst }) => {
 	};
 	const downloadFile = (documentId) => {
 		console.log("dowloading id: " + documentId);
-		console.log("getFileDownload", fileData(documentId));
-		// getFileDownload(documentId).then((res) => {
-		// 	const a = document.createElement("a");
-		// 	a.href = URL.createObjectURL(res.data);
-		// 	a.download = res.data.fileName || "file";
-		// 	a.click();
-		// });
+		axios({
+			url: `${API_INSTANCE.BASE_URL}/document/download/${documentId}`,
+			method: "GET",
+			responseType: "blob",
+			headers: { Authorization: `Bearer ${token}` },
+		})
+			.then((response) => {
+				const href = URL.createObjectURL(response.data);
+				const link = document.createElement("a");
+				link.href = href;
+				link.setAttribute("download", "file.pdf");
+				document.body.appendChild(link);
+				link.click();
+				document.body.removeChild(link);
+				URL.revokeObjectURL(href);
+			})
+			.catch();
 	};
 
 	useEffect(() => {
