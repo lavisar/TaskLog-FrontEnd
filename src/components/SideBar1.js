@@ -52,7 +52,6 @@ export default function SideBar2({ open }) {
 			icon: <HiDocumentDuplicate />,
 			link: "DOCUMENTS",
 			path: `${WEBLINKS.DOCUMENT}/${projectId}`,
-			//http://localhost:8080/document/001
 		},
 		{
 			icon: <LuMilestone />,
