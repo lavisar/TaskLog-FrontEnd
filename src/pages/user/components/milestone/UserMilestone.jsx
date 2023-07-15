@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { useDeleteMilestoneMutation, useGetAllMilestoneQuery, useGetMilestoneQuery } from "../../../../store/apis/milestoneApi";
+import { useDeleteMilestoneMutation, useFindMilestonesByProjectIdQuery, useGetAllMilestoneQuery, useGetMilestoneQuery } from "../../../../store/apis/milestoneApi";
 import { useGetProjectQuery } from "../../../../store/apis/projectApi";
 import { WEBLINKS } from "../../../../store/constants/WebLinks";
 import { setProject } from "../../../../store";
@@ -12,7 +12,7 @@ import { LoadingButton } from "@mui/lab";
 import { IoRemoveCircleSharp, IoPencil } from 'react-icons/io5';
 import AddMemberButton from "../team/AddMemberButton";
 export default function UserMilestone(){
-    const{projectId} = useParams();
+    const{projects_id} = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -41,7 +41,15 @@ export default function UserMilestone(){
         isSuccess: getProjectIsSuccess,
         isLoading: getProjectIsLoading,
         isError: getProjectIsError,
-    } = useGetProjectQuery(projectId);
+    } = useGetProjectQuery(projects_id);
+
+    const {
+        data: findmilestoneData,
+        isLoading: findmilestoneIsLoading,
+        isSuccess: findmilestoneIsSuccess,
+        isError: findmilestoneIsError,
+        error: findmilestoneError,
+    } = useFindMilestonesByProjectIdQuery(projects_id);
 
     const {
         data: milestoneData,
@@ -49,7 +57,7 @@ export default function UserMilestone(){
         isSuccess: milestoneIsSuccess,
         isError: milestoneIsError,
         error: milestoneError,
-    } = useGetAllMilestoneQuery(projectId);
+    } = useGetAllMilestoneQuery(projects_id);
 
     const [remove, {isLoading}] = useDeleteMilestoneMutation();
 
@@ -116,12 +124,6 @@ export default function UserMilestone(){
             value: (milestone) => milestone.todate,
         },
         {
-            id: 'projectId',
-            label: 'Project Id',
-            renderCell: (milestone) => milestone.projectId,
-            value: (milestone) => milestone.projectId,
-        },
-        {
             id: 'remove',
             label: 'Remove',
             renderCell: (milestone) => {
@@ -139,16 +141,14 @@ export default function UserMilestone(){
     ]
 
     let content3
-    if(milestoneIsLoading){
+    if(findmilestoneIsLoading){
         content3 = <h1>Loading ...</h1>
-    }else if(milestoneIsError){
-        console.log(milestoneError)
-    }else if(milestoneIsSuccess){
-        const projectMilestone = milestoneData.filter(milestone => milestone.projectId === projectId);
+    }else if(findmilestoneIsError){
+        console.log(findmilestoneError)
+    }else if(findmilestoneIsSuccess){
         content3 = (
             <Card>
-                
-                <CustomTableSortable data={projectMilestone} config={config}/>
+                <CustomTableSortable data={findmilestoneData} config={config}/>
             </Card>
         );
     }

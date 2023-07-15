@@ -26,6 +26,10 @@ export const milestoneApi = authApi.injectEndpoints({
                 return [{ type: "MilestoneDelete", id: "DelMil" }];
             },
         }),
+        findMilestonesByProjectId: builder.query({
+          query: (projectId) => `/milestone/findByProject/${projectId}`,
+        }),
+        
         updateMilestone: builder.mutation({
             query: (body) => {
               return {
@@ -61,5 +65,6 @@ export const{
   useFindMilestoneByNameQuery,
   useGetAllMilestoneQuery,
   useUpdateMilestoneMutation,
-  useGetMilestoneQuery
+  useGetMilestoneQuery,
+  useFindMilestonesByProjectIdQuery
 } = milestoneApi

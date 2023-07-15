@@ -77,7 +77,7 @@ export default function UpdateProject({ getProjectIsLoading }) {
                     top: '50%',
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
-                    width: 500,
+                    width: 1000,
                     bgcolor: 'background.paper',
                     borderRadius: '20px',
                     boxShadow: 24,
@@ -113,12 +113,14 @@ export default function UpdateProject({ getProjectIsLoading }) {
                         
                     </div>
                 </form>
-
+                <br>
+                </br>
+                <UserMilestone/>
             </Box>
 
-
+            
         </Modal>
-        <UserMilestone/>
+        
 
     </div >
 
