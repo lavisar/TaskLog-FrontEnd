@@ -31,7 +31,7 @@ export default function SideBar2({ open }) {
 	);
 	const { teamId, teamName, teamMemberRole } = useSelector(currentTeam);
 	const userId = useSelector((state) => state.user.id);
-	const projectId = "001";
+	const projectId = useSelector((state) => state.project.id);
 	const listItems = [
 		{
 			icon: <RiTeamFill />,

@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 import { LuMilestone } from "react-icons/lu";
 
 export default function SideBar() {
-	const projectId = "001";
+	const projectId = useSelector((state) => state.project.id);
 	const currentTeam = createSelector(
 		(state) => state.team.id,
 		(state) => state.team.teamName,
