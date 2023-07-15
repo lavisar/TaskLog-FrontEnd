@@ -31,6 +31,8 @@ import { documentApi } from "./apis/documentApi";
 import { documentReducer, setDocuments } from "./slices/documentSlice";
 import { teamsApi } from "./apis/teamsApi";
 import { projectApi } from "./apis/projectApi";
+import { milestoneApi } from "./apis/milestoneApi";
+import { milestoneReducer } from "./slices/milestoneSlice";
 
 const store = configureStore({
 	reducer: {
@@ -51,23 +53,22 @@ const store = configureStore({
 		[projectApi.reducerPath]: projectApi.reducer,
 		project: projectReducer,
 
-		// tasks
-		[taskApi.reducerPath]: taskApi.reducer,
-		tasks: taskReducer,
-		currentMember: currentMemberReducer,
+    // tasks
+    [taskApi.reducerPath]: taskApi.reducer,
+    tasks: taskReducer,
+    currentMember: currentMemberReducer,
 
-		// documents
-		[documentApi.reducerPath]: documentApi.reducer,
-		document: documentReducer,
-	},
-	middleware: (getDefaultMiddleware) => {
-		return getDefaultMiddleware()
-			.concat(authApi.middleware)
-			.concat(usersApi.middleware)
-			.concat(taskApi.middleware)
-			.concat(documentApi.middleware);
-	},
-	devTools: true,
+    //milestone
+    [milestoneApi.reducerPath]: milestoneApi.reducer,
+    milestone: milestoneReducer,
+  },
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware()
+      .concat(authApi.middleware)
+      .concat(usersApi.middleware)
+      .concat(taskApi.middleware);
+  },
+  devTools: true,
 });
 
 setupListeners(store.dispatch);

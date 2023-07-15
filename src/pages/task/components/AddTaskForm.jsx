@@ -68,7 +68,7 @@ export function AddTaskForm({ props }) {
 			// endDate,
 			dueDate: dayjs(dueDate).format("YYYY-MM-DD"),
 			status,
-			project: { id: "001" },
+			project: { id: "1688500545597" },
 			// position,
 			user: {id: user.userId},
 			// version,

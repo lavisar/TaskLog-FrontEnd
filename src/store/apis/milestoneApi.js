@@ -15,7 +15,7 @@ export const milestoneApi = authApi.injectEndpoints({
             query: (name) => `/milestone/${name}`,
         }),
 
-        deleteProjects: builder.mutation({
+        deleteMilestone: builder.mutation({
             query: (id) => {
                 return {
                     url: `/milestone/${id}`,
@@ -48,5 +48,18 @@ export const milestoneApi = authApi.injectEndpoints({
               };
             },
           }),
-    })
-})
+          getMilestone: builder.query({
+            query: (milestoneId) => `/milestone/get/${milestoneId}`,
+          }),
+    }),
+
+});
+
+export const{
+  useCreateMilestoneMutation,
+  useDeleteMilestoneMutation,
+  useFindMilestoneByNameQuery,
+  useGetAllMilestoneQuery,
+  useUpdateMilestoneMutation,
+  useGetMilestoneQuery
+} = milestoneApi
