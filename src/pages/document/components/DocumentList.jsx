@@ -1,23 +1,15 @@
 import { GetApp } from "@mui/icons-material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { DataGrid } from "@mui/x-data-grid";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDeleteDocumentByIdMutation } from "../../../store/apis/documentApi";
-import { API_INSTANCE } from "../../../store/apis/features/apisConst";
-import {
-	selectCurrentRefreshToken,
-	selectCurrentToken,
-} from "./../../../store/apis/features/authSlice";
-import { useSelector } from "react-redux";
+import { authRequestWithReauth } from "../../../store/apis/features/authApiAxios";
 
 export const DocumentList = ({ documentLst }) => {
 	const { data, isLoading, err } = documentLst;
 	const [rows, setRows] = useState([]);
-	const deleteDocumentById = useDeleteDocumentByIdMutation();
 
-	const token = useSelector(selectCurrentToken);
-	const refreshToken = useSelector(selectCurrentRefreshToken);
+	const [deleteDocumentById] = useDeleteDocumentByIdMutation();
 
 	const handleDelete = async (documentId) => {
 		console.log("deleting id:", documentId);
@@ -32,25 +24,26 @@ export const DocumentList = ({ documentLst }) => {
 			console.error("error", error);
 		}
 	};
-	const downloadFile = (documentId) => {
+	const downloadFile = (documentId, filename) => {
 		console.log("dowloading id: " + documentId);
-		axios({
-			url: `${API_INSTANCE.BASE_URL}/document/download/${documentId}`,
-			method: "GET",
-			responseType: "blob",
-			headers: { Authorization: `Bearer ${token}` },
-		})
-			.then((response) => {
-				const href = URL.createObjectURL(response.data);
-				const link = document.createElement("a");
-				link.href = href;
-				link.setAttribute("download", "file.pdf");
-				document.body.appendChild(link);
-				link.click();
-				document.body.removeChild(link);
-				URL.revokeObjectURL(href);
-			})
-			.catch();
+		authRequestWithReauth(
+			`document/dowload/${documentId}`,
+			"GET",
+			"blob"
+		).then((response) => {
+			console.log(response);
+			var binaryData = [];
+			binaryData.push(response.data);
+			const link = document.createElement("a");
+			link.href = URL.createObjectURL(
+				new Blob(binaryData, { type: "application/octet-stream" })
+			);
+			link.setAttribute("download", filename);
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link);
+			URL.revokeObjectURL(link.href);
+		});
 	};
 
 	useEffect(() => {
@@ -95,9 +88,12 @@ export const DocumentList = ({ documentLst }) => {
 			width: 100,
 			renderCell: (params) => {
 				const documentId = params.row.documentId;
+				const fileName = params.row.fileName;
 				return (
 					<div className="flex items-center justify-center space-x-3">
-						<GetApp onClick={() => downloadFile(documentId)} />
+						<GetApp
+							onClick={() => downloadFile(documentId, fileName)}
+						/>
 						<span className="mx-2">|</span>
 						<DeleteIcon
 							onClick={() => handleDelete(documentId)}

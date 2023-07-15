@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useGetDocumentsByProjectIdQuery } from "../../store";
 import { DocumentList } from "./components/DocumentList";
 import { Button } from "@mui/material";
-import FileUploadIcon from "@mui/icons-material/UploadFile";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { FormUpload } from "./components/FormUpload";
 
 function Document() {
@@ -15,14 +15,20 @@ function Document() {
 	// 	useGetDocumentsByProjectIdQuery(projectSelect);
 
 	const [showForm, setShowForm] = useState(false);
+	const openForm = () => {
+		setShowForm(true);
+	};
 
+	const closeForm = () => {
+		setShowForm(false);
+	};
 	return (
 		<>
 			<div className="w-full">
-				<Button variant="contained" onClick={() => setShowForm(true)}>
-					+ UPLOAD
+				<Button variant="contained" color="success" onClick={openForm}>
+					<UploadFileIcon className="mr-3" /> NEW FILE
 				</Button>
-				{showForm && <FormUpload onClose={() => setShowForm(false)} />}
+				{showForm && <FormUpload onClose={closeForm} />}
 			</div>
 			<div className="container mx-auto">
 				<DocumentList
