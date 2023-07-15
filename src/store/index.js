@@ -29,6 +29,8 @@ import { taskApi } from "./apis/taskApi";
 import { setTasks, setShowTaskDetails, taskReducer } from "./slices/taskSlice";
 import { teamsApi } from "./apis/teamsApi";
 import { projectApi } from "./apis/projectApi";
+import { milestoneApi } from "./apis/milestoneApi";
+import { milestoneReducer } from "./slices/milestoneSlice";
 
 const store = configureStore({
   reducer: {
@@ -53,6 +55,10 @@ const store = configureStore({
     [taskApi.reducerPath]: taskApi.reducer,
     tasks: taskReducer,
     currentMember: currentMemberReducer,
+
+    //milestone
+    [milestoneApi.reducerPath]: milestoneApi.reducer,
+    milestone: milestoneReducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware()

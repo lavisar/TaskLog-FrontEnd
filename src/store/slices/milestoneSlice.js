@@ -59,5 +59,5 @@ const milestoneSlice = createSlice({
         
     },
 });
-export const {setMilestone, clearMilestone} = milestone.actions;
+export const { actions: { setMilestone, clearMilestone } } = milestoneSlice;
 export const milestoneReducer = milestoneSlice.reducer;

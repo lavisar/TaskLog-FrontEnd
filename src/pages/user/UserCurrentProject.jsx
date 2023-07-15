@@ -5,14 +5,15 @@ import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { TeamRole } from "../../store/constants/Role";
 import { setCurrentMember, setTeam, useGetCurrentMemberQuery, useGetTeamQuery, useGetAllMembersDetailsQuery } from "../../store";
-import { useGetAllProjectsQuery, useDeleteProjectsMutation, useGetProjectQuery } from "../../store/apis/projectApi"
+import { useGetAllProjectsQuery, useDeleteProjectsMutation, useGetProjectQuery, useUpdateProjectsMutation } from "../../store/apis/projectApi"
 import { WEBLINKS } from "../../store/constants/WebLinks";
 import { API_INSTANCE } from "../../store/apis/features/apisConst";
 import CustomTableSortable from "../../components/table/CustomTableSortable";
 import { Avatar, Box, Button, Card, Modal, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-import { IoRemoveCircleSharp } from 'react-icons/io5';
+import { IoRemoveCircleSharp, IoPencil } from 'react-icons/io5';
 import AddProjectButton from "./AddProjectButton";
+import UpdateProject from "./UpdateProject";
 
 export default function UserCurrentProject() {
     const { teamId } = useParams();
@@ -43,7 +44,7 @@ export default function UserCurrentProject() {
         data: getProjectData,
         isSuccess: getProjectIsSuccess,
         isLoading: getProjectIsLoading,
-    } = useGetProjectQuery
+    } = useGetProjectQuery(projectId);
 
     const {
         data: currentMemberData,
@@ -51,14 +52,6 @@ export default function UserCurrentProject() {
         isLoading: currentMemberIsLoading,
     } = useGetCurrentMemberQuery(teamId);
 
-
-    const {
-        data: membersData,
-        isLoading: membersIsLoading,
-        isSuccess: membersIsSuccess,
-        isError: membersIsError,
-        error: membersError
-    } = useGetAllMembersDetailsQuery(teamId);
 
     const {
         data: projectData,
@@ -69,6 +62,8 @@ export default function UserCurrentProject() {
     } = useGetAllProjectsQuery(teamId);
 
     const [remove, { isLoading }] = useDeleteProjectsMutation();
+
+
 
     useEffect(() => {
         if (teamIsError) {
@@ -81,7 +76,6 @@ export default function UserCurrentProject() {
             dispatch(setCurrentMember(currentMemberData));
         }
     }, [dispatch, navigate, teamData, teamIsError, teamIsSuccess, currentMemberData, currentMemberIsSuccess]);
-
 
     const handleOpen = (id, projectName) => {
         setOpen(true);
@@ -138,7 +132,7 @@ export default function UserCurrentProject() {
             }
 
 
-        }
+        },
 
     ]
 
@@ -152,6 +146,7 @@ export default function UserCurrentProject() {
         content2 = (
             <Card>
                 <AddProjectButton />
+                <UpdateProject/>
                 <CustomTableSortable data={teamProjects} config={config} />
             </Card>
         );

@@ -60,6 +60,9 @@ export const projectApi = authApi.injectEndpoints({
           body,
         };
       },
+      invalidatesTags: (result, error, id) => {
+        return [{ type: "UpdateProject", id: "UpPrj" }];
+      },
     }),
   }),
 });
