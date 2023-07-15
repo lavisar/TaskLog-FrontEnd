@@ -10,9 +10,9 @@ function Document() {
 	const projectSelect = useSelector((state) => state.project.id);
 	console.log("projectSelect", projectSelect);
 	// for testing purposes
-	const { data, isLoading, err } = useGetDocumentsByProjectIdQuery("001");
-	// const { data, isLoading, err } =
-	// 	useGetDocumentsByProjectIdQuery(projectSelect);
+	// const { data, isLoading, err } = useGetDocumentsByProjectIdQuery("001");
+	const { data, isLoading, err } =
+		useGetDocumentsByProjectIdQuery(projectSelect);
 
 	const [showForm, setShowForm] = useState(false);
 	const openForm = () => {
