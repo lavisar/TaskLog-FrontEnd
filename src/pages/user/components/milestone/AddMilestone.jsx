@@ -14,7 +14,7 @@ export default function AddMilestone(){
     const [open, setOpen] = useState(false);
     const anchorRef = useRef(null);
 
-    const id = useSelector(state => state.project.id);
+    const id = useSelector(state => state?.project?.id);
     const [createMilestone, { isLoading }] = useCreateMilestoneMutation();
 
     const handlePopperClose = (event) => {
@@ -81,8 +81,7 @@ export default function AddMilestone(){
             <div className="p-1">
                 <TextField
                     id="fromdate"
-                    label="Form Date"
-                    type="text"
+                    type="date"
                     value={fromdate}
                     onChange={m => setFromdate(m.target.value)}
                     autoComplete="off"
@@ -93,8 +92,7 @@ export default function AddMilestone(){
             <div className="p-1">
                 <TextField
                     id="todate"
-                    label="To Date"
-                    type="text"
+                    type="date"
                     value={todate}
                     onChange={m => setTodate(m.target.value)}
                     autoComplete="off"
