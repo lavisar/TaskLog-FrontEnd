@@ -54,12 +54,11 @@ function MyTasks() {
 
 	return (
 		<>
-			<div>MYTASK</div>
 			{isGetting ? (
 				<LoadingBackdrop props={{ isGetting, isGettingSuccess }} />
 			) : (
 				<div className="container mx-auto">
-					<div className="flex flex-col gap-5">
+					<div className="flex flex-col gap-5 mb-5">
 						{doingTasks?.length > 0 ? (
 							<FilerTaskByStatus rowProp={{status: doingTasks, handleOpen}} />
 						) : (
