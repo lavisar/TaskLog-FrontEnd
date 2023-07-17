@@ -70,6 +70,7 @@ function TaskDetailForm({ props }) {
 			setPriority(taskToShowDetails.priority);
 			setStatus(taskToShowDetails.status);
 			setEstimated(taskToShowDetails.estimated);
+			setActual(taskToShowDetails.actualHours);
 			setStartDate(
 				taskToShowDetails.startDate
 					? dayjs(taskToShowDetails.startDate)
@@ -100,8 +101,8 @@ function TaskDetailForm({ props }) {
 			category,
 			estimated: estimated,
 			actualHours: actual,
-			startDate: dayjs(startDate).format("YYYY-MM-DD"),
-			dueDate: dayjs(dueDate).format("YYYY-MM-DD"),
+			startDate: startDate ? dayjs(startDate).format("YYYY-MM-DD") : null,
+			dueDate: dueDate ? dayjs(dueDate).format("YYYY-MM-DD") : null,
 			endDate: endDate ? dayjs(endDate).format("YYYY-MM-DD") : null,
 			status,
 			project: { id: "001" },

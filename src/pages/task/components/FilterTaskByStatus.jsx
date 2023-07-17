@@ -2,67 +2,72 @@ import { MoreVert } from "@mui/icons-material";
 import { Button, IconButton } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { TaskStatus } from "../../../store/constants/TaskConstant";
+import { setShowTaskDetails } from "../../../store";
 
 function FilerTaskByStatus({rowProp}) {
+	const dispatch = useDispatch();
 	const {status, handleOpen} = rowProp;
 	const [rows, setRows] = useState([]);
 	useEffect(() => {
 		const rowConfig = status.map((row, index) => {
 			return {
-				id: index + 1,
+				id: row.id,
 				task: row.taskName,
 				priority: row.priority,
 				category: row.category,
 				dueDate: row.dueDate,
-				action: "",
+				// action: "",
 			}
 		})
 		setRows(rowConfig);
-	}, [rowProp])
-	// const rows = [
-	// 	{
-	// 		id: "xxx",
-	// 		task: "TASK_001",
-	// 		priority: "HIGH",
-	// 		category: "Bug",
-	// 		dueDate: " 6/9/23",
-	// 		action: "BUTTON",
-	// 	},
-	// ];
+	}, [status])
 
 	const columns = [
 		{
+			field: "id",
+			headerName: "",
+			// flex: 1,
+			// width: "10%",
+			// minWidth: "50%"
+		},
+		{
 			field: "task",
 			headerName: "Task",
-			flex: 3,
+			// flex: 2,
+			// width: "10%"
 		},
 		{
 			field: "priority",
 			headerName: "Priority",
-			flex: 2,
+			// flex: 1,
+			// width: "10%"
 		},
 		{
 			field: "category",
 			headerName: "Category",
-			flex: 2,
+			// flex: 1,
+			// width: "10%"
 		},
 		{
 			field: "dueDate",
 			headerName: "Due Date",
-			flex: 2,
+			// flex: 1,
+			// width: "10%"
 		},
-		{
-			field: "action",
-			headerName: "",
-			flex: 1,
-			sortable: false,
-			renderCell: () => (
-				<IconButton className="!text-black" onClick={handleOpenDiaglog}>
-					<MoreVert />
-				</IconButton>
-			),
-		},
+		// {
+		// 	field: "action",
+		// 	headerName: "",
+			// flex: 1,
+		// 	// width: "10%",
+		// 	sortable: false,
+		// 	renderCell: (param) => (
+		// 		<IconButton className="!text-black" onClick={() => handleRowClick(param.row.id)}>
+		// 			<MoreVert />
+		// 		</IconButton>
+		// 	),
+		// },
 	];
 
 	const setStatusColor = (status) => {
@@ -78,7 +83,9 @@ function FilerTaskByStatus({rowProp}) {
 		}
 	};
 
-	const handleOpenDiaglog = () => {
+	const handleRowClick = (taskId) => {
+		const taskRow = status.find((dataRow) => dataRow.id === taskId);
+		dispatch(setShowTaskDetails(taskRow));
 		handleOpen(true);
 	}
 
@@ -99,18 +106,37 @@ function FilerTaskByStatus({rowProp}) {
 							outline: "none",
 						},
 						"& .MuiDataGrid-row": { cursor: "pointer" },
-						"& .MuiDataGrid-row:hover": { background: "none" },
+						// "& .MuiDataGrid-row:hover": { background: "none" },
 						"& .MuiDataGrid-cell:focus": {
 							outline: "none",
 						},
 					}}
-					disableColumnFilter
-					rowSelection={false}
-					disableRowSelectionOnClick
-					disableColumnSelector
-					disableDensitySelector
-					disableColumnMenu
-					hideFooter
+					// disableColumnFilter
+					// rowSelection={false}
+					// disableRowSelectionOnClick
+					// disableColumnSelector
+					// disableDensitySelector
+					// disableColumnMenu
+					// hideFooterPagination
+					// hideFooterSelectedRowCount
+					// hideFooter
+					// loading={isLoading}
+					initialState={{
+						pagination: {
+							paginationModel: { page: 0, pageSize: 5 },
+						},
+					}}
+					pageSizeOptions={[5, 10]}
+							disableColumnFilter
+							rowSelection={false}
+							disableRowSelectionOnClick
+							disableColumnSelector
+							disableDensitySelector
+							disableColumnMenu
+					columnVisibilityModel={{
+						id: false,
+					}}
+					onRowClick={(param) => handleRowClick(param.row.id)}
 				/>
 			</div>
 		</div>
