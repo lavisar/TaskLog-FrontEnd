@@ -110,6 +110,22 @@ export const usersApi = authApi.injectEndpoints({
         return [{ type: "DeleteUser", id: id }];
       },
     }),
+    clearUserRefreshToken: builder.mutation({
+      query: (userId) => {
+        return {
+          method: "DELETE",
+          url: `/auth/refreshtoken/clear/${userId}`,
+        };
+      },
+    }),
+    deleteAllRefreshTokens: builder.mutation({
+      query: () => {
+        return {
+          method: "DELETE",
+          url: `auth/refreshtoken/clear-all`,
+        };
+      },
+    }),
   }),
 });
 
@@ -124,4 +140,6 @@ export const {
   useChangePasswordMutation,
   useChangeAdminRoleMutation,
   useDeleteUserMutation,
+  useClearUserRefreshTokenMutation,
+  useDeleteAllRefreshTokensMutation,
 } = usersApi;

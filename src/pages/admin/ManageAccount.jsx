@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useChangeAdminRoleMutation, useDeleteUserMutation, useGetUserQuery } from "../../store";
+import { useChangeAdminRoleMutation, useClearUserRefreshTokenMutation, useDeleteUserMutation, useGetUserQuery } from "../../store";
 import { useEffect, useState } from "react";
 import { Box, Button, FormControl, InputLabel, LinearProgress, MenuItem, Modal, Paper, Select, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from "@mui/material";
 import { UserRole } from "../../store/constants/Role";
@@ -19,7 +19,6 @@ export default function ManageAccount() {
 
   const { data, isLoading, isSuccess } = useGetUserQuery(accountId);
   const [changeAdminRole, { isLoading: changingRole }] = useChangeAdminRoleMutation();
-  const [deleteUser, { isLoading: deleting }] = useDeleteUserMutation();
 
   const selectDetails = createSelector(
     (state) => state.user.id,
@@ -48,6 +47,7 @@ export default function ManageAccount() {
     }
   }
 
+  const [deleteUser, { isLoading: deleting }] = useDeleteUserMutation();
   const handleDelete = async () => {
     try {
       const result = await deleteUser(data.id).unwrap();
@@ -56,6 +56,18 @@ export default function ManageAccount() {
         return;
       }
       navigate(WEBLINKS.ADMIN_ALL_USERS);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const [clearUserRefreshToken, { isLoading: clearing }] = useClearUserRefreshTokenMutation();
+  const handleClearRefreshToken = async () => {
+    try {
+      const result = await clearUserRefreshToken(data.id).unwrap();
+      if (result?.data?.error) {
+        console.log(result.data.error);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -131,6 +143,7 @@ export default function ManageAccount() {
               </TableRow>
               {data.role !== UserRole.MAIN ? (
                 <TableRow>
+                  <TableCell></TableCell>
                   <TableCell>
                     <Button onClick={() => setOpen(true)} className="!rounded-full">
                       <div className="flex items-center p-3 bg-red-500 rounded-full text-white hover:bg-red-600">
@@ -138,6 +151,18 @@ export default function ManageAccount() {
                         Delete account
                       </div>
                     </Button>
+
+
+                    <LoadingButton
+                      loading={clearing}
+                      onClick={handleClearRefreshToken}
+                      loadingIndicator="Clearing..."
+                      variant="contained"
+                      color="error"
+                      className="!bg-red-400 !rounded-full"
+                    >
+                      Clear Refresh Token
+                    </LoadingButton>
                   </TableCell>
                 </TableRow>
               ) : ''}
@@ -171,7 +196,7 @@ export default function ManageAccount() {
             <Box className="flex mt-5 items-center justify-between">
               <LoadingButton
                 loading={deleting}
-                onClick={() => handleDelete()}
+                onClick={handleDelete}
                 loadingIndicator="Deleting..."
                 variant="contained"
                 color="error"
