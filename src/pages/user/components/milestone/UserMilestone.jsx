@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { useDeleteMilestoneMutation, useFindMilestonesByProjectIdQuery, useUpdateMilestoneMutation, 
-    useGetAllMilestoneQuery, useGetMilestoneQuery, milestoneApi } from "../../../../store/apis/milestoneApi";
+import {
+    useDeleteMilestoneMutation, useFindMilestonesByProjectIdQuery, useUpdateMilestoneMutation,
+    useGetAllMilestoneQuery, useGetMilestoneQuery, milestoneApi
+} from "../../../../store/apis/milestoneApi";
 
 import { useGetProjectQuery } from "../../../../store/apis/projectApi";
 import { WEBLINKS } from "../../../../store/constants/WebLinks";
@@ -38,8 +40,10 @@ export default function UserMilestone() {
         setEditName(milestoneName);
         setEditDescription(milestoneDescription);
         setEditFromDate(milestoneFromDate);
-        setEditToDate(milestoneToDate); 
+        setEditToDate(milestoneToDate);
     };
+
+    const [updateMilestone, { isLoading: updating }] = useUpdateMilestoneMutation();
 
     const handleEditSave = async () => {
         try {
@@ -85,10 +89,8 @@ export default function UserMilestone() {
         isSuccess: getMilestoneIsSuccess,
         isError: getMilestoneIsError,
         isLoading: getMilestoneIsLoading,
-        mutate: updateMilestone,
     } = useGetMilestoneQuery(milestoneId);
-    
-    const [updateMilstone, {}] = useUpdateMilestoneMutation();
+
 
     const {
         data: getProjectData,
