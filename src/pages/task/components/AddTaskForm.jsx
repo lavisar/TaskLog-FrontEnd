@@ -70,7 +70,7 @@ export function AddTaskForm({ props }) {
 			status,
 			project: { id: "001" },
 			// position,
-			user: {id: user.userId},
+			user: { id: user.userId },
 			// version,
 			parentTask,
 		};
@@ -208,7 +208,7 @@ export function AddTaskForm({ props }) {
 							fullWidth
 							disablePortal
 							id="assignee"
-							value={assignee}
+							value={assignee === "" ? null : assignee}
 							onChange={(e, newValue) => {
 								setAssignee(newValue);
 							}}
