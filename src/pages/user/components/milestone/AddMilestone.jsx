@@ -40,7 +40,7 @@ export default function AddMilestone(){
             return;
         }
         try {
-            await createMilestone({ name, description,fromdate,todate,projectsId: id });
+            await createMilestone({ name, description,fromdate,todate,projectId: id });
             setOpen(false);
             setName('');
             setDiscription('');

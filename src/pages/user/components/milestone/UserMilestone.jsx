@@ -15,8 +15,7 @@ import CustomTableSortable from "../../../../components/table/CustomTableSortabl
 import { LoadingButton } from "@mui/lab";
 import { IoRemoveCircleSharp, IoPencil } from 'react-icons/io5';
 import AddMemberButton from "../team/AddMemberButton";
-export default function UserMilestone() {
-    const { projects_id } = useParams();
+export default function UserMilestone({ projectId }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -54,11 +53,11 @@ export default function UserMilestone() {
                 description: editDescription,
                 fromDate: editFromDate,
                 toDate: editToDate,
-            });
+            }).unwrap();
             console.log(result);
 
             // Handle the success or error response
-            if (result?.error.originalStatus === 200) {
+            if (result?.error?.originalStatus === 200) {
                 setEditOpen(false);
                 return;
             }
@@ -78,12 +77,6 @@ export default function UserMilestone() {
     };
 
 
-    // const {
-    //     data: projectData,
-    //     isSuccess: projectIsSuccess,
-    //     isError: projectIsError
-    // } = useGetProjectQuery(projectId);
-
     const {
         data: getMilestoneData,
         isSuccess: getMilestoneIsSuccess,
@@ -97,7 +90,7 @@ export default function UserMilestone() {
         isSuccess: getProjectIsSuccess,
         isLoading: getProjectIsLoading,
         isError: getProjectIsError,
-    } = useGetProjectQuery(projects_id);
+    } = useGetProjectQuery(projectId);
 
     const {
         data: milestoneData,
@@ -105,7 +98,7 @@ export default function UserMilestone() {
         isSuccess: milestoneIsSuccess,
         isError: milestoneIsError,
         error: milestoneError,
-    } = useGetAllMilestoneQuery(projects_id);
+    } = useFindMilestonesByProjectIdQuery(projectId);
 
 
     const [remove, { isLoading }] = useDeleteMilestoneMutation();

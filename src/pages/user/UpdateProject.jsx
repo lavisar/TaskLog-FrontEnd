@@ -23,7 +23,7 @@ export default function UpdateProject({ getProjectIsLoading }) {
     const [open, setOpen] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-	const [isCreateNew, setIsCreateNew] = useState(false);
+    const [isCreateNew, setIsCreateNew] = useState(false);
     useEffect(() => {
         setName(name);
     }, [name]);
@@ -58,7 +58,7 @@ export default function UpdateProject({ getProjectIsLoading }) {
                     className="!text-white !bg-green-500 hover:!bg-green-300 !rounded-full !px-3"
                 >
                     <AiFillSetting />
-                    <span className="pl-1">Edit Project</span>
+                    <span className="pl-1">Edit Current Project</span>
                 </Button>
 
             </Box>
@@ -85,7 +85,7 @@ export default function UpdateProject({ getProjectIsLoading }) {
                 }}>
                 <form onSubmit={handleSubmit}>
                     <div>
-                    <AddMilestone/>
+                        <AddMilestone />
                     </div>
                     <div className="p-4">
                         <TextField
@@ -110,17 +110,17 @@ export default function UpdateProject({ getProjectIsLoading }) {
                         >
                             <span className='px-3'>SAVE CHANGES</span>
                         </LoadingButton>
-                        
+
                     </div>
                 </form>
                 <br>
                 </br>
-                <UserMilestone/>
+                <UserMilestone projectId={id} />
             </Box>
 
-            
+
         </Modal>
-        
+
 
     </div >
 
