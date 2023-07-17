@@ -18,7 +18,6 @@ function FilerTaskByStatus({rowProp}) {
 				priority: row.priority,
 				category: row.category,
 				dueDate: row.dueDate,
-				// action: "",
 			}
 		})
 		setRows(rowConfig);
@@ -28,46 +27,27 @@ function FilerTaskByStatus({rowProp}) {
 		{
 			field: "id",
 			headerName: "",
-			// flex: 1,
-			// width: "10%",
-			// minWidth: "50%"
 		},
 		{
 			field: "task",
 			headerName: "Task",
-			// flex: 2,
-			// width: "10%"
+			flex: 0.5,
 		},
 		{
 			field: "priority",
 			headerName: "Priority",
-			// flex: 1,
-			// width: "10%"
+			flex: 0.5,
 		},
 		{
 			field: "category",
 			headerName: "Category",
-			// flex: 1,
-			// width: "10%"
+			flex: 0.5,
 		},
 		{
 			field: "dueDate",
 			headerName: "Due Date",
-			// flex: 1,
-			// width: "10%"
+			flex: 0.5,
 		},
-		// {
-		// 	field: "action",
-		// 	headerName: "",
-			// flex: 1,
-		// 	// width: "10%",
-		// 	sortable: false,
-		// 	renderCell: (param) => (
-		// 		<IconButton className="!text-black" onClick={() => handleRowClick(param.row.id)}>
-		// 			<MoreVert />
-		// 		</IconButton>
-		// 	),
-		// },
 	];
 
 	const setStatusColor = (status) => {
@@ -119,7 +99,7 @@ function FilerTaskByStatus({rowProp}) {
 					// disableColumnMenu
 					// hideFooterPagination
 					// hideFooterSelectedRowCount
-					// hideFooter
+					hideFooter
 					// loading={isLoading}
 					initialState={{
 						pagination: {

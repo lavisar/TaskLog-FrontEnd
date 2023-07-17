@@ -8,6 +8,7 @@ export const WEBLINKS = {
 	TEAMS: "/teams",
 
 	TASK: "/task",
+	MYTASK: "/task/mytask",
 
 	PROJECTS: "/projects",
 

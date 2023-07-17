@@ -17,7 +17,7 @@ export const taskApi = authApi.injectEndpoints({
       },
     }),
     getTasksByProject: builder.query({
-      providesTags: ['Task', 'TaskAdd', 'TaskUpdate', 'x'],
+      providesTags: ['Task', 'TaskAdd', 'TaskUpdate'],
       query: (id) => `/task?projectId=${id}`,
     }),
     updateTask: builder.mutation({
@@ -30,10 +30,13 @@ export const taskApi = authApi.injectEndpoints({
         }
       }
     }),
+    //`/task/myTasks?userId=${userId}&projectId=${projectId}`
     getTaskByUser: builder.query({
       providesTags: ["getTaskByUser"],
-      invalidatesTags: ['TaskAdd', 'TaskUpdate', 'x'],
-      query: (userId) => `/task/${userId}`
+      query: (args) => {
+        const {userId, projectId} = args;
+        return `/task/myTasks?userId=${userId}&projectId=${projectId}`;
+      }
     }),
   }),
 });
