@@ -38,6 +38,7 @@ function TaskDetailForm({ props }) {
 	const taskToShowDetails = useSelector(
 		(state) => state.tasks.taskToShowDetails
 	);
+	const projectId = useSelector((state) => state.project.id);
 	const currentMember = useSelector((state) => state.currentMember);
 	const { data, membersData, handleClose } = props;
 	const [updateTask] = useUpdateTaskMutation();
@@ -105,7 +106,7 @@ function TaskDetailForm({ props }) {
 			dueDate: dueDate ? dayjs(dueDate).format("YYYY-MM-DD") : null,
 			endDate: endDate ? dayjs(endDate).format("YYYY-MM-DD") : null,
 			status,
-			project: { id: "001" },
+			project: { id: projectId },
 			user: { id: user.userId },
 		};
 		try {
@@ -139,13 +140,13 @@ function TaskDetailForm({ props }) {
 								className="w-full"
 							/>
 							<div className="flex justify-center items-center">
-								{priority === TaskPriority.HIGH ? (
+								{ priority === TaskPriority.HIGH ? (
 									<ArrowUpward sx={{ color: "#f42858" }} />
 								) : priority === TaskPriority.NORMAL ? (
 									<ArrowForward sx={{ color: "#4488c5" }} />
-								) : (
+								) : priority === TaskPriority.LOW ? (
 									<ArrowDownward sx={{ color: "#5eb5a6" }} />
-								)}
+								) : "" }
 								<Select
 									required
 									size="small"
@@ -308,7 +309,7 @@ function TaskDetailForm({ props }) {
 								</p>
 							</div>
 							<div className="flex justify-between items-center">
-								<p>Actual start date:</p>
+								<p>Start date:</p>
 								<div className="w-1/2">
 									<LocalizationProvider
 										dateAdapter={AdapterDayjs}
@@ -325,7 +326,7 @@ function TaskDetailForm({ props }) {
 											onChange={(newValue) =>
 												setStartDate(newValue)
 											}
-											format="DD/MM/YY"
+											format="DD/MM/YYYY"
 											views={["day"]}
 										/>
 									</LocalizationProvider>
@@ -350,7 +351,7 @@ function TaskDetailForm({ props }) {
 											onChange={(newValue) =>
 												setEndDate(newValue)
 											}
-											format="DD/MM/YY"
+											format="DD/MM/YYYY"
 											views={["day"]}
 										/>
 									</LocalizationProvider>
