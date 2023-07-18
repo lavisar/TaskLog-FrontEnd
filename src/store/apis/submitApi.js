@@ -3,7 +3,7 @@ import { authApi } from "./features/authApi";
 export const submitApi = authApi.injectEndpoints({
 	endpoints: (builder) => ({
 		createSumit: builder.mutation({
-			invalidatesTags: ["SubmitAdd"],
+			invalidatesTags: ["Submit"],
 			query: (body) => {
 				return {
 					method: "POST",

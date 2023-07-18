@@ -80,12 +80,14 @@ export const CommentSection = ({ taskId }) => {
 		}
 	};
 
-	const handleDelete = () => {
-		console.log("delete");
+	const handleDelete = (event) => {
+		const commentId = event.currentTarget.getAttribute("data-comment-id");
+		console.log("delete comment with ID: ", commentId);
 		setContextMenu(null);
 	};
-	const handleUpdate = () => {
-		console.log("update");
+	const handleUpdate = (event) => {
+		const commentId = event.currentTarget.getAttribute("data-comment-id");
+		console.log("update comment with ID: ", commentId);
 		setContextMenu(null);
 	};
 
@@ -99,12 +101,13 @@ export const CommentSection = ({ taskId }) => {
 							className="flex gap-4 items-center pb-[8px] pl-[15px] rounded-l-lg shadow-md shadow-[#00000033] bg-white"
 							onContextMenu={handleContextMenu}
 							style={{ cursor: "context-menu" }}
+							data-comment-id={item.id}
 						>
 							<div className="grid justify-items-end w-[5%]">
 								{currentMember.pic ? (
 									<span>
 										<img
-											src={`${API_INSTANCE.BASE_URL}/auth/image/${currentMember.pic}`}
+											src={`${API_INSTANCE.BASE_URL}/auth/image/${item.createdBy}.jpg`}
 											className="rounded-full max-h-32 aspect-square object-cover m-0"
 											alt="Profile pic of member"
 										/>
@@ -115,6 +118,7 @@ export const CommentSection = ({ taskId }) => {
 									</Avatar>
 								)}
 							</div>
+							<div className="hidden">{item.id}</div>
 							<div className="text-base font-normal text-[#0E141A] w-[75%] text-ellipsis line-clamp-3">
 								{item.comment}
 							</div>

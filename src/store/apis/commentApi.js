@@ -3,7 +3,7 @@ import { authApi } from "./features/authApi";
 export const commentApi = authApi.injectEndpoints({
 	endpoints: (builder) => ({
 		createComment: builder.mutation({
-			invalidatesTags: ["CommentAdd"],
+			invalidatesTags: ["Comment"],
 			query: (body) => {
 				return {
 					method: "POST",
