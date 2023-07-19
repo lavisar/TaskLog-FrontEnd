@@ -27,7 +27,7 @@ export const DocumentList = ({ documentLst }) => {
 	const downloadFile = (documentId, filename) => {
 		console.log("dowloading id: " + documentId);
 		authRequestWithReauth(
-			`document/dowload/${documentId}`,
+			`document/download/${documentId}`,
 			"GET",
 			"blob"
 		).then((response) => {
@@ -109,7 +109,7 @@ export const DocumentList = ({ documentLst }) => {
 		<>
 			<div className="mt-6 h-[600px]">
 				<DataGrid
-					className="shadow-md shadow-[#00000033] bg-white !rounded-[16px] pl-4 "
+					className="shadow-md shadow-[#00000033] bg-white !rounded-[16px] pl-4 scrollbar-hide"
 					sx={{
 						width: "100%",
 						"& .MuiDataGrid-row": { cursor: "pointer" },
