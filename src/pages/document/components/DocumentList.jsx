@@ -107,9 +107,9 @@ export const DocumentList = ({ documentLst }) => {
 
 	return (
 		<>
-			<div className="mt-6">
+			<div className="mt-6 h-[600px]">
 				<DataGrid
-					className="shadow-md shadow-[#00000033] bg-white !rounded-[16px] pl-4"
+					className="shadow-md shadow-[#00000033] bg-white !rounded-[16px] pl-4 "
 					sx={{
 						width: "100%",
 						"& .MuiDataGrid-row": { cursor: "pointer" },

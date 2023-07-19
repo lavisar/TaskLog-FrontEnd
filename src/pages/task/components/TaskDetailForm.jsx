@@ -33,6 +33,8 @@ import dayjs from "dayjs";
 import { CustomTextArea } from "../../../components/CustomTextArea";
 import { API_INSTANCE } from "../../../store/apis/features/apisConst";
 import { useUpdateTaskMutation } from "../../../store";
+import { SubmitGrid } from "./SubmitGrid";
+import { CommentSection } from "./CommentSection";
 
 function TaskDetailForm({ props }) {
 	const taskToShowDetails = useSelector(
@@ -58,6 +60,7 @@ function TaskDetailForm({ props }) {
 	const [assignee, setAssignee] = useState("");
 	const [inputValue, setInputValue] = useState("");
 	const [comment, setComment] = useState("");
+
 	let index = 2;
 	useEffect(() => {
 		if (membersData) {
@@ -395,79 +398,7 @@ function TaskDetailForm({ props }) {
 							<UploadFile />
 							<div className="font-extrabold text-xl">Files</div>
 						</div>
-						<div className="mt-4 max-h-[220px] overflow-auto p-3">
-							<table
-								className="w-full table-auto border-collapse border-spacing-4 rounded-2xl"
-								style={{
-									boxShadow:
-										"0px 3px 10px 0 rgba(0, 0, 0, 0.25)",
-								}}
-							>
-								<thead>
-									<tr className="border-b  border-[rgba(0, 0, 0, 0.12)] h-[52px]">
-										<th className="w-[60%] text-left pl-4 text-base font-bold">
-											File name
-										</th>
-										<th className="w-[25%] text-left text-base font-bold">
-											Uploaded
-										</th>
-										<th className="w-[15%] text-center text-base font-bold">
-											Actions
-										</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr className="border-b border-[rgba(0, 0, 0, 0.12)] h-[52px]">
-										<td className="pl-4 text-base font-normal text-[#26BB98]">
-											filename.exe
-										</td>
-										<td>6/9/2023</td>
-										<td className="text-center">
-											<IconButton
-												className="!text-black"
-												onClick={handleDeleteFile}
-											>
-												<Delete />
-											</IconButton>
-										</td>
-									</tr>
-									<tr
-										className={`${
-											index === 2
-												? ""
-												: "border-b border-slate-500"
-										} h-[52px]`}
-									>
-										<td className="pl-4 text-base font-normal text-[#26BB98]">
-											filename.exe
-										</td>
-										<td>6/9/2023</td>
-										<td className="text-center">
-											<IconButton
-												className="!text-black"
-												onClick={handleDeleteFile}
-											>
-												<Delete />
-											</IconButton>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-						<div className="mt-4 px-3">
-							<Button
-								fullWidth
-								variant="contained"
-								className="!bg-[#EAEAEA] !rounded-2xl !h-14 !py-2 !shadow-md !flex !items-center !gap-2"
-							>
-								<div>
-									<Add className="!text-[40px] text-[#0E141A]" />
-								</div>
-								<div className="text-xl font-bold text-[#0E141A]">
-									UPLOAD NEW FILES
-								</div>
-							</Button>
-						</div>
+						<SubmitGrid taskId={{ currentTask: taskId }} />
 					</div>
 					<div className="row-span-2 col-span-2">
 						<div className="flex items-center gap-2">
@@ -476,79 +407,7 @@ function TaskDetailForm({ props }) {
 								Comments
 							</div>
 						</div>
-						<div className="flex flex-col gap-4 mt-4">
-							<div className="flex gap-4 items-center py-2 px-4">
-								<div className="grid justify-items-end w-[5%]">
-									{currentMember.pic ? (
-										<span>
-											<img
-												src={`${API_INSTANCE.BASE_URL}/auth/image/${currentMember.pic}`}
-												className="rounded-full max-h-32 aspect-square object-cover m-0"
-												alt="Profile pic of member"
-											/>
-										</span>
-									) : (
-										<Avatar className="rounded-full max-h-32 aspect-square object-cover !m-0">
-											{currentMember?.username?.charAt(0)}
-										</Avatar>
-									)}
-								</div>
-								<div className="text-base font-normal text-[#0E141A] w-[75%] text-ellipsis line-clamp-3">
-									Comment content Lorem ipsum dolor sit amet,
-									consectetur adipiscing elit, sed do eiusmod
-									tempor incididunt ut labore et dolore magna
-									aliqua. Ut enim ad minim veniam, quis
-									nostrud exercitation ullamco laboris nisi ut
-									aliquip ex ea commodo consequat.ted hours:{" "}
-								</div>
-								<div className="text-sm font-normal text-[#8C8C8C] ml-4">
-									09:41 09/06
-								</div>
-							</div>
-							<div className="flex gap-4 items-center py-2 px-4">
-								<div className="grid justify-items-end w-[5%]">
-									{currentMember.pic ? (
-										<span>
-											<img
-												src={`${API_INSTANCE.BASE_URL}/auth/image/${currentMember.pic}`}
-												className="rounded-full max-h-32 aspect-square object-cover m-0"
-												alt="Profile pic of member"
-											/>
-										</span>
-									) : (
-										<Avatar className="rounded-full max-h-32 aspect-square object-cover !m-0">
-											{currentMember?.username?.charAt(0)}
-										</Avatar>
-									)}
-								</div>
-								<div className="text-base font-normal text-[#0E141A] w-[75%] text-ellipsis line-clamp-3">
-									Comment content Lorem ipsum dolor sit amet,
-									consectetur adipiscing elit, sed do eiusmod
-									tempor incididunt ut labore et dolore magna
-									aliqua. Ut enim ad minim veniam, quis
-									nostrud exercitation ullamco laboris nisi ut
-									aliquip ex ea commodo consequat.ted hours:{" "}
-								</div>
-								<div className="text-sm font-normal text-[#8C8C8C] ml-4">
-									09:41 09/06
-								</div>
-							</div>
-						</div>
-						<div className="flex items-center gap-3 mt-4">
-							<CustomTextArea
-								id=""
-								placeholder="Write a comment, use @ to mention..."
-								value={comment}
-								onChange={(e) => setComment(e.target.value)}
-								className="w-[90%] !rounded-lg"
-							/>
-							<IconButton
-								className="!text-black"
-								onClick={handleComment}
-							>
-								<Send />
-							</IconButton>
-						</div>
+						<CommentSection taskId={{ currentTask: taskId }} />
 					</div>
 				</div>
 				<div className="flex justify-end gap-6 pl-5 pb-5 pr-8">
