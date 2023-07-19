@@ -1,14 +1,13 @@
-import React from "react";
 import {
+	Button,
 	Dialog,
-	DialogTitle,
+	DialogActions,
 	DialogContent,
 	TextField,
-	DialogActions,
-	Button,
 } from "@mui/material";
-import { useCreateDocumentMutation } from "../../../store";
+import React from "react";
 import { useSelector } from "react-redux";
+import { useCreateDocumentMutation } from "../../../store";
 
 export const FormUpload = ({ onClose }) => {
 	const projectSelect = useSelector((state) => state.project.id);
@@ -40,13 +39,13 @@ export const FormUpload = ({ onClose }) => {
 		};
 		const documentJson = JSON.stringify(documentModel);
 		const projectJson = JSON.stringify(projectModel);
-		const documentBlog = new Blob([documentJson], {
+		const documentBlob = new Blob([documentJson], {
 			type: "application/json",
 		});
 		const projectBlob = new Blob([projectJson], {
 			type: "application/json",
 		});
-		formData.append("document", documentBlog);
+		formData.append("document", documentBlob);
 		formData.append("project", projectBlob);
 		formData.append("file", file);
 

@@ -7,6 +7,7 @@ import { CgDetailsMore, CgProfile } from "react-icons/cg";
 import { Card, LinearProgress } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
+import DeleteRefreshToken from "./components/user/DeleteRefreshToken";
 
 function UsersList() {
   useEffect(() => {
@@ -93,7 +94,12 @@ function UsersList() {
     console.error("Error loading data: " + error);
   }
 
-  return content;
+  return <div className="h-full flex flex-col">
+    {content}
+    <div className="mt-auto">
+      <DeleteRefreshToken />
+    </div>
+  </div>
 }
 
 export default UsersList;

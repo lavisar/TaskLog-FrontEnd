@@ -25,6 +25,7 @@ export function AddTaskForm({ props }) {
 	const taskToShowDetails = useSelector(
 		(state) => state.tasks.taskToShowDetails
 	);
+	const projectId = useSelector((state) => state.project.id);
 	const [createTask] = useCreateTaskMutation();
 	const { data, membersData, handleClose } = props;
 	useEffect(() => {
@@ -63,15 +64,11 @@ export function AddTaskForm({ props }) {
 			priority,
 			category,
 			estimated: estimated,
-			// actualHours: actual,
-			startDate: dayjs(startDate).format("YYYY-MM-DD"),
-			// endDate,
-			dueDate: dayjs(dueDate).format("YYYY-MM-DD"),
+			startDate: startDate ? dayjs(startDate).format("YYYY-MM-DD") : null,
+			dueDate: dueDate ? dayjs(dueDate).format("YYYY-MM-DD") : null,
 			status,
-			project: { id: "1688500545597" },
-			// position,
+			project: { id: projectId },
 			user: {id: user.userId},
-			// version,
 			parentTask,
 		};
 		const task = new FormData();
@@ -205,10 +202,11 @@ export function AddTaskForm({ props }) {
 							Assignee
 						</FormLabel>
 						<Autocomplete
+							required
 							fullWidth
 							disablePortal
 							id="assignee"
-							value={assignee}
+							value={assignee === "" ? null : assignee}
 							onChange={(e, newValue) => {
 								setAssignee(newValue);
 							}}
@@ -217,7 +215,7 @@ export function AddTaskForm({ props }) {
 								setInputValue(newInputValue);
 							}}
 							options={options}
-							renderInput={(params) => <TextField {...params} />}
+							renderInput={(params) => <TextField required {...params} />}
 						/>
 					</div>
 				</div>

@@ -1,67 +1,74 @@
-import { MoreVert } from "@mui/icons-material";
+import {
+	ArrowDownward,
+	ArrowForward,
+	ArrowUpward,
+	MoreVert,
+} from "@mui/icons-material";
 import { Button, IconButton } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import { TaskStatus } from "../../../store/constants/TaskConstant";
+import { useDispatch } from "react-redux";
+import {
+	TaskPriority,
+	TaskStatus,
+} from "../../../store/constants/TaskConstant";
+import { setShowTaskDetails } from "../../../store";
+import dayjs from "dayjs";
 
-function FilerTaskByStatus({rowProp}) {
-	const {status, handleOpen} = rowProp;
+function FilerTaskByStatus({ rowProp }) {
+	const dispatch = useDispatch();
+	const { status, handleOpen } = rowProp;
 	const [rows, setRows] = useState([]);
 	useEffect(() => {
 		const rowConfig = status.map((row, index) => {
 			return {
-				id: index + 1,
+				id: row.id,
 				task: row.taskName,
 				priority: row.priority,
 				category: row.category,
 				dueDate: row.dueDate,
-				action: "",
-			}
-		})
+			};
+		});
 		setRows(rowConfig);
-	}, [rowProp])
-	// const rows = [
-	// 	{
-	// 		id: "xxx",
-	// 		task: "TASK_001",
-	// 		priority: "HIGH",
-	// 		category: "Bug",
-	// 		dueDate: " 6/9/23",
-	// 		action: "BUTTON",
-	// 	},
-	// ];
+	}, [status]);
 
 	const columns = [
 		{
+			field: "id",
+			headerName: "",
+		},
+		{
 			field: "task",
 			headerName: "Task",
-			flex: 3,
+			flex: 0.9,
 		},
 		{
 			field: "priority",
 			headerName: "Priority",
-			flex: 2,
+			flex: 0.5,
+			renderCell: (cell) => {
+				switch (cell.value) {
+					case TaskPriority.HIGH:
+						return <ArrowUpward sx={{ color: "#f42858" }} />;
+					case TaskPriority.NORMAL:
+						return <ArrowForward sx={{ color: "#4488c5" }} />;
+					default:
+						return <ArrowDownward sx={{ color: "#5eb5a6" }} />;
+				}
+			},
 		},
 		{
 			field: "category",
 			headerName: "Category",
-			flex: 2,
+			flex: 0.5,
 		},
 		{
 			field: "dueDate",
 			headerName: "Due Date",
-			flex: 2,
-		},
-		{
-			field: "action",
-			headerName: "",
-			flex: 1,
-			sortable: false,
-			renderCell: () => (
-				<IconButton className="!text-black" onClick={handleOpenDiaglog}>
-					<MoreVert />
-				</IconButton>
-			),
+			flex: 0.5,
+			renderCell: (cell) => {
+				return dayjs(cell.value).format("DD/MM/YYYY");
+			},
 		},
 	];
 
@@ -78,17 +85,33 @@ function FilerTaskByStatus({rowProp}) {
 		}
 	};
 
-	const handleOpenDiaglog = () => {
+	const handleRowClick = (taskId) => {
+		const taskRow = status.find((dataRow) => dataRow.id === taskId);
+		dispatch(setShowTaskDetails(taskRow));
 		handleOpen(true);
-	}
+	};
 
 	return (
-		<div className={`flex flex-col shadow-md shadow-[#00000033] bg-white !rounded-[16px]`}>
-			<div className={`flex items-center gap-10 h-20 border-b-2 border-solid border${setStatusColor(status[0].status)}`}>
-				<p className="pl-5 text-2xl font-extrabold">{status[0].status}</p>
-				<div className={`w-[60px] h-[40px] rounded-[28px] flex justify-center items-center bg${setStatusColor(status[0].status)} text-xl font-black`}>{status.length}</div>
+		<div
+			className={`flex flex-col shadow-md shadow-[#00000033] bg-white !rounded-[16px]`}
+		>
+			<div
+				className={`flex items-center gap-10 h-20 border-b-2 border-solid border${setStatusColor(
+					status[0].status
+				)}`}
+			>
+				<p className="pl-5 text-2xl font-extrabold">
+					{status[0].status}
+				</p>
+				<div
+					className={`w-[60px] h-[40px] rounded-[28px] flex justify-center items-center bg${setStatusColor(
+						status[0].status
+					)} text-xl font-black`}
+				>
+					{status.length}
+				</div>
 			</div>
-			<div className="pl-3">
+			<div className="mx-3">
 				<DataGrid
 					rows={rows}
 					columns={columns}
@@ -99,18 +122,27 @@ function FilerTaskByStatus({rowProp}) {
 							outline: "none",
 						},
 						"& .MuiDataGrid-row": { cursor: "pointer" },
-						"& .MuiDataGrid-row:hover": { background: "none" },
 						"& .MuiDataGrid-cell:focus": {
 							outline: "none",
 						},
 					}}
+					hideFooter
+					initialState={{
+						pagination: {
+							paginationModel: { page: 0, pageSize: 5 },
+						},
+					}}
+					pageSizeOptions={[5, 10]}
 					disableColumnFilter
 					rowSelection={false}
 					disableRowSelectionOnClick
 					disableColumnSelector
 					disableDensitySelector
 					disableColumnMenu
-					hideFooter
+					columnVisibilityModel={{
+						id: false,
+					}}
+					onRowClick={(param) => handleRowClick(param.row.id)}
 				/>
 			</div>
 		</div>

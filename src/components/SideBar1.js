@@ -46,7 +46,7 @@ export default function SideBar2({ open }) {
 		{
 			icon: <FaTasks />,
 			link: "MY TASK",
-			path: `${WEBLINKS.TASK}/${userId}`,
+			path: `${WEBLINKS.MYTASK}?userId=${userId}&projectId=${projectId}`,
 		},
 		{
 			icon: <HiDocumentDuplicate />,
