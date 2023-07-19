@@ -37,6 +37,7 @@ export const TaskColumn = ({ taskLst }) => {
 			setOptions([...membersData?.map((member) => member.username)]);
 		}
 		if (data) {
+			console.log(data);
 			const taskConfig = data.map((task, index) => {
 				return {
 					id: task.id,
@@ -52,9 +53,7 @@ export const TaskColumn = ({ taskLst }) => {
 		}
 	}, [data, membersData]);
 
-	const setStatusColor = (status) => {
-		// Hàm này giữ nguyên để phục vụ việc hiển thị trạng thái task như ban đầu
-	};
+	const setStatusColor = (status) => {};
 
 	const handleRowClick = (taskId) => {
 		const taskRow = data.find((dataRow) => dataRow.id === taskId);
@@ -80,11 +79,7 @@ export const TaskColumn = ({ taskLst }) => {
 	return (
 		<>
 			<div className="mt-6">
-				{/* Giao diện hiển thị các bộ lọc */}
-				{/* ... */}
-				<div className="flex flex-row gap-2">{/* ... */}</div>
-
-				{/* Hiển thị bảng Kanban */}
+				{/* Kanban Board */}
 				<DragDropContext onDragEnd={onDragEnd}>
 					<div style={{ display: "flex" }}>
 						{Object.values(TaskStatus).map((statusValue) => (
@@ -123,8 +118,27 @@ export const TaskColumn = ({ taskLst }) => {
 																	}
 																</p>
 																<p>
+																	Category:{" "}
 																	{
-																		task.description
+																		task.category
+																	}
+																</p>
+																<p>
+																	Due Date:{" "}
+																	{
+																		task.dueDate
+																	}
+																</p>
+																<p>
+																	Assignee:{" "}
+																	{
+																		task.assignee
+																	}
+																</p>
+																<p>
+																	Priority:{" "}
+																	{
+																		task.priority
 																	}
 																</p>
 															</div>

@@ -94,11 +94,10 @@ export const CommentSection = ({ taskId }) => {
 		console.log("update comment with ID: ", commentId);
 		setContextMenu(null);
 	};
-
 	return (
 		<>
 			{/* comment list */}
-			<div className="flex flex-col gap-4 mt-4 h-[200px] overflow-y-scroll">
+			<div className="flex flex-col gap-4 mt-4 h-[200px] overflow-y-scroll scrollbar-hide">
 				{data ? (
 					data.map((item) => (
 						<div

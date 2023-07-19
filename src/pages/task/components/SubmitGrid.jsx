@@ -33,24 +33,28 @@ export const SubmitGrid = ({ taskId }) => {
 			console.error("error", error);
 		}
 	};
-	const downloadFile = (submitId, filename) => {
+
+	const downloadFile = async (submitId, filename) => {
 		console.log("dowloading id: " + submitId);
-		authRequestWithReauth(`submit/dowload/${submitId}`, "GET", "blob").then(
-			(response) => {
-				console.log(response);
-				var binaryData = [];
-				binaryData.push(response.data);
-				const link = document.createElement("a");
-				link.href = URL.createObjectURL(
-					new Blob(binaryData, { type: "application/octet-stream" })
-				);
-				link.setAttribute("download", filename);
-				document.body.appendChild(link);
-				link.click();
-				document.body.removeChild(link);
-				URL.revokeObjectURL(link.href);
-			}
-		);
+		await authRequestWithReauth(
+			`submit/download/${submitId}`,
+			"GET",
+			"blob"
+		).then((response) => {
+			console.log("response data", response.data);
+			var binaryData = [];
+			binaryData.push(response.data);
+			const link = document.createElement("a");
+			link.href = URL.createObjectURL(
+				response.data
+				// new Blob(binaryData, { type: "application/pdf" })
+			);
+			link.setAttribute("download", filename);
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link);
+			URL.revokeObjectURL(link.href);
+		});
 	};
 	useEffect(() => {
 		if (data) {
