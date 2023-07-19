@@ -32,6 +32,8 @@ import { documentReducer, setDocuments } from "./slices/documentSlice";
 import { submitReducer, setSubmits } from "./slices/submitSlice";
 import { teamsApi } from "./apis/teamsApi";
 import { projectApi } from "./apis/projectApi";
+import { milestoneApi } from "./apis/milestoneApi";
+import { milestoneReducer } from "./slices/milestoneSlice";
 import { submitApi } from "./apis/submitApi";
 
 const store = configureStore({
@@ -53,11 +55,15 @@ const store = configureStore({
 		[projectApi.reducerPath]: projectApi.reducer,
 		project: projectReducer,
 
-		// tasks
-		[taskApi.reducerPath]: taskApi.reducer,
-		tasks: taskReducer,
-		currentMember: currentMemberReducer,
+    // tasks
+    [taskApi.reducerPath]: taskApi.reducer,
+    tasks: taskReducer,
+    currentMember: currentMemberReducer,
 
+    //milestone
+    [milestoneApi.reducerPath]: milestoneApi.reducer,
+    milestone: milestoneReducer,
+                             
 		// documents
 		[documentApi.reducerPath]: documentApi.reducer,
 		document: documentReducer,
