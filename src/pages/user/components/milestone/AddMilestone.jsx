@@ -5,12 +5,16 @@ import { useCreateMilestoneMutation } from "../../../../store/apis/milestoneApi"
 import { LoadingButton } from "@mui/lab";
 import { Box, Button, Modal, TextField, Popper, Grow, Paper, ClickAwayListener } from "@mui/material";
 import { FaPlus } from "react-icons/fa";
+import { DateField } from '@mui/x-date-pickers/DateField';
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
-export default function AddMilestone(){
+export default function AddMilestone() {
     const [name, setName] = useState('');
     const [description, setDiscription] = useState('');
-    const [fromdate, setFromdate] = useState('');
-    const [todate, setTodate] = useState('');
+    const [from, setFromdate] = useState('');
+    const [to, setTodate] = useState('');
     const [open, setOpen] = useState(false);
     const anchorRef = useRef(null);
 
@@ -28,6 +32,8 @@ export default function AddMilestone(){
         setTodate('');
     };
 
+
+
     function handleListKeyDown(event) {
         if (event.key === "Escape") {
             setOpen(false);
@@ -36,11 +42,11 @@ export default function AddMilestone(){
 
     const handleSubmit = async m => {
         m.preventDefault();
-        if (name.trim() === '' || description.trim()==='' || fromdate.trim()==='' || todate.trim() ==='') {
+        if (name.trim() === '' || description.trim() === '') {
             return;
         }
         try {
-            await createMilestone({ name, description,fromdate,todate,projectId: id });
+            await createMilestone({ name, description, from, to, projectId: id });
             setOpen(false);
             setName('');
             setDiscription('');
@@ -79,26 +85,34 @@ export default function AddMilestone(){
                 />
             </div>
             <div className="p-1">
-                <TextField
-                    id="fromdate"
-                    type="date"
-                    value={fromdate}
-                    onChange={m => setFromdate(m.target.value)}
-                    autoComplete="off"
-                    className="w-full"
-                    variant="standard"
-                />
+                <LocalizationProvider
+                    dateAdapter={AdapterDayjs}
+                >
+                    <DateField
+                        id="from"
+                        label="Milestone From-Date "
+                        value={from}
+                        onChange={newValue => setFromdate(newValue)}
+                        autoComplete="off"
+                        className="w-full"
+                        variant="standard"
+                    />
+                    </LocalizationProvider>
             </div>
             <div className="p-1">
-                <TextField
-                    id="todate"
-                    type="date"
-                    value={todate}
-                    onChange={m => setTodate(m.target.value)}
+            <LocalizationProvider
+                    dateAdapter={AdapterDayjs}
+                >
+                <DateField
+                    id="to"
+                    label="Milestone To-Date "
+                    value={to}
+                    onChange={newValue => setTodate(newValue)}
                     autoComplete="off"
                     className="w-full"
                     variant="standard"
                 />
+                </LocalizationProvider>
             </div>
 
             <div className="p-2">

@@ -23,8 +23,8 @@ export default function UserMilestone({ projectId }) {
     const [milestoneId, setMilestoneId] = useState('');
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
-    const [formdate, setFormdate] = useState('');
-    const [todate, setTodate] = useState('');
+    const [from, setFormdate] = useState('');
+    const [to, setTodate] = useState('');
 
     const [editOpen, setEditOpen] = useState(false);
     const [editMilestoneId, setEditMilestoneId] = useState('');
@@ -51,13 +51,13 @@ export default function UserMilestone({ projectId }) {
                 id: editMilestoneId,
                 name: editName,
                 description: editDescription,
-                fromDate: editFromDate,
-                toDate: editToDate,
+                from: editFromDate,
+                to: editToDate,
             }).unwrap();
             console.log(result);
 
             // Handle the success or error response
-            if (result?.error?.originalStatus === 200) {
+            if (result) {
                 setEditOpen(false);
                 return;
             }
@@ -100,15 +100,15 @@ export default function UserMilestone({ projectId }) {
         error: milestoneError,
     } = useFindMilestonesByProjectIdQuery(projectId);
 
-
+    console.log("Milestones data", milestoneData);
     const [remove, { isLoading }] = useDeleteMilestoneMutation();
 
     useEffect(() => {
         // if(getProjectIsError) {
         //     navigate(WEBLINKS.MILESTONE);
-        if (getProjectIsSuccess) {
-            dispatch(setProject(getProjectData));
-        }
+        // if (getProjectIsSuccess) {
+        //     dispatch(setProject(getProjectData));
+        // }
 
         if (milestoneIsSuccess) {
             dispatch(setMilestone(milestoneData));
@@ -139,7 +139,6 @@ export default function UserMilestone({ projectId }) {
         }
     }
 
-
     const config = [
         {
             id: 'milestonename',
@@ -156,19 +155,20 @@ export default function UserMilestone({ projectId }) {
         {
             id: 'formdate',
             label: 'From - Date',
-            renderCell: (milestone) => milestone.formdate,
-            value: (milestone) => milestone.formdate,
+            renderCell: (milestone) => milestone.from,
+            value: (milestone) => milestone.from,
         },
         {
             id: 'todate',
             label: 'To - Date',
-            renderCell: (milestone) => milestone.todate,
-            value: (milestone) => milestone.todate,
+            renderCell: (milestone) => milestone.to,
+            value: (milestone) => milestone.to,
         },
         {
             id: 'remove',
             label: 'Remove',
             renderCell: (milestone) => {
+                
                 return <div>
                     <Button onClick={() => handleOpen(milestone.id, milestone.name)}
                         className="!rounded-full aspect-square !min-w-min hover:!bg-red-300"
@@ -182,13 +182,16 @@ export default function UserMilestone({ projectId }) {
         },
         {
             id: 'Edit',
-            label: 'Edit',
+            label: 'Edit Milestone',
             renderCell: (milestone) => {
                 return (
                     <div>
-                        <Button onClick={() => handleEditOpen(milestone.id, milestone.name, milestone.description, milestone.formdate, milestone.todate)}>
-                            <IoPencil className="text-lg text-yellow-400" />
-                        </Button>
+                        
+                            <Button onClick={() => handleEditOpen(milestone.id, milestone.name, milestone.description, milestone.from, milestone.to)}>
+                                <IoPencil className="text-lg text-yellow-400" />
+                            </Button>
+                        
+
                     </div>
                 );
             }
@@ -297,7 +300,6 @@ export default function UserMilestone({ projectId }) {
                         </Box>
                         <Box sx={{ mt: 2 }}>
                             <TextField
-                                label="From Date"
                                 value={editFromDate}
                                 onChange={(e) => setEditFromDate(e.target.value)}
                                 type="date"
@@ -307,7 +309,6 @@ export default function UserMilestone({ projectId }) {
                         </Box>
                         <Box sx={{ mt: 2 }}>
                             <TextField
-                                label="To Date"
                                 value={editToDate}
                                 onChange={(e) => setEditToDate(e.target.value)}
                                 type="date"

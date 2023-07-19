@@ -3,10 +3,10 @@ import { LOCAL_STORAGE_KEYS } from "../constants/LocalStorageKeys";
 
 const projectKey = LOCAL_STORAGE_KEYS.PROJECT;
 function decodeValue(key) {
-  if (localStorage.getItem(projectKey)) {
-    return JSON.parse(localStorage.getItem(projectKey))[key];
-  }
-  return null;
+    if (localStorage.getItem(projectKey)) {
+        return JSON.parse(localStorage.getItem(projectKey))[key];
+    }
+    return null;
 }
 
 const projectSlice = createSlice({
@@ -18,11 +18,11 @@ const projectSlice = createSlice({
         createAt: decodeValue("createAt"),
     },
     reducers: {
-        setProject: (state, action) =>{
-            const { id,name,team_id,createAt} = action.payload;
+        setProject: (state, action) => {
+            const { id, name, team_id, createAt } = action.payload;
             localStorage.setItem(
                 projectKey,
-                JSON.stringify({id,name,team_id,createAt})
+                JSON.stringify({ id, name, team_id, createAt })
             );
             state.id = id;
             state.name = name;
@@ -39,6 +39,6 @@ const projectSlice = createSlice({
     },
 });
 
-export const { setProject, clearProject} = projectSlice.actions;
+export const { setProject, clearProject } = projectSlice.actions;
 export const projectReducer = projectSlice.reducer;
 

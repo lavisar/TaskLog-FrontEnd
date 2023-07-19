@@ -8,6 +8,7 @@ export const projectApi = authApi.injectEndpoints({
         const tags = [];
         tags.push({ type: "ProjectDelete", id: "DelProj" });
         tags.push({ type: "ProjectCreate", id: "CreateProj" });
+        tags.push({ type: "UpdateProject", id: "UpPrj"});
         return tags;
       },
     }),
