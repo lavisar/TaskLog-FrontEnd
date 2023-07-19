@@ -15,8 +15,8 @@ function filerByStatus(status, allTasks) {
 
 function MyTasks() {
 	const location = useLocation();
-	const userId = location.search.split('&').shift().split('=')[1];
-	const projectId = location.search.split('&').pop().split('=')[1];
+	const userId = useSelector((state) => state.user.id);
+	const projectId = useSelector((state) => state.project.id);
 	const args = {userId, projectId}
 	const {
 		data: lstTask,

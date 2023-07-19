@@ -13,12 +13,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
 import { setProject } from "../store";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router";
 
 export default function ChangeProject() {
+  const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { data, isLoading, isSuccess } = useGetAllProjectsQuery();
   const teamId = useSelector((state) => state.team.id);
+  const userId = location.search.split('&').shift().split('=')[1];
+	const projectId = location.search.split('&').pop().split('=')[1];
 
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
@@ -46,7 +50,8 @@ export default function ChangeProject() {
 
   const chooseProject = (project, e) => {
     dispatch(setProject(project));
-    navigate(0);
+    navigate(location.pathname+location.search.replace(projectId, project.id));
+    // navigate(0);
     handleClose(e);
   };
   let content;

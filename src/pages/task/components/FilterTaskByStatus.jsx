@@ -75,13 +75,15 @@ function FilerTaskByStatus({ rowProp }) {
 	const setStatusColor = (status) => {
 		switch (status) {
 			case TaskStatus.INPROGRESS:
-				return "-[#FFBA49]";
+				return "#FFBA49";
 			case TaskStatus.RESOLVED:
-				return "-[#BB2649]";
+				return "#BB2649";
 			case TaskStatus.CLOSED:
-				return "-[#8C8C8C]";
+				return "#8C8C8C";
+			case TaskStatus.OPEN:
+				return "#26BB98";
 			default:
-				return "-[#26BB98]";
+				return "#26BB98";		
 		}
 	};
 
@@ -96,17 +98,16 @@ function FilerTaskByStatus({ rowProp }) {
 			className={`flex flex-col shadow-md shadow-[#00000033] bg-white !rounded-[16px]`}
 		>
 			<div
-				className={`flex items-center gap-10 h-20 border-b-2 border-solid border${setStatusColor(
-					status[0].status
-				)}`}
+				className={`flex items-center gap-10 h-20 border-b-2 border-solid`}
+				style={{ borderBottomColor: `${setStatusColor(status[0].status)}` }}
 			>
 				<p className="pl-5 text-2xl font-extrabold">
 					{status[0].status}
 				</p>
 				<div
-					className={`w-[60px] h-[40px] rounded-[28px] flex justify-center items-center bg${setStatusColor(
+					className={`w-[60px] h-[40px] rounded-[28px] flex justify-center items-center bg-[${setStatusColor(
 						status[0].status
-					)} text-xl font-black`}
+					)}] text-xl font-black`}
 				>
 					{status.length}
 				</div>
