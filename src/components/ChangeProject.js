@@ -12,9 +12,11 @@ import { useGetAllProjectsQuery } from "../store/apis/projectApi";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
 import { setProject } from "../store";
+import { useNavigate } from "react-router-dom";
 
 export default function ChangeProject() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { data, isLoading, isSuccess } = useGetAllProjectsQuery();
   const teamId = useSelector((state) => state.team.id);
 
@@ -44,6 +46,7 @@ export default function ChangeProject() {
 
   const chooseProject = (project, e) => {
     dispatch(setProject(project));
+    navigate(0);
     handleClose(e);
   };
   let content;
