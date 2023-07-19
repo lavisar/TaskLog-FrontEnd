@@ -19,13 +19,14 @@ export default function UpdateProject({ getProjectIsLoading }) {
     )
 
     const { id, name } = useSelector(selectDetails);
-    const [formName, setName] = useState(name);
+    console.log(name);
+    const [formName, setFormName] = useState(name);
     const [open, setOpen] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [isCreateNew, setIsCreateNew] = useState(false);
     useEffect(() => {
-        setName(name);
+        setFormName(name);
     }, [name]);
 
     const [update, { isLoading }] = useUpdateProjectsMutation();
@@ -39,12 +40,11 @@ export default function UpdateProject({ getProjectIsLoading }) {
         try {
             const result = await update({ id, name: formName }).unwrap();
             console.log(result);
-            if (result?.error?.data) {
-                console.log("Failed to update project");
-                return;
+            if (result) {
+                dispatch(setProject(result));
+                setFormName("");
+                setOpen(false);
             }
-            dispatch(setProject(result));
-            setOpen(false);
         } catch (error) {
             console.log(error);
         }
@@ -77,7 +77,7 @@ export default function UpdateProject({ getProjectIsLoading }) {
                     top: '50%',
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
-                    width: 1000,
+                    width: 750,
                     bgcolor: 'background.paper',
                     borderRadius: '20px',
                     boxShadow: 24,
@@ -92,7 +92,7 @@ export default function UpdateProject({ getProjectIsLoading }) {
                             id="name"
                             label="Project Name"
                             value={formName}
-                            onChange={e => setName(e.target.value)}
+                            onChange={e => setFormName(e.target.value)}
                             autoComplete="off"
                             className="w-full"
                         />
