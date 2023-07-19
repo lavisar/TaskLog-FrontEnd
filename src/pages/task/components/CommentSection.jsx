@@ -73,6 +73,10 @@ export const CommentSection = ({ taskId }) => {
 		formData.append("userId ", memberId);
 		formData.append("comment", commentBlob);
 		try {
+			if (commentData.trim() === "") {
+				console.log("missing comment");
+				return;
+			}
 			await uploadComment(formData);
 			setComment("");
 		} catch (error) {
