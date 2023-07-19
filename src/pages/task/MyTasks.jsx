@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useGetAllMembersDetailsQuery, useGetTaskByUserQuery } from "../../store";
 import LoadingBackdrop from "./components/LoadingBackdrop";
@@ -14,20 +14,19 @@ function filerByStatus(status, allTasks) {
 }
 
 function MyTasks() {
-	const { userId } = useParams();
+	const location = useLocation();
+	const userId = location.search.split('&').shift().split('=')[1];
+	const projectId = location.search.split('&').pop().split('=')[1];
+	const args = {userId, projectId}
 	const {
 		data: lstTask,
 		isError: isGetFail,
 		isSuccess: isGettingSuccess,
 		isLoading: isGetting,
-	} = useGetTaskByUserQuery(userId);
+	} = useGetTaskByUserQuery(args);
 	const teamSelect = useSelector((state) => state.team.id);
 	const { data: membersData } = useGetAllMembersDetailsQuery(teamSelect);
 
-	// const [doingTasks, setDoingTasks] = useState([]);
-	// const [openTasks, setOpenTasks] = useState([]);
-	// const [resolvedTasks, setResolvedTasks] = useState([]);
-	// const [closedTasks, setClosedTasks] = useState([]);
 	const [filteredTasks, setFilteredTasks] = useState([]);
 	const [open, setOpen] = useState(false);
 
@@ -59,7 +58,7 @@ function MyTasks() {
 				<LoadingBackdrop props={{ isGetting, isGettingSuccess }} />
 			) : (
 				<div className="container mx-auto">
-					<div className="flex flex-col gap-5">
+					<div className="flex flex-col gap-5 mb-5">
 						{doingTasks?.length > 0 ? (
 							<FilerTaskByStatus rowProp={{status: doingTasks, handleOpen}} />
 						) : (

@@ -89,7 +89,7 @@ const router = createBrowserRouter([
 				element: <TaskBoard />,
 			},
 			{
-				path: `${WEBLINKS.TASK}/:userId`,
+				path: `${WEBLINKS.MYTASK}`,
 				element: <MyTasks />,
 			},
 			{

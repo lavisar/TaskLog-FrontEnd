@@ -145,7 +145,7 @@ export default function UserTeams() {
     }
   } else if (isError) {
     console.log(error);
-    content = <p className="text-red-500">Error connect to server</p>
+    content = <p className="text-red-500">Error connecting to server</p>
   }
 
   const toolbarHeight = 50;

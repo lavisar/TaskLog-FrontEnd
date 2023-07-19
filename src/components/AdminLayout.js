@@ -96,7 +96,7 @@ function AdminLayout() {
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           minHeight: `100vh`,
         }}
-        className="!bg-gray-100"
+        className="!bg-gray-100 !flex !flex-col"
       >
         <Toolbar />
 

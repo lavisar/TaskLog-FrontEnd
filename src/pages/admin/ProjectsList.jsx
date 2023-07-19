@@ -4,7 +4,7 @@ import { Card } from "@mui/material";
 import { WEBLINKS } from "../../store/constants/WebLinks";
 import CustomGrid from "../../components/table/CustomGrid";
 import CustomLink from "../../components/CustomLink";
-import { CgDetailsMore } from 'react-icons/cg';
+import { CgDetailsMore } from "react-icons/cg";
 
 export default function ProjectList() {
     useEffect(() => {

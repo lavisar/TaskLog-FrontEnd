@@ -19,6 +19,7 @@ import { setShowTaskDetails } from "../../../store";
 import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { ArrowDownward, ArrowForward, ArrowUpward } from "@mui/icons-material";
+import dayjs from "dayjs";
 
 export const TaskList = ({ taskLst }) => {
 	const dispatch = useDispatch();
@@ -39,7 +40,7 @@ export const TaskList = ({ taskLst }) => {
 		if (data) {
 			const rowConfig = data.map((row, index) => {
 				return {
-					id: index + 1,
+					id: row.id,
 					taskId: row.id,
 					taskName: row.taskName,
 					priority: row.priority,
@@ -78,7 +79,7 @@ export const TaskList = ({ taskLst }) => {
 			},
 		},
 		{ field: "category", headerName: "Category", flex: 1 },
-		{ field: "dueDate", headerName: "Due Date", flex: 1 },
+		{ field: "dueDate", headerName: "Due Date", flex: 1, renderCell: (cell) => { return <div>{dayjs(cell.value).format("DD/MM/YYYY")}</div> }},
 		{ field: "assignee", headerName: "Assignee", flex: 1 },
 		{
 			field: "status",
@@ -252,6 +253,7 @@ export const TaskList = ({ taskLst }) => {
 							disableColumnMenu
 							columnVisibilityModel={{
 								taskId: false,
+								id: false,
 							}}
 							onRowClick={(params) =>
 								handleRowClick(params.row.taskId)

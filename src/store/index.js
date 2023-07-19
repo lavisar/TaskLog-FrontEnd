@@ -29,10 +29,12 @@ import { taskApi } from "./apis/taskApi";
 import { setTasks, setShowTaskDetails, taskReducer } from "./slices/taskSlice";
 import { documentApi } from "./apis/documentApi";
 import { documentReducer, setDocuments } from "./slices/documentSlice";
+import { submitReducer, setSubmits } from "./slices/submitSlice";
 import { teamsApi } from "./apis/teamsApi";
 import { projectApi } from "./apis/projectApi";
 import { milestoneApi } from "./apis/milestoneApi";
 import { milestoneReducer } from "./slices/milestoneSlice";
+import { submitApi } from "./apis/submitApi";
 
 const store = configureStore({
 	reducer: {
@@ -61,14 +63,24 @@ const store = configureStore({
     //milestone
     [milestoneApi.reducerPath]: milestoneApi.reducer,
     milestone: milestoneReducer,
-  },
-  middleware: (getDefaultMiddleware) => {
-    return getDefaultMiddleware()
-      .concat(authApi.middleware)
-      .concat(usersApi.middleware)
-      .concat(taskApi.middleware);
-  },
-  devTools: true,
+                             
+		// documents
+		[documentApi.reducerPath]: documentApi.reducer,
+		document: documentReducer,
+
+		// submits
+		[submitApi.reducerPath]: submitApi.reducer,
+		submit: submitReducer,
+	},
+	middleware: (getDefaultMiddleware) => {
+		return getDefaultMiddleware()
+			.concat(authApi.middleware)
+			.concat(usersApi.middleware)
+			.concat(taskApi.middleware)
+			.concat(documentApi.middleware)
+			.concat(submitApi.middleware);
+	},
+	devTools: true,
 });
 
 setupListeners(store.dispatch);
@@ -104,6 +116,9 @@ export {
 	//document
 	setDocuments,
 
+	//Submit
+	setSubmits,
+
 	//currentMember
 	setCurrentMember,
 	clearCurrentMember,
@@ -121,6 +136,8 @@ export {
 	useChangePasswordMutation,
 	useChangeAdminRoleMutation,
 	useDeleteUserMutation,
+	useClearUserRefreshTokenMutation,
+	useDeleteAllRefreshTokensMutation
 } from "./apis/usersApi";
 export {
 	useGetAllUserTeamsQuery,
@@ -147,3 +164,16 @@ export {
 	useCreateDocumentMutation,
 	useGetDocumentsByProjectIdQuery,
 } from "./apis/documentApi";
+
+export {
+	useCreateSumitMutation,
+	useDeleteSubmitByIdMutation,
+	useGetSubmitsByTaskIdQuery,
+} from "./apis/submitApi";
+
+export {
+	useCreateCommentMutation,
+	useDeleteCommentByIdMutation,
+	useGetCommentsByTaskIdQuery,
+	useUpdateCommentMutation,
+} from "./apis/commentApi";
