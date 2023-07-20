@@ -67,7 +67,7 @@ function FilerTaskByStatus({ rowProp }) {
 			headerName: "Due Date",
 			flex: 0.5,
 			renderCell: (cell) => {
-				return dayjs(cell.value).format("DD/MM/YYYY");
+				return cell.value ? dayjs(cell.value).format("DD/MM/YYYY") : "dd/mm/yyyy";
 			},
 		},
 	];
