@@ -6,7 +6,7 @@ import { DataGrid } from "@mui/x-data-grid";
 
 import { useEffect, useState } from "react";
 import { authRequestWithReauth } from "../../../store/apis/features/authApiAxios";
-import { Button } from "@mui/material";
+import { Modal, Typography, Button, Box } from "@mui/material";
 import {
 	useGetSubmitsByTaskIdQuery,
 	useDeleteSubmitByIdMutation,
@@ -19,11 +19,28 @@ export const SubmitGrid = ({ taskId }) => {
 	const [file, setFile] = React.useState(null);
 	const { data, isLoading, err } = useGetSubmitsByTaskIdQuery(currentTask);
 	const [deleteSubmitById] = useDeleteSubmitByIdMutation();
+	const [showModal, setShowModal] = useState(false);
+	const [currentSubmitId, setCurrentSubmitId] = useState();
 	const [uploadSubmit] = useCreateSumitMutation();
+
+	const handleOpenModal = () => {
+		setShowModal(true);
+	};
+
+	const handleCloseModal = () => {
+		setShowModal(false);
+	};
+
 	const handleDelete = async (submitId) => {
 		console.log("DeleteId", submitId);
+		setCurrentSubmitId(submitId);
+		handleOpenModal();
+	};
+
+	const handleDeleteConfirmed = async () => {
+		handleCloseModal();
 		try {
-			const result = await deleteSubmitById(submitId);
+			const result = await deleteSubmitById(currentSubmitId);
 			console.log(result);
 			if (result?.error.originalStatus === 200) {
 				return;
@@ -175,6 +192,35 @@ export const SubmitGrid = ({ taskId }) => {
 					<input type="file" hidden onChange={handleSubmit} />
 				</Button>
 			</div>
+			<Modal open={showModal} onClose={handleCloseModal}>
+				<Box
+					sx={{
+						position: "absolute",
+						top: "50%",
+						left: "50%",
+						transform: "translate(-50%, -50%)",
+						width: 500,
+						bgcolor: "background.paper",
+						borderRadius: "20px",
+						boxShadow: 24,
+						p: 4,
+					}}
+				>
+					<Typography variant="h6" className="text-center">
+						Do you want to remove this file?
+					</Typography>
+					<Box className="flex mt-5 items-center justify-between">
+						<Button
+							variant="contained"
+							color="error"
+							onClick={() => handleDeleteConfirmed()}
+						>
+							Remove
+						</Button>
+						<Button onClick={handleCloseModal}>Cancel</Button>
+					</Box>
+				</Box>
+			</Modal>
 		</>
 	);
 };
