@@ -30,9 +30,7 @@ export function AddTaskForm({ props }) {
 	const { data, membersData, handleClose } = props;
 	useEffect(() => {
 		if (membersData) {
-			setOptions([
-				...membersData?.map((member) => member.username),
-			]);
+			setOptions([...membersData?.map((member) => member.username)]);
 		}
 	}, []);
 
@@ -68,7 +66,7 @@ export function AddTaskForm({ props }) {
 			dueDate: dueDate ? dayjs(dueDate).format("YYYY-MM-DD") : null,
 			status,
 			project: { id: projectId },
-			user: {id: user.userId},
+			user: { id: user.userId },
 			parentTask,
 		};
 		const task = new FormData();
@@ -215,7 +213,9 @@ export function AddTaskForm({ props }) {
 								setInputValue(newInputValue);
 							}}
 							options={options}
-							renderInput={(params) => <TextField required {...params} />}
+							renderInput={(params) => (
+								<TextField required {...params} />
+							)}
 						/>
 					</div>
 				</div>
@@ -266,6 +266,7 @@ export function AddTaskForm({ props }) {
 							Status
 						</FormLabel>
 						<Select
+							required
 							className="w-full"
 							id="status"
 							value={status}
@@ -353,9 +354,7 @@ export function AddTaskForm({ props }) {
 						variant="contained"
 						className="!bg-green-400 !hover:bg-green-600 !rounded-full"
 					>
-						<span className="px-5">
-							Create
-						</span>
+						<span className="px-5">Create</span>
 					</LoadingButton>
 				</div>
 			</form>
