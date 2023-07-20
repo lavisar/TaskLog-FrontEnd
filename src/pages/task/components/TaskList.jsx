@@ -29,6 +29,7 @@ export const TaskList = ({ taskLst }) => {
 	const [assignee, setAssignee] = useState("");
 	const [inputValue, setInputValue] = useState("");
 
+	console.log("check data", data);
 	const [rows, setRows] = useState([]);
 	const [options, setOptions] = useState([""]);
 
