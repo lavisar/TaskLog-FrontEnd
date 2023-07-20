@@ -45,7 +45,7 @@ export const TaskList = ({ taskLst }) => {
 					taskName: row.taskName,
 					priority: row.priority,
 					category: row.category,
-					dueDate: row.dueDate,
+					dueDate: row.dueDate ? row.dueDate : null,
 					assignee: row?.user?.username,
 					status: row.status,
 				};
@@ -79,7 +79,7 @@ export const TaskList = ({ taskLst }) => {
 			},
 		},
 		{ field: "category", headerName: "Category", flex: 1 },
-		{ field: "dueDate", headerName: "Due Date", flex: 1, renderCell: (cell) => { return <div>{dayjs(cell.value).format("DD/MM/YYYY")}</div> }},
+		{ field: "dueDate", headerName: "Due Date", flex: 1, renderCell: (cell) => { return <div>{cell.value ? dayjs(cell.value).format("DD/MM/YYYY") : "dd/mm/yyyy"}</div> }},
 		{ field: "assignee", headerName: "Assignee", flex: 1 },
 		{
 			field: "status",
@@ -121,7 +121,7 @@ export const TaskList = ({ taskLst }) => {
 	return (
 		<>
 			<div className="mt-6">
-				<div className="flex flex-row gap-2">
+				{/* <div className="flex flex-row gap-2">
 					<div className="w-52">
 						<FormControl fullWidth size="small">
 							<InputLabel id="categoryLabelId">
@@ -221,7 +221,7 @@ export const TaskList = ({ taskLst }) => {
 							)}
 						/>
 					</div>
-				</div>
+				</div> */}
 				<div>
 					<div
 						className="mt-6"
