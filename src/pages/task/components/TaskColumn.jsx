@@ -63,9 +63,9 @@ export const TaskColumn = ({ taskLst }) => {
 	};
 
 	return (
-		<div className="mt-[15px] overflow-x-scroll h-fit scrollbar-hide">
+		<div className="mt-[15px] overflow-x-scroll h-[calc(100vh-150px)]">
 			<DragDropContext onDragEnd={onDragEnd}>
-				<div className="grid grid-cols-4 gap-[10rem] my-5">
+				<div className="grid grid-cols-4 gap-[10rem] my-5 ">
 					{Object.values(TaskStatus).map((statusValue) => (
 						<TaskStatusColumn
 							key={statusValue}
