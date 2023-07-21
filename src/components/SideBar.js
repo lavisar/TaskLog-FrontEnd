@@ -45,11 +45,6 @@ export default function SideBar() {
 			link: "DOCUMENTS",
 			path: `${WEBLINKS.DOCUMENT}/${projectId}`,
 		},
-		{
-			icon: <LuMilestone />,
-			link: "MILESTONE",
-			path: null,
-		},
 	];
 
 	return (

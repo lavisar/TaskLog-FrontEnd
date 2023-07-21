@@ -53,11 +53,6 @@ export default function SideBar2({ open }) {
 			link: "DOCUMENTS",
 			path: `${WEBLINKS.DOCUMENT}/${projectId}`,
 		},
-		{
-			icon: <LuMilestone />,
-			link: "MILESTONE",
-			path: null,
-		},
 	];
 	return (
 		<Box>
