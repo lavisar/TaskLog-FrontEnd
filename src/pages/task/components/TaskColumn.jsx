@@ -8,12 +8,28 @@ import {
 	TaskStatus,
 } from "../../../store/constants/TaskConstant";
 import { TaskStatusColumn } from "./ColumnElement/TaskStatusColumn";
+import { useUpdateTaskMutation } from "../../../store";
 
 export const TaskColumn = ({ taskLst }) => {
 	const dispatch = useDispatch();
 	const { data, membersData, isLoading, handleClickOpen } = taskLst;
 	const [tasks, setTasks] = useState([]);
 	const [users, setUsers] = useState([]);
+	const [updateTask] = useUpdateTaskMutation();
+	const [foundObject, setFoundObject] = useState({});
+	const [draggedItemId, setDraggedItemId] = useState(null);
+
+	// found obj task with ID
+	const handleFindObject = (id) => {
+		console.log(id);
+		const found = data.find((obj) => obj.id === id);
+		console.log("found", found);
+		setFoundObject(found);
+	};
+
+	const onDragStart = (result) => {
+		setDraggedItemId(result.draggableId); // Lưu id của mục công việc đang được kéo khi bắt đầu kéo
+	};
 
 	useEffect(() => {
 		if (membersData) {
@@ -33,9 +49,9 @@ export const TaskColumn = ({ taskLst }) => {
 				};
 			});
 			setTasks(taskConfig);
-			console.log("config", tasks);
 		}
-	}, [data, membersData]);
+		console.log("founded task OBJ", foundObject);
+	}, [data, membersData, foundObject]);
 
 	const handleRowClick = (taskId) => {
 		const taskRow = data.find((dataRow) => dataRow.id === taskId);
@@ -49,29 +65,62 @@ export const TaskColumn = ({ taskLst }) => {
 		dispatch(setShowTaskDetails(taskDetails));
 		handleClickOpen(true);
 	};
-
-	const onDragEnd = (result) => {
+	const handleUpdateTask = async (id, newStatus) => {
+		console.log("ID", id);
+		console.log("Status", newStatus);
+		console.log("foundObject", foundObject);
+		const taskModel = {
+			id: id,
+			taskName: foundObject.taskName,
+			brief: foundObject.brief,
+			priority: foundObject.priority,
+			category: foundObject.category,
+			estimated: foundObject.estimated,
+			actualHours: foundObject.actualHours,
+			startDate: foundObject.startDate,
+			dueDate: foundObject.dueDate,
+			endDate: foundObject.endDate,
+			status: newStatus,
+			project: foundObject.project,
+			user: foundObject.user,
+		};
+		try {
+			await updateTask(taskModel);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+	const onDragEnd = async (result) => {
+		console.log("result", result);
 		const { destination, source, draggableId } = result;
-		if (!destination || destination.index === source.index) {
+		handleFindObject(draggableId);
+		// not change location
+		if (!destination || destination.droppableId === source.droppableId) {
+			console.log("vi tri khong thay doi");
 			return;
 		}
-		const movedTask = tasks.find((task) => task.id === draggableId);
 		const newTasks = [...tasks];
-		newTasks.splice(source.index, 1);
-		newTasks.splice(destination.index, 0, movedTask);
+		const movedTaskIndex = newTasks.findIndex(
+			(task) => task.id === draggableId
+		);
+		const movedTask = newTasks.splice(movedTaskIndex, 1)[0]; // Xóa task được kéo khỏi vị trí cũ
+		newTasks.splice(destination.index, 0, movedTask); // Chèn task vào vị trí mới
 		setTasks(newTasks);
+
+		await handleUpdateTask(draggableId, destination.droppableId);
 	};
 
 	return (
-		<div className="mt-[15px] overflow-x-scroll h-fit scrollbar-hide">
-			<DragDropContext onDragEnd={onDragEnd}>
-				<div className="grid grid-cols-4 gap-[10rem] my-5">
+		<div className="mt-[15px] overflow-x-scroll h-[calc(100vh-150px)]">
+			<DragDropContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
+				<div className="grid grid-cols-4 gap-[20%] my-5">
 					{Object.values(TaskStatus).map((statusValue) => (
 						<TaskStatusColumn
 							key={statusValue}
 							statusValue={statusValue}
 							tasks={tasks}
 							handleRowClick={handleRowClick}
+							draggedItemId={draggedItemId}
 						/>
 					))}
 				</div>
