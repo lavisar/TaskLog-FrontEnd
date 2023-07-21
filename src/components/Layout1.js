@@ -89,8 +89,8 @@ export default function Layout1() {
             },
           }}
         >
-          <Toolbar>
-            {/* This place is for image-------------------------- */}
+          <Toolbar className="!p-0">
+            <img src="/images/header_logo_light.png" />
           </Toolbar>
 
           <Divider />
@@ -107,8 +107,8 @@ export default function Layout1() {
             display: { xs: "none", sm: "none", md: "block" },
           }}
         >
-          <Toolbar>
-            {/* This place is for image-------------------------- */}
+          <Toolbar className="!p-0">
+            <img src="/images/header_logo_light.png" />
           </Toolbar>
 
           <Divider />

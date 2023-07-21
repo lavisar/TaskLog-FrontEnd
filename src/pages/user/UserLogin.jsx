@@ -53,10 +53,11 @@ function UserLogin() {
     }}>
       <div id="tasklog-background"></div>
 
-      <Toolbar sx={{ minHeight: toolbarHeight }} variant='dense'>
+      <Toolbar sx={{ minHeight: toolbarHeight }} variant='dense' className='flex justify-between'>
         <CustomLink to={WEBLINKS.SIGNUP} className="text-white bg-green-400 rounded-full px-2 py-1 m-2 hover:bg-green-600 font-bold">
           Sign Up
         </CustomLink>
+        <img src="/images/header_logo.png" />
       </Toolbar>
       <Box sx={{
         minHeight: `calc(100vh - ${toolbarHeight}px)`,

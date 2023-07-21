@@ -148,8 +148,9 @@ export default function UserProjects() {
       sx={{
         height: toolbarHeight,
       }}
+      className="!p-0"
     >
-      {/* Put logo on top left */}
+      <img src="/images/header_logo.png" />
     </Toolbar>
 
     <Box sx={{
