@@ -55,7 +55,7 @@ export const TaskItem = ({ task, index, handleRowClick }) => (
 					{/* avt assignee */}
 					<img
 						src={`${API_INSTANCE.BASE_URL}/auth/image/${task.pic}`}
-						className="rounded-full w-[35px] h-[35px] aspect-square object-cover ml-[11px] mb-[10px] "
+						className="rounded-full w-[35px] h-[35px] aspect-square object-cover ml-[6px] mb-[10px] "
 						alt="pic of member"
 						title={task.assignee}
 					/>
