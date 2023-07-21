@@ -24,7 +24,7 @@ function color(statusValue) {
 	}
 }
 export const TaskStatusColumn = ({ statusValue, tasks, handleRowClick }) => (
-	<div key={statusValue} className="flex-1 !w-[350px] bg-gray-100 ">
+	<div key={statusValue} className="flex-1 !w-[300px] bg-gray-100 ">
 		<div className="rounded-md shadow-md flex flex-col relative overflow-hidden">
 			<h4 className="px-[20px]">
 				<span className="text-gray-600" style={{ fontSize: "20px" }}>
