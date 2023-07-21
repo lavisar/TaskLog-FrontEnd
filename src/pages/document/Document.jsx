@@ -22,8 +22,18 @@ function Document() {
 	return (
 		<>
 			<div className="w-full">
-				<Button variant="contained" color="success" onClick={openForm}>
+				{/* <Button  variant="contained" color="success" onClick={openForm}>
 					<UploadFileIcon className="mr-3" /> NEW FILE
+				</Button> */}
+				<Button
+					className="!rounded-2xl !bg-white"
+					sx={{ boxShadow: "0px 3px 10px 0px rgba(0, 0, 0, 0.25);" }}
+					variant="contained"
+					onClick={openForm}
+				>
+					<span className="font-extrabold text-2xl flex items-center gap-4 text-black">
+						<UploadFileIcon className="mr-3" /> NEW FILE
+					</span>
 				</Button>
 				{showForm && <FormUpload onClose={closeForm} />}
 			</div>

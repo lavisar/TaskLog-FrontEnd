@@ -4,15 +4,31 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { useDeleteDocumentByIdMutation } from "../../../store/apis/documentApi";
 import { authRequestWithReauth } from "../../../store/apis/features/authApiAxios";
+import { Modal, Typography, Button, Box } from "@mui/material";
 
 export const DocumentList = ({ documentLst }) => {
 	const { data, isLoading, err } = documentLst;
 	const [rows, setRows] = useState([]);
-
+	const [showModal, setShowModal] = useState(false);
+	const [currentDocument, setCurrentDocument] = useState();
 	const [deleteDocumentById] = useDeleteDocumentByIdMutation();
+
+	const handleOpenModal = () => {
+		setShowModal(true);
+	};
+
+	const handleCloseModal = () => {
+		setShowModal(false);
+	};
 
 	const handleDelete = async (documentId) => {
 		console.log("deleting id:", documentId);
+		setCurrentDocument(documentId);
+		handleOpenModal();
+	};
+
+	const handleDeleteConfirmed = async (documentId) => {
+		handleCloseModal();
 		try {
 			const result = await deleteDocumentById(documentId);
 			console.log(result);
@@ -24,6 +40,7 @@ export const DocumentList = ({ documentLst }) => {
 			console.error("error", error);
 		}
 	};
+
 	const downloadFile = (documentId, filename) => {
 		console.log("dowloading id: " + documentId);
 		authRequestWithReauth(
@@ -137,6 +154,38 @@ export const DocumentList = ({ documentLst }) => {
 					}}
 				/>
 			</div>
+
+			<Modal open={showModal} onClose={handleCloseModal}>
+				<Box
+					sx={{
+						position: "absolute",
+						top: "50%",
+						left: "50%",
+						transform: "translate(-50%, -50%)",
+						width: 500,
+						bgcolor: "background.paper",
+						borderRadius: "20px",
+						boxShadow: 24,
+						p: 4,
+					}}
+				>
+					<Typography variant="h6" className="text-center">
+						Do you want to remove this document?
+					</Typography>
+					<Box className="flex mt-5 items-center justify-between">
+						<Button
+							variant="contained"
+							color="error"
+							onClick={() =>
+								handleDeleteConfirmed(currentDocument)
+							}
+						>
+							Remove
+						</Button>
+						<Button onClick={handleCloseModal}>Cancel</Button>
+					</Box>
+				</Box>
+			</Modal>
 		</>
 	);
 };

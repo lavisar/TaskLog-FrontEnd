@@ -13,11 +13,11 @@ export const commentApi = authApi.injectEndpoints({
 			},
 		}),
 		updateComment: builder.mutation({
-			invalidatesTags: ["CommentUpdate"],
-			query: (id, body) => {
+			invalidatesTags: ["Comment"],
+			query: (body) => {
 				return {
 					method: "PUT",
-					url: `comment/${id}`,
+					url: `/comment/${body.id}`,
 					body,
 				};
 			},
