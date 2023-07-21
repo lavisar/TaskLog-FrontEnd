@@ -43,9 +43,7 @@ function AdminLayout() {
               <AiOutlineMenu />
             </IconButton>
 
-            <Typography variant="h5" noWrap component="div">
-              TaskLog
-            </Typography>
+            <img src="/images/header_logo_light.png" />
           </div>
 
           <CurrentAccount profileLink={WEBLINKS.ADMIN_PROFILE} />
@@ -99,7 +97,6 @@ function AdminLayout() {
         className="!bg-gray-100 !flex !flex-col"
       >
         <Toolbar />
-
         {/* // MAIN CONTENT */}
         <Outlet />
       </Box>
