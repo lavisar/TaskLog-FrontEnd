@@ -25,8 +25,6 @@ export const TaskColumn = ({ taskLst }) => {
 		if (found) {
 			await setFoundObject(found);
 		}
-		console.log("handleFindObject - id", id);
-		console.log("handleFindObject - found", found);
 	};
 
 	const onDragStart = (result) => {
@@ -69,9 +67,6 @@ export const TaskColumn = ({ taskLst }) => {
 	};
 
 	const handleUpdateTask = async (id, newStatus) => {
-		console.log("ID", id);
-		console.log("Status", newStatus);
-		console.log("foundObject", foundObject);
 		const taskModel = {
 			id: id,
 			taskName: foundObject.taskName,
@@ -94,27 +89,27 @@ export const TaskColumn = ({ taskLst }) => {
 		}
 	};
 	const onDragEnd = async (result) => {
-		console.log("result", result);
+		// console.log("result", result);
 		const { destination, source, draggableId } = result;
 
 		if (destination.droppableId === source.droppableId) {
-			console.log("vi tri khong thay doi");
+			// console.log("vi tri khong thay doi");
 			return;
 		}
-		if (destination.droppableId !== source.droppableId) {
-			await handleUpdateTask(draggableId, destination.droppableId);
-		}
-		console.log("task in dragend", tasks);
+
+		// console.log("task in dragend", tasks);
 		const newTasks = [...tasks];
 		const movedTaskIndex = newTasks.findIndex(
 			(task) => task.id === draggableId
 		);
 		const movedTask = newTasks.splice(movedTaskIndex, 1)[0]; // Xóa task được kéo khỏi vị trí cũ
-		newTasks.splice(destination.index, 0, movedTask); // Chèn task vào vị trí mới
+		newTasks.splice(destination.droppableId, 0, movedTask); // Chèn task vào vị trí mới
 
-		console.log("newTasks: " + newTasks);
-		console.log("movedTaskIndex", movedTaskIndex);
-		console.log("movedTask: " + movedTask);
+		newTasks[movedTaskIndex].status = result.destination.droppableId;
+
+		// console.log("newTasks: ", JSON.stringify(newTasks, null, 2));
+		// console.log("movedTaskIndex", movedTaskIndex);
+		// console.log("movedTask: " + JSON.stringify(movedTask, null, 2));
 		setTasks(newTasks);
 
 		await handleUpdateTask(draggableId, destination.droppableId);

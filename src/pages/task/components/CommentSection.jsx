@@ -180,8 +180,9 @@ export const CommentSection = ({ taskId }) => {
 			{/* comment list */}
 			<div className="flex flex-col gap-4 mt-4 h-[200px] overflow-y-scroll scrollbar-hide">
 				{data ? (
-					data.map((item) => (
+					data.map((item, index) => (
 						<div
+							key={index}
 							className="flex gap-4 items-center pb-[8px] pl-[15px] rounded-l-lg shadow-md shadow-[#00000033] bg-white"
 							onContextMenu={(e) => handleContextMenu(e, item.id)}
 							style={{ cursor: "context-menu" }}
