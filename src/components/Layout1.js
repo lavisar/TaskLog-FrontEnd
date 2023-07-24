@@ -119,7 +119,7 @@ export default function Layout1() {
       <Box
         component="main"
         sx={{ flexGrow: 1, px: 3, pt: 2 }}
-        className="bg-slate-100"
+        className="bg-[#F6F6F6]"
       >
         <CustomDrawerHeader theme={theme} />
 
