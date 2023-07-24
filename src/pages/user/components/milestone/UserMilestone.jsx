@@ -10,7 +10,7 @@ import { useGetProjectQuery } from "../../../../store/apis/projectApi";
 import { WEBLINKS } from "../../../../store/constants/WebLinks";
 import { setProject } from "../../../../store";
 import { setMilestone } from "../../../../store/slices/milestoneSlice";
-import { Card, Modal, Button, Box, Typography, TextField } from "@mui/material";
+import { Card, Modal, Button, Box, Typography, TextField, LinearProgress} from "@mui/material";
 import CustomTableSortable from "../../../../components/table/CustomTableSortable";
 import { LoadingButton } from "@mui/lab";
 import { IoRemoveCircleSharp, IoPencil } from 'react-icons/io5';
@@ -201,7 +201,7 @@ export default function UserMilestone({ projectId }) {
 
     let content3
     if (milestoneIsLoading) {
-        content3 = <h1>Loading ...</h1>
+        content3 = <LinearProgress color="success" />;
     } else if (milestoneIsError) {
         console.log(milestoneError)
     } else if (milestoneIsSuccess) {
