@@ -4,6 +4,12 @@ import { useCreateTaskMutation } from "../../../store";
 
 import {
 	Autocomplete,
+	Button,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogContentText,
+	DialogTitle,
 	FormLabel,
 	MenuItem,
 	Select,
@@ -20,6 +26,7 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
+import { Cancel } from "@mui/icons-material";
 
 export function AddTaskForm({ props }) {
 	const taskToShowDetails = useSelector(
@@ -48,12 +55,29 @@ export function AddTaskForm({ props }) {
 	const [inputValue, setInputValue] = useState("");
 	const [parentTask, setParentTask] = useState("");
 	const [files, setFiles] = useState("");
+	const [open, setOpen] = useState(false);
+	const [focusDatePicker, setFocusDatePicker] = useState(false);
+
+	const handleOpenAlert = () => {
+		setOpen(true);
+	};
+
+	const handleCloseAlert = () => {
+		setOpen(false);
+		setFocusDatePicker(true);
+	};
 
 	const handleUploadFile = (e) => {
 		setFiles(e.target.files);
 	};
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		if (startDate && dueDate) {
+			if (dayjs(startDate) > dayjs(dueDate)) {
+				setOpen(true);
+				return;
+			}
+		}
 		const user = membersData.find((member) => member.username === assignee);
 		const taskModel = {
 			taskName,
@@ -85,279 +109,330 @@ export function AddTaskForm({ props }) {
 	};
 
 	return (
-		<div className="p-5">
-			<h1 className="text-center font-extrabold text-2xl py-5">
-				Create a new task
-			</h1>
-			<form onSubmit={handleSubmit}>
-				<div className="flex">
-					<div className="flex flex-row p-4 items-center w-1/3">
-						<FormLabel
-							component="legend"
-							className="whitespace-nowrap mr-2"
-						>
-							Task Name
-						</FormLabel>
-						<TextField
-							required
-							id="taskName"
-							type="text"
-							value={taskName}
-							onChange={(e) => setTaskName(e.target.value)}
-							autoComplete="off"
-							className="w-full"
-						/>
-					</div>
-					<div className="flex flex-row p-4 items-center w-2/3">
-						<FormLabel
-							component="legend"
-							className="whitespace-nowrap mr-2"
-						>
-							Description
-						</FormLabel>
-						<TextField
-							id="description"
-							value={desc}
-							onChange={(e) => setDesc(e.target.value)}
-							autoComplete="off"
-							className="w-full"
-						/>
-					</div>
-				</div>
-				<div className="flex">
-					<div className="flex flex-row p-4 items-center w-1/2">
-						<FormLabel
-							component="legend"
-							className="whitespace-nowrap mr-2"
-						>
-							Priority
-						</FormLabel>
-						<Select
-							required
-							className="w-full"
-							id="priority"
-							value={priority}
-							onChange={(e) => setPriority(e.target.value)}
-						>
-							<MenuItem disabled value="">
-								Set task priority
-							</MenuItem>
-							<MenuItem value={TaskPriority.HIGH}>HIGH</MenuItem>
-							<MenuItem value={TaskPriority.NORMAL}>
-								NORMAL
-							</MenuItem>
-							<MenuItem value={TaskPriority.LOW}>LOW</MenuItem>
-						</Select>
-					</div>
-					<div className="flex flex-row p-4 items-center w-1/2">
-						<FormLabel
-							component="legend"
-							className="whitespace-nowrap mr-2"
-						>
-							Category
-						</FormLabel>
-						<Select
-							required
-							className="w-full"
-							id="category"
-							value={category}
-							onChange={(e) => setCategory(e.target.value)}
-						>
-							<MenuItem disabled value="">
-								Select task category
-							</MenuItem>
-							<MenuItem value={TaskCategory.TASK}>TASK</MenuItem>
-							<MenuItem value={TaskCategory.BUG}>BUG</MenuItem>
-							<MenuItem value={TaskCategory.CR}>
-								CHANGE REQUEST
-							</MenuItem>
-						</Select>
-					</div>
-				</div>
-				<div className="flex">
-					<div className="flex flex-row p-4 items-center w-1/2">
-						<FormLabel
-							component="legend"
-							className="whitespace-nowrap mr-2"
-						>
-							Estimated Hours
-						</FormLabel>
-						<TextField
-							required
-							id="estimated"
-							type="number"
-							value={estimated}
-							onChange={(e) => setEstimated(e.target.value)}
-							autoComplete="off"
-							fullWidth
-						/>
-					</div>
-					<div className="flex flex-row p-4 items-center w-1/2">
-						<FormLabel
-							component="legend"
-							className="whitespace-nowrap mr-2"
-						>
-							Assignee
-						</FormLabel>
-						<Autocomplete
-							required
-							fullWidth
-							disablePortal
-							id="assignee"
-							value={assignee === "" ? null : assignee}
-							onChange={(e, newValue) => {
-								setAssignee(newValue);
-							}}
-							inputValue={inputValue}
-							onInputChange={(event, newInputValue) => {
-								setInputValue(newInputValue);
-							}}
-							options={options}
-							renderInput={(params) => (
-								<TextField required {...params} />
-							)}
-						/>
-					</div>
-				</div>
-				<div className="flex">
-					<div className="flex flex-row p-4 items-center w-1/2">
-						<FormLabel
-							component="legend"
-							className="whitespace-nowrap mr-2"
-						>
-							Start Date
-						</FormLabel>
-						<LocalizationProvider dateAdapter={AdapterDayjs}>
-							<DatePicker
-								id="startDate"
-								value={startDate}
-								onChange={(newValue) => setStartDate(newValue)}
-								format="DD/MM/YYYY"
-								views={["day"]}
+		<div className="">
+			<div className="w-full shadow-md">
+				<h1 className="text-left font-extrabold text-2xl py-5 pl-5">
+					Create a new task
+				</h1>
+			</div>
+			<div className="p-5 pt-0">
+				<form onSubmit={handleSubmit}>
+					<div className="flex">
+						<div className="flex flex-row p-4 items-center w-1/3">
+							<FormLabel
+								component="legend"
+								className="whitespace-nowrap mr-2"
+							>
+								Task Name
+							</FormLabel>
+							<TextField
+								required
+								id="taskName"
+								type="text"
+								value={taskName}
+								onChange={(e) => setTaskName(e.target.value)}
+								autoComplete="off"
 								className="w-full"
 							/>
-						</LocalizationProvider>
-					</div>
-					<div className="flex flex-row p-4 items-center w-1/2">
-						<FormLabel
-							component="legend"
-							className="whitespace-nowrap mr-2"
-						>
-							Due Date
-						</FormLabel>
-						<LocalizationProvider dateAdapter={AdapterDayjs}>
-							<DatePicker
-								id="dueDate"
-								value={dueDate}
-								onChange={(newValue) => setDueDate(newValue)}
-								format="DD/MM/YYYY"
-								views={["day"]}
+						</div>
+						<div className="flex flex-row p-4 items-center w-2/3">
+							<FormLabel
+								component="legend"
+								className="whitespace-nowrap mr-2"
+							>
+								Description
+							</FormLabel>
+							<TextField
+								id="description"
+								value={desc}
+								onChange={(e) => setDesc(e.target.value)}
+								autoComplete="off"
 								className="w-full"
 							/>
-						</LocalizationProvider>
+						</div>
 					</div>
-				</div>
-				<div className="flex">
-					<div className="flex flex-row p-4 items-center w-1/2">
-						<FormLabel
-							component="legend"
-							className="whitespace-nowrap mr-2"
-						>
-							Status
-						</FormLabel>
-						<Select
-							required
-							className="w-full"
-							id="status"
-							value={status}
-							onChange={(e) => setStatus(e.target.value)}
-						>
-							<MenuItem disabled value="">
-								Select task status
-							</MenuItem>
-							<MenuItem value={TaskStatus.OPEN}>OPEN</MenuItem>
-							<MenuItem value={TaskStatus.INPROGRESS}>
-								INPROGRESS
-							</MenuItem>
-							<MenuItem value={TaskStatus.RESOLVED}>
-								RESOLVED
-							</MenuItem>
-							<MenuItem value={TaskStatus.CLOSED}>
-								CLOSED
-							</MenuItem>
-						</Select>
-					</div>
-					<div className="flex flex-row p-4 items-center w-1/2">
-						<FormLabel
-							component="legend"
-							className="whitespace-nowrap mr-2"
-						>
-							Add parent task
-						</FormLabel>
-						<Select
-							className="w-full"
-							id="parentTask"
-							value={parentTask ? parentTask : ""}
-							onChange={(e) => setParentTask(e.target.value)}
-						>
-							<MenuItem disabled value="">
-								Select parent task
-							</MenuItem>
-							{data?.map((task) => (
-								<MenuItem key={task.id} value={task.id}>
-									{task.taskName}
+					<div className="flex">
+						<div className="flex flex-row p-4 items-center w-1/2">
+							<FormLabel
+								component="legend"
+								className="whitespace-nowrap mr-2"
+							>
+								Priority
+							</FormLabel>
+							<Select
+								required
+								className="w-full"
+								id="priority"
+								value={priority}
+								onChange={(e) => setPriority(e.target.value)}
+							>
+								<MenuItem disabled value="">
+									Set task priority
 								</MenuItem>
-							))}
-						</Select>
+								<MenuItem value={TaskPriority.HIGH}>
+									HIGH
+								</MenuItem>
+								<MenuItem value={TaskPriority.NORMAL}>
+									NORMAL
+								</MenuItem>
+								<MenuItem value={TaskPriority.LOW}>
+									LOW
+								</MenuItem>
+							</Select>
+						</div>
+						<div className="flex flex-row p-4 items-center w-1/2">
+							<FormLabel
+								component="legend"
+								className="whitespace-nowrap mr-2"
+							>
+								Category
+							</FormLabel>
+							<Select
+								required
+								className="w-full"
+								id="category"
+								value={category}
+								onChange={(e) => setCategory(e.target.value)}
+							>
+								<MenuItem disabled value="">
+									Select task category
+								</MenuItem>
+								<MenuItem value={TaskCategory.TASK}>
+									TASK
+								</MenuItem>
+								<MenuItem value={TaskCategory.BUG}>
+									BUG
+								</MenuItem>
+								<MenuItem value={TaskCategory.CR}>
+									CHANGE REQUEST
+								</MenuItem>
+							</Select>
+						</div>
 					</div>
-				</div>
-				<div className="flex">
-					<div className="flex flex-col p-4 items-start w-full">
-						<FormLabel
-							component="legend"
-							className="whitespace-nowrap mb-2"
-						>
-							Task Brief
-						</FormLabel>
-						<CustomTextArea
-							id="brief"
-							placeholder="Type in task briefings..."
-							value={brief}
-							onChange={(e) => setBrief(e.target.value)}
-							className="w-full"
-						/>
+					<div className="flex">
+						<div className="flex flex-row p-4 items-center w-1/2">
+							<FormLabel
+								component="legend"
+								className="whitespace-nowrap mr-2"
+							>
+								Estimated Hours
+							</FormLabel>
+							<TextField
+								required
+								id="estimated"
+								type="number"
+								value={estimated}
+								onChange={(e) => setEstimated(e.target.value)}
+								autoComplete="off"
+								fullWidth
+							/>
+						</div>
+						<div className="flex flex-row p-4 items-center w-1/2">
+							<FormLabel
+								component="legend"
+								className="whitespace-nowrap mr-2"
+							>
+								Assignee
+							</FormLabel>
+							<Autocomplete
+								required
+								fullWidth
+								disablePortal
+								id="assignee"
+								value={assignee === "" ? null : assignee}
+								onChange={(e, newValue) => {
+									setAssignee(newValue);
+								}}
+								inputValue={inputValue}
+								onInputChange={(event, newInputValue) => {
+									setInputValue(newInputValue);
+								}}
+								options={options}
+								renderInput={(params) => (
+									<TextField required {...params} />
+								)}
+							/>
+						</div>
 					</div>
-				</div>
-				<div className="p-4">
-					<label className="block">
-						<span className="sr-only">Choose profile photo</span>
-						<input
-							type="file"
-							multiple
-							className="block w-full text-sm text-slate-500 
+					<div className="flex">
+						<div className="flex flex-row p-4 items-center w-1/2">
+							<FormLabel
+								component="legend"
+								className="whitespace-nowrap mr-2"
+							>
+								Start Date
+							</FormLabel>
+							<LocalizationProvider dateAdapter={AdapterDayjs}>
+								<DatePicker
+									id="startDate"
+									value={startDate}
+									onChange={(newValue) =>
+										setStartDate(newValue)
+									}
+									format="DD/MM/YYYY"
+									views={["day"]}
+									className="w-full"
+								/>
+							</LocalizationProvider>
+						</div>
+						<div className="flex flex-row p-4 items-center w-1/2">
+							<FormLabel
+								component="legend"
+								className="whitespace-nowrap mr-2"
+							>
+								Due Date
+							</FormLabel>
+							<LocalizationProvider dateAdapter={AdapterDayjs}>
+								<DatePicker
+									id="dueDate"
+									value={dueDate}
+									onChange={(newValue) =>
+										setDueDate(newValue)
+									}
+									format="DD/MM/YYYY"
+									views={["day"]}
+									className="w-full"
+									autoFocus={focusDatePicker}
+								/>
+							</LocalizationProvider>
+						</div>
+					</div>
+					<div className="flex">
+						<div className="flex flex-row p-4 items-center w-1/2">
+							<FormLabel
+								component="legend"
+								className="whitespace-nowrap mr-2"
+							>
+								Status
+							</FormLabel>
+							<Select
+								required
+								className="w-full"
+								id="status"
+								value={status}
+								onChange={(e) => setStatus(e.target.value)}
+							>
+								<MenuItem disabled value="">
+									Select task status
+								</MenuItem>
+								<MenuItem value={TaskStatus.OPEN}>
+									OPEN
+								</MenuItem>
+								<MenuItem value={TaskStatus.INPROGRESS}>
+									INPROGRESS
+								</MenuItem>
+								<MenuItem value={TaskStatus.RESOLVED}>
+									RESOLVED
+								</MenuItem>
+								<MenuItem value={TaskStatus.CLOSED}>
+									CLOSED
+								</MenuItem>
+							</Select>
+						</div>
+						<div className="flex flex-row p-4 items-center w-1/2">
+							<FormLabel
+								component="legend"
+								className="whitespace-nowrap mr-2"
+							>
+								Add parent task
+							</FormLabel>
+							<Select
+								className="w-full"
+								id="parentTask"
+								value={parentTask ? parentTask : ""}
+								onChange={(e) => setParentTask(e.target.value)}
+							>
+								<MenuItem disabled value="">
+									Select parent task
+								</MenuItem>
+								{data?.map((task) => (
+									<MenuItem key={task.id} value={task.id}>
+										{task.taskName}
+									</MenuItem>
+								))}
+							</Select>
+						</div>
+					</div>
+					<div className="flex">
+						<div className="flex flex-col p-4 items-start w-full">
+							<FormLabel
+								component="legend"
+								className="whitespace-nowrap mb-2"
+							>
+								Task Brief
+							</FormLabel>
+							<CustomTextArea
+								id="brief"
+								placeholder="Type in task briefings..."
+								value={brief}
+								onChange={(e) => setBrief(e.target.value)}
+								className="w-full"
+							/>
+						</div>
+					</div>
+					<div className="p-4">
+						<label className="block">
+							<span className="sr-only">
+								Choose profile photo
+							</span>
+							<input
+								type="file"
+								multiple
+								className="block w-full text-sm text-slate-500 
                   			file:mr-4 file:py-2 file:px-4 
                   			file:rounded-full file:border-0
                   			file:text-sm file:font-semibold
                   			file:bg-green-50 file:text-green-500
                   			hover:file:bg-green-100"
-							id="files"
-							onChange={handleUploadFile}
-						/>
-					</label>
-				</div>
+								id="files"
+								onChange={handleUploadFile}
+							/>
+						</label>
+					</div>
 
-				<div className="text-center">
-					<LoadingButton
-						type="submit"
-						size="small"
-						loadingIndicator="Creating account..."
-						variant="contained"
-						className="!bg-green-400 !hover:bg-green-600 !rounded-full"
+					<div className="text-right">
+						<Button
+							variant="contained"
+							className="!bg-[#26BB98] !rounded-2xl !h-12 !py-2 !px-5 !shadow-md"
+							type="submit"
+						>
+							<span className="text-base font-extrabold text-white">
+								CREATE
+							</span>
+						</Button>
+					</div>
+				</form>
+			</div>
+			<Dialog
+				open={open}
+				aria-labelledby="alert-dialog-title"
+				aria-describedby="alert-dialog-description"
+			>
+				<DialogTitle
+					id="alert-dialog-title"
+					className="!text-md !text-red-600"
+				>
+					<Cancel />
+				</DialogTitle>
+				<DialogContent>
+					<DialogContentText
+						id="alert-dialog-description"
+						className="!text-lg !text-black"
 					>
-						<span className="px-5">Create</span>
-					</LoadingButton>
-				</div>
-			</form>
+						Start date can not greater than Due date
+					</DialogContentText>
+				</DialogContent>
+				<DialogActions>
+					<Button
+						onClick={handleCloseAlert}
+						variant="contained"
+						autoFocus
+						className="!bg-[#26BB98] !text-white !py-1 !rounded-2xl"
+					>
+						OK
+					</Button>
+				</DialogActions>
+			</Dialog>
 		</div>
 	);
 }

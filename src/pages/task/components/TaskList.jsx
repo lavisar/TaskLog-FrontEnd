@@ -32,7 +32,6 @@ export const TaskList = ({ taskLst }) => {
 	const [inputValue, setInputValue] = useState("");
 	const [dataRender, setDataRender] = useState([]);
 
-	console.log("check data", data);
 	const [rows, setRows] = useState([]);
 	const [options, setOptions] = useState([""]);
 
@@ -44,7 +43,6 @@ export const TaskList = ({ taskLst }) => {
 			setDataRender(data);
 			const copyData = [...data];
 			copyData.sort((a, b) => {
-				console.log("AAAA", a);
 				const dateA = new Date(a.createAt);
 				const dateB = new Date(b.createAt);
 				return dateB - dateA;
@@ -312,7 +310,7 @@ export const TaskList = ({ taskLst }) => {
 				<div>
 					<div
 						className="mt-6"
-						style={{ height: 400, width: "100%" }}
+						style={{ height: "100%", width: "100%" }}
 					>
 						<DataGrid
 							className="shadow-md shadow-[#00000033] bg-white !rounded-[16px] pl-4"
