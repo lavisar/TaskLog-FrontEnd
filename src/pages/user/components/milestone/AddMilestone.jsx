@@ -70,6 +70,7 @@ export default function AddMilestone() {
                     autoComplete="off"
                     className="w-full"
                     variant="standard"
+                    required
                 />
             </div>
             <div className="p-1">
@@ -85,34 +86,26 @@ export default function AddMilestone() {
                 />
             </div>
             <div className="p-1">
-                <LocalizationProvider
-                    dateAdapter={AdapterDayjs}
-                >
-                    <DateField
-                        id="from"
-                        label="Milestone From-Date "
-                        value={from}
-                        onChange={newValue => setFromdate(newValue)}
-                        autoComplete="off"
-                        className="w-full"
-                        variant="standard"
-                    />
-                    </LocalizationProvider>
-            </div>
-            <div className="p-1">
-            <LocalizationProvider
-                    dateAdapter={AdapterDayjs}
-                >
-                <DateField
-                    id="to"
-                    label="Milestone To-Date "
-                    value={to}
-                    onChange={newValue => setTodate(newValue)}
+            <TextField
+                    id="from"
+                    type="date"
+                    value={from}
+                    onChange={m => setFromdate(m.target.value)}
                     autoComplete="off"
                     className="w-full"
                     variant="standard"
                 />
-                </LocalizationProvider>
+            </div>
+            <div className="p-1">
+            <TextField
+                    id="date"
+                    type="date"
+                    value={to}
+                    onChange={m => setTodate(m.target.value)}
+                    autoComplete="off"
+                    className="w-full"
+                    variant="standard"
+                />
             </div>
 
             <div className="p-2">

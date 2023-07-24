@@ -9,7 +9,7 @@ import { useGetAllProjectsQuery, useDeleteProjectsMutation, useGetProjectQuery, 
 import { WEBLINKS } from "../../store/constants/WebLinks";
 import { API_INSTANCE } from "../../store/apis/features/apisConst";
 import CustomTableSortable from "../../components/table/CustomTableSortable";
-import { Avatar, Box, Button, Card, Modal, Typography } from "@mui/material";
+import { Avatar, Box, Button, Card, Modal, Typography, LinearProgress } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { IoRemoveCircleSharp, IoPencil } from 'react-icons/io5';
 import AddProjectButton from "./AddProjectButton";
@@ -138,7 +138,7 @@ export default function UserCurrentProject() {
 
     let content2
     if (projectIsLoading) {
-        content2 = <h1>Loading ...</h1>;
+        content2 = <LinearProgress color="success" />;
     } else if (projectIsError) {
         console.log(projectError)
     } else if (projectIsSuccess) {

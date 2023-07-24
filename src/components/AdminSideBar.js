@@ -48,17 +48,6 @@ const listItems = [
       },
     ],
   },
-  {
-    icon: <RiTeamLine />,
-    summary: "Project",
-    children: [
-      {
-        icon: <CiBoxList />,
-        link: "Project List",
-        path: WEBLINKS.ADMIN_ALL_PROJECTS,
-      },
-    ],
-  },
 ];
 
 function AdminSideBar() {
