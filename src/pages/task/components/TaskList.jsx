@@ -38,12 +38,18 @@ export const TaskList = ({ taskLst }) => {
 
 	useEffect(() => {
 		if (membersData) {
-			console.log("membersData", membersData);
 			setOptions([...membersData?.map((member) => member.username)]);
 		}
 		if (data && data.length > 0) {
 			setDataRender(data);
-			const rowConfig = data.map((row, index) => {
+			const copyData = [...data];
+			copyData.sort((a, b) => {
+				console.log("AAAA", a);
+				const dateA = new Date(a.createAt);
+				const dateB = new Date(b.createAt);
+				return dateB - dateA;
+			})
+			let rowConfig = copyData.map((row, index) => {
 				return {
 					id: row.id,
 					taskId: row.id,
