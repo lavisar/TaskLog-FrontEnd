@@ -47,7 +47,7 @@ function TaskBoard() {
 					<div className="w-full">
 						<div className="flex justify-between">
 							<Button
-								className="!rounded-2xl !bg-white"
+								className="!rounded-xl !bg-white !h-[42px] !py-2"
 								sx={{ boxShadow: "0px 3px 10px 0px rgba(0, 0, 0, 0.25);"}}
 								variant="contained"
 								onClick={() => {
@@ -55,26 +55,26 @@ function TaskBoard() {
 									setOpen(true);
 								}}
 							>
-								<span className="font-extrabold text-2xl flex items-center gap-4 text-black"><Add className="!text-4xl" /> NEW TASK</span>
+								<span className="font-extrabold text-xl flex items-center gap-1 text-black"><Add className="!text-2xl" /> NEW TASK</span>
 							</Button>
 							<div className="flex gap-2">
 								<Button
 									variant="contained"
 									disabled={!showAsList}
-									className={`!rounded-2xl !text-black !text-2xl !font-normal ${!showAsList ? "!bg-[#0CF0BB]" : "!bg-white"}`}
+									className={`!h-[44px] !py-2 !rounded-xl !text-black !text-2xl !font-normal ${!showAsList ? "!bg-[#0CF0BB]" : "!bg-white"}`}
 									sx={{ boxShadow: "0px 3px 10px 0px rgba(0, 0, 0, 0.25) !important;"}}
 									onClick={handleShowType}
 								>
-									<span className="flex items-center gap-4"><ViewColumn className="!text-[40px]" /> COLUMNS</span>
+									<span className="flex items-center gap-1"><ViewColumn className="!text-3xl" /> COLUMNS</span>
 								</Button>
 								<Button
 									variant="contained"
 									disabled={showAsList}
-									className={`!rounded-2xl !text-black !text-2xl !font-normal ${showAsList ? "!bg-[#0CF0BB]" : "!bg-white"}`}
+									className={`!h-[44px] !py-2 !rounded-xl !text-black !text-2xl !font-normal ${showAsList ? "!bg-[#0CF0BB]" : "!bg-white"}`}
 									sx={{ boxShadow: "0px 3px 10px 0px rgba(0, 0, 0, 0.25) !important;"}}
 									onClick={handleShowType}
 								>
-									<span className="flex items-center gap-4"><ViewList className="!text-[40px]" /> LISTS</span>
+									<span className="flex items-center gap-1"><ViewList className="!text-3xl" /> LISTS</span>
 								</Button>
 							</div>
 						</div>

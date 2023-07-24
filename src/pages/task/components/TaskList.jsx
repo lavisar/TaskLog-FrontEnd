@@ -3,7 +3,9 @@ import { useDispatch } from "react-redux";
 import {
 	Autocomplete,
 	Box,
+	Button,
 	FormControl,
+	IconButton,
 	InputLabel,
 	MenuItem,
 	Select,
@@ -18,17 +20,17 @@ import {
 import { setShowTaskDetails } from "../../../store";
 import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { ArrowDownward, ArrowForward, ArrowUpward } from "@mui/icons-material";
+import { ArrowDownward, ArrowForward, ArrowUpward, FilterAltOff } from "@mui/icons-material";
 import dayjs from "dayjs";
 
 export const TaskList = ({ taskLst }) => {
 	const dispatch = useDispatch();
 	const { data, membersData, isLoading, handleClickOpen } = taskLst;
-	const [category, setCategory] = useState("");
 	const [status, setStatus] = useState("");
 	const [priority, setPriority] = useState("");
 	const [assignee, setAssignee] = useState("");
 	const [inputValue, setInputValue] = useState("");
+	const [dataRender, setDataRender] = useState([]);
 
 	console.log("check data", data);
 	const [rows, setRows] = useState([]);
@@ -36,9 +38,11 @@ export const TaskList = ({ taskLst }) => {
 
 	useEffect(() => {
 		if (membersData) {
+			console.log("membersData", membersData);
 			setOptions([...membersData?.map((member) => member.username)]);
 		}
-		if (data) {
+		if (data && data.length > 0) {
+			setDataRender(data);
 			const rowConfig = data.map((row, index) => {
 				return {
 					id: row.id,
@@ -52,6 +56,7 @@ export const TaskList = ({ taskLst }) => {
 				};
 			});
 			setRows(rowConfig);
+			setDataRender(rowConfig);
 		}
 	}, [data, membersData]);
 
@@ -80,7 +85,20 @@ export const TaskList = ({ taskLst }) => {
 			},
 		},
 		{ field: "category", headerName: "Category", flex: 1 },
-		{ field: "dueDate", headerName: "Due Date", flex: 1, renderCell: (cell) => { return <div>{cell.value ? dayjs(cell.value).format("DD/MM/YYYY") : "dd/mm/yyyy"}</div> }},
+		{
+			field: "dueDate",
+			headerName: "Due Date",
+			flex: 1,
+			renderCell: (cell) => {
+				return (
+					<div>
+						{cell.value
+							? dayjs(cell.value).format("DD/MM/YYYY")
+							: "dd/mm/yyyy"}
+					</div>
+				);
+			},
+		},
 		{ field: "assignee", headerName: "Assignee", flex: 1 },
 		{
 			field: "status",
@@ -119,35 +137,91 @@ export const TaskList = ({ taskLst }) => {
 		handleClickOpen(true);
 	};
 
+	const handleSelectStatus = (e) => {
+		setStatus(e.target.value);
+		let filterData = data.filter((item) => item.status === e.target.value);
+		if (priority !== "")
+			filterData = filterData.filter(
+				(item) => item.priority === priority
+			);
+		if (assignee !== "")
+			filterData = filterData.filter(
+				(item) => item.user.username === assignee
+			);
+		const rowConfig = filterData.map((row, index) => {
+			return {
+				id: row.id,
+				taskId: row.id,
+				taskName: row.taskName,
+				priority: row.priority,
+				category: row.category,
+				dueDate: row.dueDate ? row.dueDate : null,
+				assignee: row?.user?.username,
+				status: row.status,
+			};
+		});
+		setRows(rowConfig);
+	};
+	const handleSelectPriority = (e) => {
+		setPriority(e.target.value);
+		let filterData = data.filter(
+			(item) => item.priority === e.target.value
+		);
+		if (status !== "")
+			filterData = filterData.filter((item) => item.status === status);
+		if (assignee !== "")
+			filterData = filterData.filter(
+				(item) => item.user.username === assignee
+			);
+		const rowConfig = filterData.map((row, index) => {
+			return {
+				id: row.id,
+				taskId: row.id,
+				taskName: row.taskName,
+				priority: row.priority,
+				category: row.category,
+				dueDate: row.dueDate ? row.dueDate : null,
+				assignee: row?.user?.username,
+				status: row.status,
+			};
+		});
+		setRows(rowConfig);
+	};
+	const handleSelectAssignee = (e) => {
+		setAssignee(e.target.value);
+		let filterData = data.filter(
+			(item) => item.user.username === e.target.value
+		);
+		if (status !== "")
+			filterData = filterData.filter((item) => item.status === status);
+		if (priority !== "")
+			filterData = filterData.filter(
+				(item) => item.priority === priority
+			);
+		const rowConfig = filterData.map((row, index) => {
+			return {
+				id: row.id,
+				taskId: row.id,
+				taskName: row.taskName,
+				priority: row.priority,
+				category: row.category,
+				dueDate: row.dueDate ? row.dueDate : null,
+				assignee: row?.user?.username,
+				status: row.status,
+			};
+		});
+		setRows(rowConfig);
+	};
+	const handleClearFilter = () => {
+		setStatus("")
+		setPriority("")
+		setAssignee("")
+		setRows(dataRender);
+	}
 	return (
 		<>
 			<div className="mt-6">
-				{/* <div className="flex flex-row gap-2">
-					<div className="w-52">
-						<FormControl fullWidth size="small">
-							<InputLabel id="categoryLabelId">
-								Category
-							</InputLabel>
-							<Select
-								labelId="categoryLabelId"
-								className="w-full"
-								id="category"
-								value={category}
-								onChange={(e) => setCategory(e.target.value)}
-								label="Category"
-							>
-								<MenuItem value={TaskCategory.TASK}>
-									TASK
-								</MenuItem>
-								<MenuItem value={TaskCategory.BUG}>
-									BUG
-								</MenuItem>
-								<MenuItem value={TaskCategory.CR}>
-									CHANGE REQUEST
-								</MenuItem>
-							</Select>
-						</FormControl>
-					</div>
+				<div className="flex flex-row items-center gap-2">
 					<div className="w-52">
 						<FormControl fullWidth size="small">
 							<InputLabel id="statusLabelId">Status</InputLabel>
@@ -156,7 +230,7 @@ export const TaskList = ({ taskLst }) => {
 								className="w-full"
 								id="status"
 								value={status}
-								onChange={(e) => setStatus(e.target.value)}
+								onChange={(e) => handleSelectStatus(e)}
 								label="Status"
 							>
 								<MenuItem value={TaskStatus.OPEN}>
@@ -184,7 +258,7 @@ export const TaskList = ({ taskLst }) => {
 								className="w-full"
 								id="priority"
 								value={priority}
-								onChange={(e) => setPriority(e.target.value)}
+								onChange={(e) => handleSelectPriority(e)}
 								label="Priority"
 							>
 								<MenuItem value={TaskPriority.HIGH}>
@@ -200,29 +274,35 @@ export const TaskList = ({ taskLst }) => {
 						</FormControl>
 					</div>
 					<div className="w-52">
-						<Autocomplete
-							size="small"
-							fullWidth
-							disablePortal
-							id="assignee"
-							value={assignee}
-							onChange={(e, newValue) => {
-								setAssignee(newValue);
-							}}
-							inputValue={inputValue}
-							onInputChange={(event, newInputValue) => {
-								setInputValue(newInputValue);
-							}}
-							options={options}
-							isOptionEqualToValue={(option, value) =>
-								option.value === value.value
-							}
-							renderInput={(params) => (
-								<TextField {...params} label="Assignee" />
-							)}
-						/>
+						<FormControl fullWidth size="small">
+							<InputLabel id="assigneeLabelId">
+								Assignee
+							</InputLabel>
+							<Select
+								labelId="assigneeLabelId"
+								className="w-full"
+								id="assignee"
+								value={assignee}
+								onChange={(e) => handleSelectAssignee(e)}
+								label="Asignee"
+							>
+								{
+									membersData?.map(member => (
+										<MenuItem key={member.userId} value={member.username}>
+								 	{member.username}
+								</MenuItem>
+									))
+								}
+								 
+							</Select>
+						</FormControl>
 					</div>
-				</div> */}
+					<div>
+						<Button variant="contained" className="!rounded-full !bg-[#0cf0bb] !text-black !min-w-0 !w-9 !h-9" onClick={handleClearFilter}>
+							<FilterAltOff className="!text-[20px]" />
+						</Button>
+					</div>
+				</div>
 				<div>
 					<div
 						className="mt-6"
