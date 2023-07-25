@@ -40,12 +40,13 @@ function FilerTaskByStatus({ rowProp }) {
 		{
 			field: "task",
 			headerName: "Task",
-			flex: 0.9,
+			width: 400,
 		},
 		{
 			field: "priority",
 			headerName: "Priority",
-			flex: 0.5,
+			// flex: 0.5,
+			width: 250,
 			renderCell: (cell) => {
 				switch (cell.value) {
 					case TaskPriority.HIGH:
@@ -60,14 +61,18 @@ function FilerTaskByStatus({ rowProp }) {
 		{
 			field: "category",
 			headerName: "Category",
-			flex: 0.5,
+			// flex: 0.5,
+			width: 250,
 		},
 		{
 			field: "dueDate",
 			headerName: "Due Date",
-			flex: 0.5,
+			// flex: 0.5,
+			width: 250,
 			renderCell: (cell) => {
-				return cell.value ? dayjs(cell.value).format("DD/MM/YYYY") : "dd/mm/yyyy";
+				return cell.value
+					? dayjs(cell.value).format("DD/MM/YYYY")
+					: "dd/mm/yyyy";
 			},
 		},
 	];
@@ -83,7 +88,7 @@ function FilerTaskByStatus({ rowProp }) {
 			case TaskStatus.OPEN:
 				return "#26BB98";
 			default:
-				return "#26BB98";		
+				return "#26BB98";
 		}
 	};
 
@@ -99,7 +104,9 @@ function FilerTaskByStatus({ rowProp }) {
 		>
 			<div
 				className={`flex items-center gap-10 h-20 border-b-2 border-solid`}
-				style={{ borderBottomColor: `${setStatusColor(status[0].status)}` }}
+				style={{
+					borderBottomColor: `${setStatusColor(status[0].status)}`,
+				}}
 			>
 				<p className="pl-5 text-2xl font-extrabold">
 					{status[0].status}

@@ -20,7 +20,12 @@ import {
 import { setShowTaskDetails } from "../../../store";
 import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { ArrowDownward, ArrowForward, ArrowUpward, FilterAltOff } from "@mui/icons-material";
+import {
+	ArrowDownward,
+	ArrowForward,
+	ArrowUpward,
+	FilterAltOff,
+} from "@mui/icons-material";
 import dayjs from "dayjs";
 
 export const TaskList = ({ taskLst }) => {
@@ -46,7 +51,7 @@ export const TaskList = ({ taskLst }) => {
 				const dateA = new Date(a.createAt);
 				const dateB = new Date(b.createAt);
 				return dateB - dateA;
-			})
+			});
 			let rowConfig = copyData.map((row, index) => {
 				return {
 					id: row.id,
@@ -217,11 +222,11 @@ export const TaskList = ({ taskLst }) => {
 		setRows(rowConfig);
 	};
 	const handleClearFilter = () => {
-		setStatus("")
-		setPriority("")
-		setAssignee("")
+		setStatus("");
+		setPriority("");
+		setAssignee("");
 		setRows(dataRender);
-	}
+	};
 	return (
 		<>
 			<div className="mt-6">
@@ -290,19 +295,23 @@ export const TaskList = ({ taskLst }) => {
 								onChange={(e) => handleSelectAssignee(e)}
 								label="Asignee"
 							>
-								{
-									membersData?.map(member => (
-										<MenuItem key={member.userId} value={member.username}>
-								 	{member.username}
-								</MenuItem>
-									))
-								}
-								 
+								{membersData?.map((member) => (
+									<MenuItem
+										key={member.userId}
+										value={member.username}
+									>
+										{member.username}
+									</MenuItem>
+								))}
 							</Select>
 						</FormControl>
 					</div>
 					<div>
-						<Button variant="contained" className="!rounded-full !bg-[#0cf0bb] !text-black !min-w-0 !w-9 !h-9" onClick={handleClearFilter}>
+						<Button
+							variant="contained"
+							className="!rounded-full !bg-[#0cf0bb] !text-black !min-w-0 !w-9 !h-9"
+							onClick={handleClearFilter}
+						>
 							<FilterAltOff className="!text-[20px]" />
 						</Button>
 					</div>
@@ -310,7 +319,7 @@ export const TaskList = ({ taskLst }) => {
 				<div>
 					<div
 						className="mt-6"
-						style={{ height: "100%", width: "100%" }}
+						style={{ height: "400px", width: "100%" }}
 					>
 						<DataGrid
 							className="shadow-md shadow-[#00000033] bg-white !rounded-[16px] pl-4"
